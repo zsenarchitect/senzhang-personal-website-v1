@@ -1,0 +1,7 @@
+*.log
+snapshot-run.log
+.DS_Store
+Thumbs.db
+
+# Optional: keep snapshots out of git until Git LFS is configured (see README)
+# snapshot/
