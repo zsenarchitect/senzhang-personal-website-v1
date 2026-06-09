@@ -36,8 +36,12 @@ ALLOWED_NETLOCS = {
     "p.typekit.net",
 }
 
-URL_RE = re.compile(
-    r"""(?P<quote>['"]?)(?P<url>(?:https?:)?//[^\s'"<>]+|/[^\s'"<>]+)(?P=quote)""",
+# Only match real absolute URLs — never bare "/css" or "/script" inside HTML tags.
+EXTRACT_URL_RE = re.compile(
+    r"https?://[^\s\"'<>\\]+|"
+    r"//(?:[a-z0-9-]+\.)+"
+    r"(?:squarespace\.com|squarespace-cdn\.com|typekit\.net|googleapis\.com|gstatic\.com)"
+    r"[^\s\"'<>\\]*",
     re.IGNORECASE,
 )
 
@@ -106,8 +110,7 @@ def url_to_local_path(url: str, snapshot_dir: Path) -> Path:
 
 def extract_urls(content: str, base_url: str) -> set[str]:
     found: set[str] = set()
-    for match in URL_RE.finditer(content):
-        raw = match.group("url")
+    for raw in EXTRACT_URL_RE.findall(content):
         normalized = normalize_url(raw, base_url)
         if normalized:
             found.add(normalized)
@@ -136,17 +139,34 @@ def relative_href(from_path: Path, to_path: Path) -> str:
 
 
 def rewrite_html(html: str, page_path: Path, snapshot_dir: Path, url_map: dict[str, Path]) -> str:
-    def replacer(match: re.Match[str]) -> str:
-        quote = match.group("quote") or ""
-        raw = match.group("url")
-        normalized = normalize_url(raw, SITE)
-        if not normalized or normalized not in url_map:
-            return match.group(0)
-        local = url_map[normalized]
+    replacements: dict[str, str] = {}
+    for abs_url, local in url_map.items():
+        if not local.exists():
+            continue
         rel = relative_href(page_path, local)
-        return quote + rel + quote
+        replacements[abs_url] = rel
+        parsed = urlparse(abs_url)
+        path_q = parsed.path + (("?" + parsed.query) if parsed.query else "")
+        replacements["//" + parsed.netloc + path_q] = rel
+        if parsed.scheme == "https":
+            replacements["http://" + parsed.netloc + path_q] = rel
 
-    return URL_RE.sub(replacer, html)
+    for url in sorted(replacements, key=len, reverse=True):
+        html = html.replace(url, replacements[url])
+
+    def fix_internal_href(match: re.Match[str]) -> str:
+        path = match.group(1).strip("/")
+        if not path:
+            target = snapshot_dir / "index.html"
+        else:
+            target = snapshot_dir / (path + ".html")
+        if not target.is_file():
+            return match.group(0)
+        rel = relative_href(page_path, target)
+        return 'href="{}"'.format(rel)
+
+    html = re.sub(r'href="(/[A-Za-z0-9._-]+)/?"', fix_internal_href, html)
+    return html
 
 
 def download_all(urls: set[str], snapshot_dir: Path) -> tuple[dict[str, Path], list[dict[str, str]]]:

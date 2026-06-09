@@ -2,6 +2,8 @@
 snapshot-run.log
 .DS_Store
 Thumbs.db
+__pycache__/
+*.pyc
 
 # Optional: keep snapshots out of git until Git LFS is configured (see README)
 # snapshot/

@@ -17,12 +17,17 @@ Snapshots are stored under `snapshot/<YYYY-MM-DD>/` with a `manifest.json` recor
 ## Quick start
 
 ```powershell
-# From repo root — creates snapshot/<today>/
+# Browse the archived site locally (opens browser)
+.\scripts\serve.ps1
+
+# Create a new snapshot from live senzhang.me
 .\scripts\snapshot.ps1
 
 # Verify against live sitemap
 .\scripts\verify-snapshot.ps1
 ```
+
+Local preview URL: **http://127.0.0.1:8765/index.html** (serves latest `snapshot/<date>/`).
 
 ## Requirements
 
@@ -69,20 +74,32 @@ git push
 
 ## Browsing offline
 
-Open `snapshot/<date>/senzhang.me/index.html` in a browser. Internal navigation should work offline; YouTube embeds and any third-party widgets require internet.
+```powershell
+.\scripts\serve.ps1
+```
+
+Opens **http://127.0.0.1:8765/index.html** (latest snapshot). Internal navigation works offline; YouTube embeds need internet.
+
+If pages look blank or broken after a snapshot, run `.\scripts\repair-html.ps1` then restart the server.
+
+**Cursor skill:** `.cursor/skills/senzhang-legacy-serve/SKILL.md` — agents use this to start the local preview.
 
 ## Repository layout
 
 ```
 senzhang-legacy-website-archive/
 ├── README.md
+├── .cursor/skills/senzhang-legacy-serve/
 ├── scripts/
-│   ├── snapshot.ps1       # Create a dated mirror
+│   ├── serve.ps1           # Local preview server
+│   ├── snapshot.ps1        # Create a dated mirror
+│   ├── repair-html.ps1     # Re-fetch HTML + sync CDN assets
 │   └── verify-snapshot.ps1 # Compare snapshot vs live sitemap
 └── snapshot/
-    └── YYYY-MM-DD/        # Dated snapshots (committed to git)
+    └── YYYY-MM-DD/         # Dated snapshots (committed to git)
         ├── manifest.json
-        └── senzhang.me/   # Mirrored site root
+        ├── index.html      # Homepage
+        └── _cdn/           # Mirrored CDN assets
 ```
 
 ## License / rights
