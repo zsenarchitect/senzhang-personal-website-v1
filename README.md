@@ -73,6 +73,25 @@ py -3 scripts\snapshot.py --profile safe --page-delay 2 --asset-delay 1.5
 
 Repair and audit scripts use the same config (`repair-html.ps1 -Profile safe`, `audit-completeness.py --profile safe`).
 
+### Offline fixes (fonts + cover video)
+
+```powershell
+.\scripts\fix-offline-fonts.ps1    # Google TTFs + Typekit woff2 -> local _cdn/
+.\scripts\fix-cover-video.ps1      # YouTube cover -> _media/cover-background.mp4
+```
+
+Requires `yt-dlp` for cover video (`py -3 -m pip install yt-dlp`).
+
+### Live deployment (Vercel)
+
+Static site deploys from `snapshot/2026-06-05/` via `vercel.json`:
+
+```powershell
+.\scripts\deploy-vercel.ps1 -Prod
+```
+
+**Production:** https://legacy-personal-website.vercel.app
+
 ## First snapshot (2026-06-05)
 
 | Metric | Value |
@@ -122,6 +141,9 @@ senzhang-legacy-website-archive/
 │   ├── crawl-config.json   # Default polite crawl settings (safe profile)
 │   ├── crawl_config.py     # Shared fetch/retry/delay logic
 │   ├── repair-html.ps1     # Re-fetch HTML + sync CDN assets
+│   ├── fix-offline-fonts.ps1
+│   ├── fix-cover-video.ps1
+│   ├── deploy-vercel.ps1   # Deploy snapshot to Vercel
 │   └── verify-snapshot.ps1 # Compare snapshot vs live sitemap
 └── snapshot/
     └── YYYY-MM-DD/         # Dated snapshots (committed to git)

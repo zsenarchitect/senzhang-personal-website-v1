@@ -35,6 +35,7 @@
 <link rel="preconnect" href="https://images.squarespace-cdn.com">
 <link rel="preconnect" href="https://use.typekit.net" crossorigin>
 <link rel="preconnect" href="https://p.typekit.net" crossorigin>
+<link rel="stylesheet" href="_cdn/offline-typekit.css">
 <script type="text/javascript" src="_cdn/use.typekit.net/acca17c772ed19934d4c.js" async fetchpriority="high" onload="try{Typekit.load();}catch(e){} document.documentElement.classList.remove('wf-loading');"></script>
 <script>document.documentElement.classList.add('wf-loading')</script>
 <style>@keyframes fonts-loading { 0%, 99% { color: transparent; } } html.wf-loading * { animation: fonts-loading 3s; }</style>
@@ -57,7 +58,18 @@
 <script type="module">Squarespace.afterBodyLoad(Y);</script>
 <script type="application/ld+json">{"url":"https://senzhang.me","name":"Sen Zhang","description":"","image":"_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif","@context":"http://schema.org","@type":"WebSite"}</script><script>Static.COOKIE_BANNER_CAPABLE = true;</script>
 <!-- End of Squarespace Headers -->
-  </head>
+  
+<style id="offline-cover-video-style">
+.sqs-slice-gallery-item.gallery-video-background #player { display: none !important; }
+.sqs-slice-gallery-item.gallery-video-background video.offline-cover-video {
+  position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%;
+  width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover;
+  z-index: 0;
+}
+.sqs-slice-gallery-item.gallery-video-background .custom-fallback-image { display: none !important; }
+</style>
+
+</head>
   <body id="collection-5894a8f9c534a5cc7d9bc869">
     <div class="sqs-slide-wrapper" data-slide-id="5894a8f9c534a5cc7d9bc86a" data-slide-type="cover-page">
 	<div class="sqs-slide-container alignment-center gallery-style-full grid-gallery-density-medium grid-gallery-ratio-original grid-gallery-image-orientation-landscape grid-gallery-direction-horizontal   countdown-numeric-label-font-size-medium  page-border-size-medium auto-overlay auto-image-background-color video-overlay-color-blend-mode-normal button-layout-style-inline-auto button-style-outline button-shape-rectangle social-icons-size-extra-small social-icons-style-regular social-icons-shape-circle  audio-player-icons-size-small audio-player-icons-style-border audio-player-icons-shape-circle  video-icon-size-large video-icon-style-knockout video-icon-shape-circle map-style-minimal-light lock-size-small lock-style-regular lock-shape-circle password-style-rectangle newsletter-layout-style-inline newsletter-style-rectangle overlay-close-button-style-icon overlay-close-button-location-inside overlay-load-animation-fade-in overlay-advanced-layout-styles-disabled overlay-alignment-center  overlay-mobile-styles-enabled sso-button-style-outline sso-button-shape-rectangle" data-slide-id="5894a8f9c534a5cc7d9bc86a" data-slide-type="cover-page">
@@ -87,6 +99,9 @@
       <img data-src="_cdn/static1.squarespace.com/39c6f80dd61c257d8eef.png" data-image="_cdn/static1.squarespace.com/39c6f80dd61c257d8eef.png" data-image-dimensions="2448x3264" data-image-focal-point="0.5,0.5" alt="IMG_3121.png"  class="custom-fallback-image" data-load="false" />
     
     <div id="player"></div>
+<video class="offline-cover-video" autoplay muted loop playsinline
+  src="_media/cover-background.mp4" poster="_cdn/static1.squarespace.com/39c6f80dd61c257d8eef.png"></video>
+
   </div>
 
 </div>

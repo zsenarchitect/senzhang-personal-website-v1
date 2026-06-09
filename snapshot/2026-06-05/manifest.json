@@ -2976,5 +2976,75 @@
     "https://use.typekit.net/ik/RjLgZWnFQctK9K53x5N9AVGJnlk7080F8jsFOEY6A53fezqgfFHN4UJLFRbh52jhWD9t5QboZQmywh93we48ZRmcjQJk52btwsToHKoDZAtlpcyydcS0SaBujW48Sagyjh90jhNlOeUzjhBC-eNDifUDZAtlpcyydcS0SaBujW48Sagyjh90jhNlOYF8d1TGjAo1Ocu8OYiaikoDZAtlpcyydcS0SaBujW48Sagyjh90jhNlOYiaikoDZAoE-eB0ZkolZPJwSY4zpe8ljPu0daZyH6qJn3IbMg6IJMJ7f6K3UMIbMg6BJMJ7fbKOMsMMeMS6MKG4fOMgIMMj2KMfH6GJCSbgIMMj2kMfH6qJRMIbMg6sJMHbMZOgrCqB.js": "_cdn/use.typekit.net/094149b5432e6a292f7b.js",
     "https://use.typekit.net/ik/cVu3kZIhcCf_UTsLykh-cEJSinvWOdPFhoS16-ugButfe0jgf4e6pUJ6wRMU5QwXFmvu52qX5A9ujQF8w2gKZAjuZcIkwR6X52I-pPG0Shm0OWTGjAo1O1FUiABkZWF3jAF8OcFzdPUCdhFydeyzSabCShm0OWTGjAo1O1FUiABkZWF3jAF8OcFzdPUDZAoE-eB0ZkolZPUaiaS0Shm0OWTGjAo1O1FUiABkZWF3jAF8OcFzdPUaiaS0Shm0pcyydcS0dA9KIeZkZA81-YblShB0Sku3ScvKfAZuiYmkjPu3ifG4f44TIMMjgPMfH6qJy89bMs62JMJ7fbRxmgMgeM96MTMgrGe-D39.js": "_cdn/use.typekit.net/acca17c772ed19934d4c.js"
   },
-  "html_repaired_at": "2026-06-09T11:28:07.865952+00:00"
+  "html_repaired_at": "2026-06-09T11:28:07.865952+00:00",
+  "fonts_offline_fixed_at": "2026-06-09T13:10:32.865916+00:00",
+  "fonts_offline": {
+    "google": [
+      {
+        "url": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTbtY.ttf",
+        "local": "_cdn/fonts.gstatic.com/d0e784ef034da1aac914.ttf"
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/chivo/v21/va9Z4kzIxd1KFrBtW-13ZHhT-jDqdFwG1GrW.ttf",
+        "local": "_cdn/fonts.gstatic.com/bd9c550767821ce999c9.ttf"
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/chivo/v21/va9Z4kzIxd1KFrBtW-13ZHhT-jDqdFzh02rW.ttf",
+        "local": "_cdn/fonts.gstatic.com/0366742f4197c76086c8.ttf"
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/chivo/v21/va9b4kzIxd1KFppkaRKvDRPJVDf_vB_ulw.ttf",
+        "local": "_cdn/fonts.gstatic.com/b3804917480dabd7560e.ttf"
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/chivo/v21/va9b4kzIxd1KFppkaRKvDRPJVDf_Wxjulw.ttf",
+        "local": "_cdn/fonts.gstatic.com/df140c59544a6a97d10b.ttf"
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/chivo/v21/va9b4kzIxd1KFppkaRKvDRPJVDf_FRjulw.ttf",
+        "local": "_cdn/fonts.gstatic.com/2012c28630ee77efd8d4.ttf"
+      }
+    ],
+    "typekit": [
+      {
+        "url": "https://use.typekit.net/af/d7ff92/00000000000000007735e609/31/l?subset_id=2&fvd=n4&v=3",
+        "local": "_cdn/use.typekit.net/f5efe0dfa7a35547f647.woff2"
+      },
+      {
+        "url": "https://use.typekit.net/af/26f7ec/00000000000000007735e605/31/l?subset_id=2&fvd=n5&v=3",
+        "local": "_cdn/use.typekit.net/5d22237710deec791232.woff2"
+      },
+      {
+        "url": "https://use.typekit.net/af/5be242/00000000000000007735e603/31/l?subset_id=2&fvd=n7&v=3",
+        "local": "_cdn/use.typekit.net/de8b36e5f455ecf8acd6.woff2"
+      },
+      {
+        "url": "https://use.typekit.net/af/6eb0e3/00000000000000007758cf8f/31/l?subset_id=2&fvd=i4&v=3",
+        "local": "_cdn/use.typekit.net/a899b025fae2e459a3c2.woff2"
+      },
+      {
+        "url": "https://use.typekit.net/af/c7cac4/00000000000000007735e60e/31/l?subset_id=2&fvd=i5&v=3",
+        "local": "_cdn/use.typekit.net/43104bcbf049ad09883d.woff2"
+      },
+      {
+        "url": "https://use.typekit.net/af/38ea3a/00000000000000007758cf7d/31/l?subset_id=2&fvd=i7&v=3",
+        "local": "_cdn/use.typekit.net/51f12dc8276288186102.woff2"
+      },
+      {
+        "url": "https://use.typekit.net/af/c6c38a/0000000000000000775dd7d9/31/l?subset_id=2&fvd=n5&v=3",
+        "local": "_cdn/use.typekit.net/9c0026e0c00d883fc34f.woff2"
+      },
+      {
+        "url": "https://use.typekit.net/af/9c3000/000000000000000077586b5e/31/l?subset_id=2&fvd=n3&v=3",
+        "local": "_cdn/use.typekit.net/1d0adf30fff123d58937.woff2"
+      },
+      {
+        "url": "https://use.typekit.net/af/db8d0b/00000000000000007758da2b/31/l?subset_id=2&fvd=n5&v=3",
+        "local": "_cdn/use.typekit.net/15b5fc08f17593bc72fc.woff2"
+      }
+    ]
+  },
+  "cover_video_offline_fixed_at": "2026-06-09T13:10:53.562740+00:00",
+  "cover_video_local": "_media/cover-background.mp4",
+  "cover_video_source": "https://www.youtube.com/watch?v=mYPQl6m7kMY"
 }

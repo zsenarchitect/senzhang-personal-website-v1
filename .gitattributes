@@ -18,3 +18,6 @@ snapshot/**/*.gif filter=lfs diff=lfs merge=lfs -text
 snapshot/**/*.webp filter=lfs diff=lfs merge=lfs -text
 snapshot/**/*.bin filter=lfs diff=lfs merge=lfs -text
 snapshot/**/_cdn/** filter=lfs diff=lfs merge=lfs -text
+snapshot/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+snapshot/**/*.ttf filter=lfs diff=lfs merge=lfs -text
+snapshot/**/*.woff2 filter=lfs diff=lfs merge=lfs -text
