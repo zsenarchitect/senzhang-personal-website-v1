@@ -27,6 +27,12 @@ Opens **http://127.0.0.1:8765/index.html** in the default browser.
 .\scripts\serve.ps1 -NoOpen              # server only, no browser
 ```
 
+Squarespace analytics POSTs (`/api/census/*`) are stubbed as `200 {}` so the terminal does not spam `501 Unsupported method ('POST')`.
+
+```powershell
+py -3 scripts\serve.py --quiet-api      # hide stubbed /api/ log lines
+```
+
 Direct Python:
 
 ```powershell
