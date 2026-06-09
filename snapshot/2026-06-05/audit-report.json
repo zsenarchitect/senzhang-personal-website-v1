@@ -1,0 +1,226 @@
+{
+  "snapshot_date": "2026-06-05",
+  "pages_audited": 30,
+  "url_map_entries": 2740,
+  "missing_local_files": 48,
+  "missing_mirrorable_refs": 180,
+  "live_asset_categories": {
+    "analytics_social": 1,
+    "external": 25,
+    "mirrorable": 2209,
+    "youtube": 5
+  },
+  "local_external_refs_by_category": {
+    "analytics_social": 30,
+    "external": 193,
+    "youtube": 5
+  },
+  "homepage_css_links_live": 2,
+  "homepage_css_links_local": 2,
+  "homepage_css_local_cdn": 2,
+  "download_errors_manifest": 48,
+  "sample_missing_mirrorable": [
+    [
+      "https://senzhang.me/cover-page",
+      "https://sen-zhang.squarespace.com"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "https://p.typekit.net"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "https://images.squarespace-cdn.com"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "https://senzhang.me"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "https://fonts.gstatic.com"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "https://use.typekit.net"
+    ],
+    [
+      "https://senzhang.me/gravity-rises",
+      "https://sen-zhang.squarespace.com"
+    ],
+    [
+      "https://senzhang.me/gravity-rises",
+      "https://use.typekit.net"
+    ],
+    [
+      "https://senzhang.me/gravity-rises",
+      "https://images.squarespace-cdn.com"
+    ],
+    [
+      "https://senzhang.me/gravity-rises",
+      "https://senzhang.me"
+    ],
+    [
+      "https://senzhang.me/gravity-rises",
+      "https://fonts.gstatic.com"
+    ],
+    [
+      "https://senzhang.me/gravity-rises",
+      "https://p.typekit.net"
+    ],
+    [
+      "https://senzhang.me/about-me",
+      "https://sen-zhang.squarespace.com"
+    ],
+    [
+      "https://senzhang.me/about-me",
+      "https://use.typekit.net"
+    ],
+    [
+      "https://senzhang.me/about-me",
+      "https://images.squarespace-cdn.com"
+    ],
+    [
+      "https://senzhang.me/about-me",
+      "https://senzhang.me"
+    ],
+    [
+      "https://senzhang.me/about-me",
+      "https://fonts.gstatic.com"
+    ],
+    [
+      "https://senzhang.me/about-me",
+      "https://p.typekit.net"
+    ],
+    [
+      "https://senzhang.me/forumfold",
+      "https://sen-zhang.squarespace.com"
+    ],
+    [
+      "https://senzhang.me/forumfold",
+      "https://use.typekit.net"
+    ],
+    [
+      "https://senzhang.me/forumfold",
+      "https://images.squarespace-cdn.com"
+    ],
+    [
+      "https://senzhang.me/forumfold",
+      "https://senzhang.me"
+    ],
+    [
+      "https://senzhang.me/forumfold",
+      "https://fonts.gstatic.com"
+    ],
+    [
+      "https://senzhang.me/forumfold",
+      "https://p.typekit.net"
+    ],
+    [
+      "https://senzhang.me/museum-of-verbs",
+      "https://sen-zhang.squarespace.com"
+    ],
+    [
+      "https://senzhang.me/museum-of-verbs",
+      "https://use.typekit.net"
+    ],
+    [
+      "https://senzhang.me/museum-of-verbs",
+      "https://images.squarespace-cdn.com"
+    ],
+    [
+      "https://senzhang.me/museum-of-verbs",
+      "https://senzhang.me"
+    ],
+    [
+      "https://senzhang.me/museum-of-verbs",
+      "https://fonts.gstatic.com"
+    ],
+    [
+      "https://senzhang.me/museum-of-verbs",
+      "https://p.typekit.net"
+    ]
+  ],
+  "sample_missing_files": [
+    [
+      "https://senzhang.me/*!",
+      "*!.html"
+    ],
+    [
+      "https://senzhang.me/50227910",
+      "50227910.html"
+    ],
+    [
+      "https://senzhang.me/EMPAC",
+      "EMPAC.html"
+    ],
+    [
+      "https://senzhang.me/Filming/Spying/Peaking,",
+      "Filming/Spying/Peaking,.html"
+    ],
+    [
+      "https://senzhang.me/New_York",
+      "New_York.html"
+    ],
+    [
+      "https://senzhang.me/PM",
+      "PM.html"
+    ],
+    [
+      "https://senzhang.me/Postal",
+      "Postal.html"
+    ],
+    [
+      "https://senzhang.me/Province",
+      "Province.html"
+    ],
+    [
+      "https://senzhang.me/RPI",
+      "RPI.html"
+    ],
+    [
+      "https://senzhang.me/a",
+      "a.html"
+    ],
+    [
+      "https://senzhang.me/blockquote",
+      "blockquote.html"
+    ],
+    [
+      "https://senzhang.me/body",
+      "body.html"
+    ],
+    [
+      "https://senzhang.me/button",
+      "button.html"
+    ],
+    [
+      "https://senzhang.me/css",
+      "css.html"
+    ],
+    [
+      "https://senzhang.me/div",
+      "div.html"
+    ],
+    [
+      "https://senzhang.me/figcaption",
+      "figcaption.html"
+    ],
+    [
+      "https://senzhang.me/figure",
+      "figure.html"
+    ],
+    [
+      "https://senzhang.me/h",
+      "h.html"
+    ],
+    [
+      "https://senzhang.me/h1",
+      "h1.html"
+    ],
+    [
+      "https://senzhang.me/h2",
+      "h2.html"
+    ]
+  ]
+}
