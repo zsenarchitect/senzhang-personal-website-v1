@@ -4,25 +4,33 @@ Create a dated 1:1 offline snapshot of https://senzhang.me (Squarespace).
 
 Downloads all sitemap pages, embedded assets from Squarespace CDNs, fonts,
 and platform JS/CSS. Rewrites HTML links for offline browsing.
+
+Crawl politeness is configured via scripts/crawl-config.json (default profile: safe).
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
 import re
 import sys
-import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse, urlunparse
-from urllib.request import Request, urlopen
+
+from crawl_config import (
+    CrawlConfig,
+    PoliteFetcher,
+    add_crawl_cli_args,
+    crawl_config_from_args,
+    print_crawl_config,
+)
 
 SITE = "https://senzhang.me"
 SITEMAP = SITE + "/sitemap.xml"
-USER_AGENT = "senzhang-legacy-archive/1.0 (+https://github.com/zsenarchitect/senzhang-legacy-website-archive)"
 
 ALLOWED_NETLOCS = {
     "senzhang.me",
@@ -50,12 +58,6 @@ SKIP_EXTENSIONS = {".json", ".xml"}
 
 def repo_root() -> Path:
     return Path(__file__).resolve().parent.parent
-
-
-def fetch(url: str, timeout: int = 60) -> bytes:
-    req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=timeout) as resp:
-        return resp.read()
 
 
 def normalize_url(url: str, base: str = SITE) -> str | None:
@@ -169,7 +171,11 @@ def rewrite_html(html: str, page_path: Path, snapshot_dir: Path, url_map: dict[s
     return html
 
 
-def download_all(urls: set[str], snapshot_dir: Path) -> tuple[dict[str, Path], list[dict[str, str]]]:
+def download_all(
+    urls: set[str],
+    snapshot_dir: Path,
+    fetcher: PoliteFetcher,
+) -> tuple[dict[str, Path], list[dict[str, str]]]:
     url_map: dict[str, Path] = {}
     errors: list[dict[str, str]] = []
     sorted_urls = sorted(urls, key=lambda u: (urlparse(u).netloc, u))
@@ -183,10 +189,10 @@ def download_all(urls: set[str], snapshot_dir: Path) -> tuple[dict[str, Path], l
 
         local.parent.mkdir(parents=True, exist_ok=True)
         try:
-            data = fetch(url)
+            data = fetcher.fetch(url)
             local.write_bytes(data)
             print(f"  [{i}/{len(sorted_urls)}] ok {url}")
-            time.sleep(0.15)
+            fetcher.pause_after("asset")
         except (HTTPError, URLError, TimeoutError, OSError) as exc:
             errors.append({"url": url, "error": str(exc)})
             print(f"  [{i}/{len(sorted_urls)}] FAIL {url}: {exc}", file=sys.stderr)
@@ -194,20 +200,31 @@ def download_all(urls: set[str], snapshot_dir: Path) -> tuple[dict[str, Path], l
     return url_map, errors
 
 
-def main() -> int:
-    date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    if len(sys.argv) > 1:
-        date = sys.argv[1]
+def build_arg_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Offline snapshot of senzhang.me")
+    parser.add_argument(
+        "date",
+        nargs="?",
+        default=None,
+        help="Snapshot folder name YYYY-MM-DD (default: today UTC)",
+    )
+    add_crawl_cli_args(parser)
+    return parser
 
+
+def run_snapshot(date: str, config: CrawlConfig) -> int:
     snapshot_dir = repo_root() / "snapshot" / date
     if snapshot_dir.exists():
         print(f"Snapshot dir exists: {snapshot_dir}")
-        print("Remove it first or pass a different date as argv[1].")
+        print("Remove it first or pass a different date.")
         return 1
 
+    fetcher = PoliteFetcher(config)
     snapshot_dir.mkdir(parents=True)
+    print_crawl_config(config)
     print(f"Fetching sitemap: {SITEMAP}")
-    sitemap_bytes = fetch(SITEMAP)
+    sitemap_bytes = fetcher.fetch(SITEMAP)
+    fetcher.pause_after("page")
     pages, sitemap_images = parse_sitemap(sitemap_bytes)
 
     all_urls: set[str] = set()
@@ -220,23 +237,24 @@ def main() -> int:
     page_html: dict[str, str] = {}
     for page in pages:
         try:
-            raw = fetch(page).decode("utf-8", errors="replace")
+            raw = fetcher.fetch(page).decode("utf-8", errors="replace")
             page_html[page] = raw
             found = extract_urls(raw, page)
             before = len(all_urls)
             all_urls.update(found)
             print(f"  {page}: +{len(all_urls) - before} assets")
-            time.sleep(0.2)
+            fetcher.pause_after("page")
         except (HTTPError, URLError, TimeoutError) as exc:
             print(f"  FAIL page {page}: {exc}", file=sys.stderr)
 
     # Homepage may redirect; ensure root is included
     if SITE not in all_urls and SITE + "/" not in all_urls:
         try:
-            raw = fetch(SITE + "/").decode("utf-8", errors="replace")
+            raw = fetcher.fetch(SITE + "/").decode("utf-8", errors="replace")
             page_html[SITE + "/"] = raw
             all_urls.add(SITE + "/")
             all_urls.update(extract_urls(raw, SITE + "/"))
+            fetcher.pause_after("page")
         except (HTTPError, URLError, TimeoutError) as exc:
             print(f"  FAIL homepage: {exc}", file=sys.stderr)
 
@@ -244,7 +262,7 @@ def main() -> int:
     all_urls = {u for u in all_urls if normalize_url(u)}
 
     print(f"\nDownloading {len(all_urls)} URLs...")
-    url_map, errors = download_all(all_urls, snapshot_dir)
+    url_map, errors = download_all(all_urls, snapshot_dir, fetcher)
 
     print("\nRewriting HTML for offline links...")
     for page_url, html in page_html.items():
@@ -262,6 +280,7 @@ def main() -> int:
         "source_url": SITE,
         "platform": "Squarespace",
         "captured_at": datetime.now(timezone.utc).isoformat(),
+        "crawl_config": config.to_manifest_dict(),
         "page_count_sitemap": len(pages),
         "url_count": len(all_urls),
         "file_count": len(file_list),
@@ -281,6 +300,14 @@ def main() -> int:
     print(f"  Errors:   {len(errors)}")
     print(f"  Open:     {snapshot_dir / 'index.html'}")
     return 0 if not errors else 2
+
+
+def main() -> int:
+    parser = build_arg_parser()
+    args = parser.parse_args()
+    date = args.date or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    config = crawl_config_from_args(args)
+    return run_snapshot(date, config)
 
 
 if __name__ == "__main__":

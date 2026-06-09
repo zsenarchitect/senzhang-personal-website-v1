@@ -2,17 +2,17 @@
 """Audit local snapshot vs live senzhang.me for page and asset completeness."""
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
-import time
 from collections import defaultdict
 from pathlib import Path
 from urllib.parse import urlparse
-from urllib.request import Request, urlopen
+
+from crawl_config import PoliteFetcher, add_crawl_cli_args, crawl_config_from_args, print_crawl_config
 
 SITE = "https://senzhang.me"
-USER_AGENT = "senzhang-legacy-audit/1.0"
 
 EXTRACT_URL_RE = re.compile(
     r"https?://[^\s\"'<>\\]+|"
@@ -28,12 +28,6 @@ ALLOWED_OFFLINE = {
     "assets.squarespace.com", "fonts.googleapis.com", "fonts.gstatic.com",
     "use.typekit.net", "p.typekit.net",
 }
-
-
-def fetch(url: str) -> str:
-    req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=60) as resp:
-        return resp.read().decode("utf-8", errors="replace")
 
 
 def classify_url(url: str) -> str:
@@ -52,7 +46,15 @@ def classify_url(url: str) -> str:
 
 
 def main() -> int:
-    date = sys.argv[1] if len(sys.argv) > 1 else "2026-06-05"
+    parser = argparse.ArgumentParser(description="Audit snapshot vs live senzhang.me")
+    parser.add_argument("date", nargs="?", default="2026-06-05", help="Snapshot folder YYYY-MM-DD")
+    add_crawl_cli_args(parser)
+    args = parser.parse_args()
+    date = args.date
+    config = crawl_config_from_args(args)
+    fetcher = PoliteFetcher(config)
+    print_crawl_config(config)
+
     root = Path(__file__).resolve().parent.parent
     snap = root / "snapshot" / date
     manifest = json.loads((snap / "manifest.json").read_text(encoding="utf-8"))
@@ -74,8 +76,8 @@ def main() -> int:
             local_file = snap / "index.html" if slug == "index" else local_file
 
         try:
-            live_html = fetch(page)
-            time.sleep(0.15)
+            live_html = fetcher.fetch(page).decode("utf-8", errors="replace")
+            fetcher.pause_after("page")
         except Exception as exc:
             print("  LIVE FAIL {}: {}".format(page, exc))
             continue

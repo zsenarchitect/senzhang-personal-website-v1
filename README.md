@@ -43,9 +43,35 @@ Local preview URL: **http://127.0.0.1:8765/index.html** (serves latest `snapshot
 2. Crawls each page HTML for linked assets (Squarespace CDN, fonts, platform JS/CSS)
 3. Downloads everything into `snapshot/<date>/` with CDN files under `_cdn/`
 4. Rewrites HTML links for offline browsing
-5. Writes `manifest.json` with file counts, sizes, and any download errors
+5. Writes `manifest.json` with file counts, sizes, crawl settings, and any download errors
 
-After mirroring, the script copies the HTTrack output into `snapshot/<date>/`, writes `manifest.json`, and logs any sitemap URLs that were not captured.
+### Safer crawling (configurable)
+
+Politeness is controlled by `scripts/crawl-config.json` (default **safe** profile):
+
+| Profile | Page pause | Asset pause | Retries | Notes |
+|---------|------------|-------------|---------|-------|
+| **safe** (default) | ~1.25s + jitter | ~0.85s + jitter | 4 | Sequential, min 0.5s between requests |
+| **normal** | ~0.5s + jitter | ~0.25s + jitter | 3 | Moderate |
+| **fast** | ~0.2s + jitter | ~0.15s + jitter | 2 | Old behavior; use only if you own the site |
+
+Features: exponential backoff on 429/5xx, honors `Retry-After`, descriptive User-Agent, no parallel downloads.
+
+```powershell
+# Default safe crawl
+.\scripts\snapshot.ps1
+
+# Faster re-run on your own site
+.\scripts\snapshot.ps1 -Profile normal
+
+# Custom delays
+py -3 scripts\snapshot.py --profile safe --page-delay 2 --asset-delay 1.5
+
+# Custom config file
+.\scripts\snapshot.ps1 -Config .\my-crawl-config.json
+```
+
+Repair and audit scripts use the same config (`repair-html.ps1 -Profile safe`, `audit-completeness.py --profile safe`).
 
 ## First snapshot (2026-06-05)
 
@@ -93,6 +119,8 @@ senzhang-legacy-website-archive/
 ├── scripts/
 │   ├── serve.ps1           # Local preview server
 │   ├── snapshot.ps1        # Create a dated mirror
+│   ├── crawl-config.json   # Default polite crawl settings (safe profile)
+│   ├── crawl_config.py     # Shared fetch/retry/delay logic
 │   ├── repair-html.ps1     # Re-fetch HTML + sync CDN assets
 │   └── verify-snapshot.ps1 # Compare snapshot vs live sitemap
 └── snapshot/

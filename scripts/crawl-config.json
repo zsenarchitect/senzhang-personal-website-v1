@@ -1,0 +1,14 @@
+{
+  "profile": "safe",
+  "user_agent": "senzhang-legacy-archive/1.1 (+https://github.com/zsenarchitect/senzhang-legacy-website-archive; polite personal-site archival crawler)",
+  "page_delay_seconds": 1.25,
+  "asset_delay_seconds": 0.85,
+  "delay_jitter_seconds": 0.35,
+  "request_timeout_seconds": 90,
+  "max_retries": 4,
+  "retry_backoff_seconds": 3.0,
+  "retry_backoff_multiplier": 2.0,
+  "max_retry_wait_seconds": 120.0,
+  "respect_retry_after": true,
+  "min_interval_seconds": 0.5
+}

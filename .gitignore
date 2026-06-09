@@ -7,3 +7,5 @@ __pycache__/
 
 # Optional: keep snapshots out of git until Git LFS is configured (see README)
 # snapshot/
+.vercel
+.env*.local

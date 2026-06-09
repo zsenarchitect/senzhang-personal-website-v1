@@ -3,11 +3,19 @@
 .SYNOPSIS
   Create a dated 1:1 offline mirror of https://senzhang.me
 .DESCRIPTION
-  Runs scripts/snapshot.py (stdlib Python crawler). Optional: install HTTrack for
+  Runs scripts/snapshot.py (stdlib Python crawler). Politeness defaults to the
+  "safe" profile in scripts/crawl-config.json. Optional: install HTTrack for
   winget install XavierRoche.HTTrack and use -UseHtTrack.
+.PARAMETER Profile
+  Crawl preset: safe (default), normal, or fast.
+.PARAMETER Config
+  Path to a custom crawl-config.json.
 #>
 param(
     [string]$Date = (Get-Date -Format "yyyy-MM-dd"),
+    [ValidateSet("safe", "normal", "fast")]
+    [string]$Profile = "",
+    [string]$Config = "",
     [switch]$Force,
     [switch]$UseHtTrack
 )
@@ -40,10 +48,14 @@ $py = @("py", "-3", "python", "python3") | ForEach-Object {
 
 if (-not $py) { throw "Python 3 not found on PATH." }
 
+$args = @($PythonScript, $Date)
+if ($Profile) { $args += @("--profile", $Profile) }
+if ($Config) { $args += @("--config", $Config) }
+
 if ($py -match "py(\.exe)?$") {
-    & py -3 $PythonScript $Date
+    & py -3 @args
 } else {
-    & $py $PythonScript $Date
+    & $py @args
 }
 
 exit $LASTEXITCODE
