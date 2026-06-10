@@ -112,7 +112,7 @@ def main() -> int:
             missing_files.append((url, rel))
 
     # Style-related: CSS + font URLs on homepage
-    home_live = fetch(SITE + "/")
+    home_live = fetcher.fetch(SITE + "/").decode("utf-8", errors="replace")
     home_local = (snap / "index.html").read_text(encoding="utf-8")
     css_live = set(re.findall(r'href="([^"]+\.css[^"]*)"', home_live, re.I))
     css_local = set(re.findall(r'href="([^"]+\.css[^"]*)"', home_local, re.I))

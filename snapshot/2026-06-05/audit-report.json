@@ -3,38 +3,30 @@
   "pages_audited": 30,
   "url_map_entries": 2740,
   "missing_local_files": 48,
-  "missing_mirrorable_refs": 180,
+  "missing_mirrorable_refs": 721,
   "live_asset_categories": {
     "analytics_social": 1,
-    "external": 25,
-    "mirrorable": 2209,
+    "external": 21,
+    "mirrorable": 2185,
     "youtube": 5
   },
   "local_external_refs_by_category": {
+    "youtube": 5,
     "analytics_social": 30,
-    "external": 193,
-    "youtube": 5
+    "external": 193
   },
   "homepage_css_links_live": 2,
-  "homepage_css_links_local": 2,
-  "homepage_css_local_cdn": 2,
+  "homepage_css_links_local": 3,
+  "homepage_css_local_cdn": 3,
   "download_errors_manifest": 48,
   "sample_missing_mirrorable": [
     [
       "https://senzhang.me/cover-page",
-      "https://sen-zhang.squarespace.com"
+      "//assets.squarespace.com/universal/styles-compressed/comments-d5dc08c9651801d5-min.en-US.css"
     ],
     [
       "https://senzhang.me/cover-page",
-      "https://p.typekit.net"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "https://images.squarespace-cdn.com"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "https://senzhang.me"
+      "https://use.typekit.net"
     ],
     [
       "https://senzhang.me/cover-page",
@@ -42,23 +34,91 @@
     ],
     [
       "https://senzhang.me/cover-page",
-      "https://use.typekit.net"
+      "//assets.squarespace.com/universal/scripts-compressed/common-8062efc02e57630d-min.en-US.js"
     ],
     [
-      "https://senzhang.me/gravity-rises",
+      "https://senzhang.me/cover-page",
+      "https://senzhang.me"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "https://p.typekit.net"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/form-rendering-utils-f14df5e9fd9e4e5b-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/dialog-e9035fc93bddea4e-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
       "https://sen-zhang.squarespace.com"
     ],
     [
-      "https://senzhang.me/gravity-rises",
-      "https://use.typekit.net"
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/extract-css-runtime-7a5de3e8336776e3-min.en-US.js"
     ],
     [
-      "https://senzhang.me/gravity-rises",
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/comments-7e3ee164b3267557-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/product-quick-view-b30e3ed987eeddec-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/search-page-28385adef5d37bba-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/website-overlays-manager-56225e3e2bb2cec1-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
       "https://images.squarespace-cdn.com"
     ],
     [
-      "https://senzhang.me/gravity-rises",
-      "https://senzhang.me"
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/popup-overlay-a093ee948907ca04-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/slides-2ebe299f0950f409-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/styles-compressed/custom-css-popup-47206fa255bd4714-min.en-US.css"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/custom-css-popup-5153e465d5a83846-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/calendar-block-renderer-8e3faaa9bed6a132-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/tourdates-ff1cae01a1569495-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/common-vendors-8725e5df33596ccb-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/announcement-bar-f25199f1ee6873b1-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/audio-player-a16838f135be7c52-min.en-US.js"
+    ],
+    [
+      "https://senzhang.me/cover-page",
+      "//assets.squarespace.com/universal/scripts-compressed/forms-23be8d2f02b88f2d-min.en-US.js"
     ],
     [
       "https://senzhang.me/gravity-rises",
@@ -66,79 +126,19 @@
     ],
     [
       "https://senzhang.me/gravity-rises",
-      "https://p.typekit.net"
+      "//assets.squarespace.com/universal/scripts-compressed/comments-7e3ee164b3267557-min.en-US.js"
     ],
     [
-      "https://senzhang.me/about-me",
-      "https://sen-zhang.squarespace.com"
+      "https://senzhang.me/gravity-rises",
+      "//assets.squarespace.com/universal/styles-compressed/custom-css-popup-47206fa255bd4714-min.en-US.css"
     ],
     [
-      "https://senzhang.me/about-me",
-      "https://use.typekit.net"
+      "https://senzhang.me/gravity-rises",
+      "//assets.squarespace.com/universal/scripts-compressed/custom-css-popup-5153e465d5a83846-min.en-US.js"
     ],
     [
-      "https://senzhang.me/about-me",
-      "https://images.squarespace-cdn.com"
-    ],
-    [
-      "https://senzhang.me/about-me",
-      "https://senzhang.me"
-    ],
-    [
-      "https://senzhang.me/about-me",
-      "https://fonts.gstatic.com"
-    ],
-    [
-      "https://senzhang.me/about-me",
-      "https://p.typekit.net"
-    ],
-    [
-      "https://senzhang.me/forumfold",
-      "https://sen-zhang.squarespace.com"
-    ],
-    [
-      "https://senzhang.me/forumfold",
-      "https://use.typekit.net"
-    ],
-    [
-      "https://senzhang.me/forumfold",
-      "https://images.squarespace-cdn.com"
-    ],
-    [
-      "https://senzhang.me/forumfold",
-      "https://senzhang.me"
-    ],
-    [
-      "https://senzhang.me/forumfold",
-      "https://fonts.gstatic.com"
-    ],
-    [
-      "https://senzhang.me/forumfold",
-      "https://p.typekit.net"
-    ],
-    [
-      "https://senzhang.me/museum-of-verbs",
-      "https://sen-zhang.squarespace.com"
-    ],
-    [
-      "https://senzhang.me/museum-of-verbs",
-      "https://use.typekit.net"
-    ],
-    [
-      "https://senzhang.me/museum-of-verbs",
-      "https://images.squarespace-cdn.com"
-    ],
-    [
-      "https://senzhang.me/museum-of-verbs",
-      "https://senzhang.me"
-    ],
-    [
-      "https://senzhang.me/museum-of-verbs",
-      "https://fonts.gstatic.com"
-    ],
-    [
-      "https://senzhang.me/museum-of-verbs",
-      "https://p.typekit.net"
+      "https://senzhang.me/gravity-rises",
+      "//assets.squarespace.com/universal/scripts-compressed/common-vendors-8725e5df33596ccb-min.en-US.js"
     ]
   ],
   "sample_missing_files": [
