@@ -3046,5 +3046,29 @@
   },
   "cover_video_offline_fixed_at": "2026-06-09T13:10:53.562740+00:00",
   "cover_video_local": "_media/cover-background.mp4",
-  "cover_video_source": "https://www.youtube.com/watch?v=mYPQl6m7kMY"
+  "cover_video_source": "https://www.youtube.com/watch?v=mYPQl6m7kMY",
+  "offline_videos": {
+    "fAl5EJuQpUM": {
+      "local": "_media/fAl5EJuQpUM.mp4",
+      "source": "https://www.youtube.com/watch?v=fAl5EJuQpUM",
+      "patched_at": "2026-06-19T15:59:43.554123+00:00"
+    },
+    "mYPQl6m7kMY": {
+      "local": "_media/mYPQl6m7kMY.mp4",
+      "source": "https://www.youtube.com/watch?v=mYPQl6m7kMY",
+      "patched_at": "2026-06-19T15:59:43.554153+00:00"
+    },
+    "4sQc0d3HRck": {
+      "local": "_media/4sQc0d3HRck.mp4",
+      "source": "https://www.youtube.com/watch?v=4sQc0d3HRck",
+      "patched_at": "2026-06-19T15:59:43.554157+00:00"
+    },
+    "3pFCHJNHKEU": {
+      "local": "_media/3pFCHJNHKEU.mp4",
+      "source": "https://www.youtube.com/watch?v=3pFCHJNHKEU",
+      "patched_at": "2026-06-19T16:02:46.628213+00:00"
+    }
+  },
+  "offline_embed_videos_fixed_at": "2026-06-19T16:02:46.628246+00:00",
+  "missing_assets_fixed_at": "2026-06-19T16:07:49.868840+00:00"
 }

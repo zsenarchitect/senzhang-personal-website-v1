@@ -2,146 +2,63 @@
   "snapshot_date": "2026-06-05",
   "pages_audited": 30,
   "url_map_entries": 2740,
+  "pass": true,
+  "manifest_orphan_files": 6,
+  "truly_missing_assets_live_html": 23,
+  "truly_missing_assets_local_html": 0,
+  "live_site_cdn_drift_note": "live_html truly_missing counts Squarespace bundles updated since snapshot; local_html is the offline pass criterion.",
+  "missing_mirrorable_refs_unique": 23,
+  "missing_mirrorable_refs_page_occurrences": 661,
+  "missing_mirrorable_breakdown": {
+    "bare_domain": 5,
+    "on_disk_via_cdn": 1,
+    "truly_missing": 23
+  },
   "missing_local_files": 48,
-  "missing_mirrorable_refs": 721,
+  "manifest_phantom_entries": 42,
+  "real_missing_local_files": 6,
+  "local_youtube_refs_in_html": 0,
   "live_asset_categories": {
     "analytics_social": 1,
-    "external": 21,
-    "mirrorable": 2185,
+    "external": 26,
+    "mirrorable": 2183,
     "youtube": 5
   },
   "local_external_refs_by_category": {
-    "youtube": 5,
-    "analytics_social": 30,
-    "external": 193
+    "external": 193,
+    "analytics_social": 30
   },
   "homepage_css_links_live": 2,
   "homepage_css_links_local": 3,
   "homepage_css_local_cdn": 3,
   "download_errors_manifest": 48,
-  "sample_missing_mirrorable": [
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/styles-compressed/comments-d5dc08c9651801d5-min.en-US.css"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "https://use.typekit.net"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "https://fonts.gstatic.com"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/common-8062efc02e57630d-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "https://senzhang.me"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "https://p.typekit.net"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/form-rendering-utils-f14df5e9fd9e4e5b-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/dialog-e9035fc93bddea4e-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "https://sen-zhang.squarespace.com"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/extract-css-runtime-7a5de3e8336776e3-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/comments-7e3ee164b3267557-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/product-quick-view-b30e3ed987eeddec-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/search-page-28385adef5d37bba-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/website-overlays-manager-56225e3e2bb2cec1-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "https://images.squarespace-cdn.com"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/popup-overlay-a093ee948907ca04-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/slides-2ebe299f0950f409-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/styles-compressed/custom-css-popup-47206fa255bd4714-min.en-US.css"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/custom-css-popup-5153e465d5a83846-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/calendar-block-renderer-8e3faaa9bed6a132-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/tourdates-ff1cae01a1569495-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/common-vendors-8725e5df33596ccb-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/announcement-bar-f25199f1ee6873b1-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/audio-player-a16838f135be7c52-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/cover-page",
-      "//assets.squarespace.com/universal/scripts-compressed/forms-23be8d2f02b88f2d-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/gravity-rises",
-      "https://fonts.gstatic.com"
-    ],
-    [
-      "https://senzhang.me/gravity-rises",
-      "//assets.squarespace.com/universal/scripts-compressed/comments-7e3ee164b3267557-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/gravity-rises",
-      "//assets.squarespace.com/universal/styles-compressed/custom-css-popup-47206fa255bd4714-min.en-US.css"
-    ],
-    [
-      "https://senzhang.me/gravity-rises",
-      "//assets.squarespace.com/universal/scripts-compressed/custom-css-popup-5153e465d5a83846-min.en-US.js"
-    ],
-    [
-      "https://senzhang.me/gravity-rises",
-      "//assets.squarespace.com/universal/scripts-compressed/common-vendors-8725e5df33596ccb-min.en-US.js"
-    ]
+  "sample_truly_missing_local": [],
+  "sample_truly_missing_live": [
+    "https://assets.squarespace.com/universal/scripts-compressed/announcement-bar-0d42d1862159c4e6-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/audio-player-5b804831f1e69672-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/calendar-block-renderer-eb449d66ffd023be-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/comments-22e133c4dc8842c4-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/common-785314f42539b9b4-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/common-vendors-f006011644dd19e2-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/custom-css-popup-c462f0abc4c9779c-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/dialog-f53da749b97dee38-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/events-collection-36e982b07d060c96-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/extract-css-runtime-a20a96f6d2e3d848-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/form-rendering-utils-1239f63dd6098d64-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/forms-93a072eb173475ab-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/gallery-collection-list-9f7aecddb0723bd7-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/performance-ebdd8dedee2a8a9a-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/pinterest-62ef3cd44d2c3736-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/popup-overlay-b63a4b86cd036d89-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/product-quick-view-2b7547f1201e14b2-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/search-page-ceba448b3f1e31a7-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/search-preview-5f4cebfd0bfdcca2-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/slides-28caeedef7ed63f8-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/social-buttons-47746ee59e9cf20f-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/tourdates-20b473f1d1e43c1d-min.en-US.js",
+    "https://assets.squarespace.com/universal/scripts-compressed/website-overlays-manager-62ad7f8ae9b90855-min.en-US.js"
   ],
-  "sample_missing_files": [
+  "sample_phantom_manifest": [
     [
       "https://senzhang.me/*!",
       "*!.html"
@@ -222,5 +139,32 @@
       "https://senzhang.me/h2",
       "h2.html"
     ]
-  ]
+  ],
+  "sample_real_missing_files": [
+    [
+      "https://static1.squarespace.com/static/58949e5a3e00bef5fa228481/593fec7637c58186b66e637c/593fec7717bffc3fb9f9f915/1497411780066/160505+master+plan-01.jpg",
+      "_cdn/static1.squarespace.com/6b864fd278a7bc802d39.jpg"
+    ],
+    [
+      "https://static1.squarespace.com/static/58949e5a3e00bef5fa228481/593fec7637c58186b66e637c/593fecbe03596e1c31401a48/1497411780070/160505+under+ground+plan-01.jpg",
+      "_cdn/static1.squarespace.com/02a2257d6e10930c7e14.jpg"
+    ],
+    [
+      "https://static1.squarespace.com/static/58949e5a3e00bef5fa228481/593fec7637c58186b66e637c/593fecbe2994ca2f50b1f6dd/1497411780073/160505+master+plan-01.jpg",
+      "_cdn/static1.squarespace.com/1567e6233a7d2b1fdf6c.jpg"
+    ],
+    [
+      "https://static1.squarespace.com/static/58949e5a3e00bef5fa228481/593fee2da5790aad544bc069/593fee2e3e00be3feb4b4760/1497411779995/160505+master+plan-01.jpg",
+      "_cdn/static1.squarespace.com/c8d7db6ed07ba23685ae.jpg"
+    ],
+    [
+      "https://static1.squarespace.com/static/58949e5a3e00bef5fa228481/593fee2da5790aad544bc069/593fee2ec534a5e73d9f579e/1497411779991/160505+under+ground+plan-01.jpg",
+      "_cdn/static1.squarespace.com/7b8eef87a9201dc06e1b.jpg"
+    ],
+    [
+      "https://static1.squarespace.com/static/ta/4f9adbe124ac5df956fdf900/869/scripts/",
+      "_cdn/static1.squarespace.com/290cc65233fda796c37b"
+    ]
+  ],
+  "legacy_note": "missing_mirrorable_refs_page_occurrences is the old inflated 721-style counter; use truly_missing_assets instead."
 }

@@ -78,6 +78,8 @@ Repair and audit scripts use the same config (`repair-html.ps1 -Profile safe`, `
 ```powershell
 .\scripts\fix-offline-fonts.ps1    # Google TTFs + Typekit woff2 -> local _cdn/
 .\scripts\fix-cover-video.ps1      # YouTube cover -> _media/cover-background.mp4
+.\scripts\fix-offline-videos.ps1   # Project YouTube embeds -> _media/*.mp4
+.\scripts\fix-missing-assets.py    # Download manifest CDN files missing on disk
 ```
 
 Requires `yt-dlp` for cover video (`py -3 -m pip install yt-dlp`).
@@ -123,7 +125,7 @@ git push
 .\scripts\serve.ps1
 ```
 
-Opens **http://127.0.0.1:8765/index.html** (latest snapshot). Internal navigation works offline; YouTube embeds need internet.
+Opens **http://127.0.0.1:8765/index.html** (latest snapshot). Internal navigation works fully offline, including embedded videos in `_media/`.
 
 If pages look blank or broken after a snapshot, run `.\scripts\repair-html.ps1` then restart the server.
 
@@ -143,6 +145,9 @@ senzhang-legacy-website-archive/
 │   ├── repair-html.ps1     # Re-fetch HTML + sync CDN assets
 │   ├── fix-offline-fonts.ps1
 │   ├── fix-cover-video.ps1
+│   ├── fix-offline-videos.ps1
+│   ├── fix-missing-assets.py
+│   ├── audit-completeness.py
 │   ├── deploy-vercel.ps1   # Deploy snapshot to Vercel
 │   └── verify-snapshot.ps1 # Compare snapshot vs live sitemap
 └── snapshot/
