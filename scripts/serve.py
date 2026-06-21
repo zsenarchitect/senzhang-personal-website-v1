@@ -85,10 +85,29 @@ def make_request_handler(quiet_api_logs: bool):
                 return
             self.send_error(501, "Unsupported method ('PUT')")
 
+        def _maybe_clean_url_path(self) -> None:
+            """Map /menu -> menu.html like Vercel cleanUrls for local QA."""
+            bare = self.path.split("?", 1)[0]
+            if bare.startswith(STUB_API_PREFIXES):
+                return
+            if os.path.splitext(bare)[1]:
+                return
+            clean = bare.rstrip("/")
+            if clean in ("", "/"):
+                candidate = "/index.html"
+            else:
+                candidate = clean + ".html"
+            if os.path.isfile(self.translate_path(candidate)):
+                query = ""
+                if "?" in self.path:
+                    query = "?" + self.path.split("?", 1)[1]
+                self.path = candidate + query
+
         def do_GET(self) -> None:
             if is_stub_api_path(self.path):
                 self.send_error(404)
                 return
+            self._maybe_clean_url_path()
             super().do_GET()
 
         def send_head(self):
