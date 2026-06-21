@@ -26,12 +26,14 @@ EMBED_BLOCK_RE = re.compile(
 
 OFFLINE_EMBED_STYLE = """
 <style id="offline-embed-video-style">
-.sqs-video-wrapper.offline-youtube-replaced { position: relative; width: 100%; height: 100%; }
-.sqs-video-wrapper.offline-youtube-replaced video.offline-embed-video {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;
-  background: #000;
+.embed-block-wrapper:has([data-offline-static]) { position: relative; min-height: 200px; height: auto !important; }
+.embed-block-wrapper .sqs-video-wrapper[data-offline-static] { display: none !important; }
+.embed-block-wrapper .offline-embed-video-shell {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
 }
-.embed-block-wrapper:has(.offline-youtube-replaced) { height: auto !important; min-height: 200px; }
+.embed-block-wrapper .offline-embed-video-shell video.offline-embed-video {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; background: #000;
+}
 </style>
 """
 
@@ -102,8 +104,9 @@ def replace_embed_block(match: re.Match[str], media_rel: dict[str, str]) -> str:
     src = video_src_rel(vid, start)
     media_rel[vid] = "_media/{}.mp4".format(vid)
     return (
-        '<div class="sqs-video-wrapper offline-youtube-replaced" '
-        'data-offline-video="{src}">'
+        '<div class="sqs-video-wrapper" data-offline-static="1" '
+        'data-offline-video="{src}"></div>'
+        '<div class="offline-embed-video-shell">'
         '<video class="offline-embed-video" controls playsinline '
         'src="{src}"></video></div>'
     ).format(src=src)
@@ -111,7 +114,7 @@ def replace_embed_block(match: re.Match[str], media_rel: dict[str, str]) -> str:
 
 def patch_html_file(html_path: Path, media_rel: dict[str, str]) -> bool:
     html = html_path.read_text(encoding="utf-8", errors="replace")
-    if "offline-youtube-replaced" in html and "youtube.com/embed" not in html:
+    if "offline-embed-video-shell" in html and "youtube.com/embed" not in html:
         return False
     if "youtube.com/embed" not in html and "youtu.be" not in html:
         return False

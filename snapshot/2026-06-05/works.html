@@ -49,12 +49,14 @@
 <!-- End of Squarespace Headers -->
 
 <style id="offline-embed-video-style">
-.sqs-video-wrapper.offline-youtube-replaced { position: relative; width: 100%; height: 100%; }
-.sqs-video-wrapper.offline-youtube-replaced video.offline-embed-video {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;
-  background: #000;
+.embed-block-wrapper:has([data-offline-static]) { position: relative; min-height: 200px; height: auto !important; }
+.embed-block-wrapper .sqs-video-wrapper[data-offline-static] { display: none !important; }
+.embed-block-wrapper .offline-embed-video-shell {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
 }
-.embed-block-wrapper:has(.offline-youtube-replaced) { height: auto !important; min-height: 200px; }
+.embed-block-wrapper .offline-embed-video-shell video.offline-embed-video {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; background: #000;
+}
 </style>
 
 </head>
@@ -2156,7 +2158,7 @@
       class="embed-block-wrapper"
       style="padding-bottom:56.20608899297424%;"
     >
-      <div class="sqs-video-wrapper offline-youtube-replaced" data-offline-video="_media/4sQc0d3HRck.mp4#t=57"><video class="offline-embed-video" controls playsinline src="_media/4sQc0d3HRck.mp4#t=57"></video></div>
+      <div class="sqs-video-wrapper" data-offline-static="1" data-offline-video="_media/4sQc0d3HRck.mp4#t=57"></div><div class="offline-embed-video-shell"><video class="offline-embed-video" controls playsinline src="_media/4sQc0d3HRck.mp4#t=57"></video></div>
     </div>
     
   </div>

@@ -79,6 +79,7 @@ Repair and audit scripts use the same config (`repair-html.ps1 -Profile safe`, `
 .\scripts\fix-offline-fonts.ps1    # Google TTFs + Typekit woff2 -> local _cdn/
 .\scripts\fix-cover-video.ps1      # YouTube cover -> _media/cover-background.mp4
 .\scripts\fix-offline-videos.ps1   # Project YouTube embeds -> _media/*.mp4
+.\scripts\fix-hydration-dom.py     # Move offline videos out of React-managed wrappers
 .\scripts\fix-missing-assets.py    # Download manifest CDN files missing on disk
 ```
 

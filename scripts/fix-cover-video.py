@@ -16,20 +16,24 @@ COVER_PAGES = ("index.html", "cover-page.html")
 
 OFFLINE_VIDEO_STYLE = """
 <style id="offline-cover-video-style">
-.sqs-slice-gallery-item.gallery-video-background #player { display: none !important; }
-.sqs-slice-gallery-item.gallery-video-background video.offline-cover-video {
+.sqs-slide-layer.layer-back { position: relative; }
+.sqs-slide-layer.layer-back .offline-cover-video-shell {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;
+}
+.sqs-slide-layer.layer-back .offline-cover-video-shell video.offline-cover-video {
   position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%;
   width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover;
-  z-index: 0;
 }
+.sqs-slice-gallery-item.gallery-video-background #player { display: none !important; }
 .sqs-slice-gallery-item.gallery-video-background .custom-fallback-image { display: none !important; }
 </style>
 """
 
-OFFLINE_VIDEO_SNIPPET = """
-<video class="offline-cover-video" autoplay muted loop playsinline
-  src="{src}" poster="{poster}"></video>
-"""
+LAYER_BACK_SHELL_RE = re.compile(
+    r'(<div class="sqs-slide-layer layer-back[^"]*">)\s*'
+    r'(<div class="sqs-slide-layer-content">)',
+    re.IGNORECASE,
+)
 
 
 def repo_root() -> Path:
@@ -67,30 +71,24 @@ def download_video(media_dir: Path) -> Path:
 
 def patch_cover_html(snap: Path, video_rel: str, poster_rel: str) -> list[str]:
     patched: list[str] = []
-    snippet = OFFLINE_VIDEO_SNIPPET.format(src=video_rel, poster=poster_rel)
+    shell = (
+        '<div class="offline-cover-video-shell">'
+        '<video class="offline-cover-video" autoplay muted loop playsinline '
+        'src="{src}" poster="{poster}"></video></div>\n  '
+    ).format(src=video_rel, poster=poster_rel)
     for name in COVER_PAGES:
         html_path = snap / name
         if not html_path.is_file():
             continue
         html = html_path.read_text(encoding="utf-8", errors="replace")
-        if "offline-cover-video" in html:
+        if "offline-cover-video-shell" in html:
             patched.append(name)
             continue
-        if OFFLINE_VIDEO_STYLE not in html:
+        if OFFLINE_VIDEO_STYLE.strip() not in html:
             html = html.replace("</head>", OFFLINE_VIDEO_STYLE + "\n</head>", 1)
-        if '<div id="player"></div>' in html:
-            html = html.replace(
-                '<div id="player"></div>',
-                '<div id="player"></div>' + snippet,
-                1,
-            )
-        elif "gallery-video-background" in html:
-            html = re.sub(
-                r'(<div class="sqs-slice-gallery-item gallery-video-background[^>]*>)',
-                r"\1" + snippet,
-                html,
-                count=1,
-            )
+        html, n = LAYER_BACK_SHELL_RE.subn(r"\1\n  " + shell + r"\2", html, count=1)
+        if n == 0:
+            continue
         html_path.write_text(html, encoding="utf-8")
         patched.append(name)
         print("  patched {}".format(name))
