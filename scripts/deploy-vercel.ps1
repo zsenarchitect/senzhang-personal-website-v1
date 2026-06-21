@@ -21,7 +21,7 @@ if (-not (Get-Command vercel -ErrorAction SilentlyContinue)) {
 }
 
 if ($Prod) {
-    Write-Host "PROD deploy — uploads full snapshot (~1.7 GB). User must have requested this." -ForegroundColor Yellow
+    Write-Host "PROD deploy - uploads full snapshot (~1.7 GB). User must have requested this." -ForegroundColor Yellow
 }
 
 $args = @("deploy", "--yes")
