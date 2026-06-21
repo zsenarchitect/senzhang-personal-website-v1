@@ -62,16 +62,22 @@
 <style id="offline-cover-video-style">
 .sqs-slide-layer.layer-back { position: relative; }
 .sqs-slide-layer.layer-back .offline-cover-video-shell {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0; overflow: hidden;
 }
+.sqs-slide-layer.layer-back .offline-cover-video-shell.filter-blur { background-color: #7f7f7f; }
 .sqs-slide-layer.layer-back .offline-cover-video-shell video.offline-cover-video {
   position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%;
-  width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover;
+  width: auto; height: auto; object-fit: cover;
+  filter: blur(3.9px);
+  -webkit-filter: blur(3.9px);
+  transform: translate(-50%, -50%) scale(1.08);
 }
 .sqs-slice-gallery-item.gallery-video-background #player { display: none !important; }
 .sqs-slice-gallery-item.gallery-video-background .custom-fallback-image { display: none !important; }
 </style>
 
+<script id="offline-cover-video-fx">document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.offline-cover-video-shell video.offline-cover-video').forEach(function(v){v.playbackRate=1.5;});});</script>
 </head>
   <body id="collection-5894a8f9c534a5cc7d9bc869">
     <div class="sqs-slide-wrapper" data-slide-id="5894a8f9c534a5cc7d9bc86a" data-slide-type="cover-page">
@@ -84,7 +90,7 @@
 	  </style>
 	  <div class="sqs-slide" data-slide-id="5894a8f9c534a5cc7d9bc86a" data-slide-layout-id="landing-full-center-02" data-slide-type="cover-page">
 	    <div class="sqs-slide-layer layer-back full-width-height">
-  <div class="offline-cover-video-shell"><video class="offline-cover-video" autoplay muted loop playsinline src="_media/cover-background.mp4" poster="_cdn/static1.squarespace.com/39c6f80dd61c257d8eef.png"></video></div>
+  <div class="offline-cover-video-shell filter-blur"><video class="offline-cover-video" autoplay muted loop playsinline src="_media/cover-background.mp4" poster="_cdn/static1.squarespace.com/39c6f80dd61c257d8eef.png"></video></div>
   <div class="sqs-slide-layer-content">
     <div class="sqs-slice" data-slice-type="gallery" data-slice-id="5894aae537c581472df2b013">
   <div class="sqs-slice-gallery-item gallery-video-background content-fill"

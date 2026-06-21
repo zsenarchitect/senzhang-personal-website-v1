@@ -6,20 +6,11 @@ import argparse
 import re
 from pathlib import Path
 
+from cover_video_effects import apply_cover_effects, build_cover_style
+
 COVER_PAGES = ("index.html", "cover-page.html")
 
-NEW_COVER_STYLE = """<style id="offline-cover-video-style">
-.sqs-slide-layer.layer-back { position: relative; }
-.sqs-slide-layer.layer-back .offline-cover-video-shell {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;
-}
-.sqs-slide-layer.layer-back .offline-cover-video-shell video.offline-cover-video {
-  position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%;
-  width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover;
-}
-.sqs-slice-gallery-item.gallery-video-background #player { display: none !important; }
-.sqs-slice-gallery-item.gallery-video-background .custom-fallback-image { display: none !important; }
-</style>"""
+NEW_COVER_STYLE = build_cover_style(2, 13)
 
 NEW_EMBED_STYLE = """<style id="offline-embed-video-style">
 .embed-block-wrapper:has([data-offline-static]) { position: relative; min-height: 200px; height: auto !important; }
@@ -88,7 +79,8 @@ def patch_cover_page(html: str) -> tuple[str, bool]:
 
     html2 = COVER_VIDEO_IN_GALLERY_RE.sub(lift_video, html)
     if not changed and "offline-cover-video-shell" in html:
-        return html, False
+        html2, _ = apply_cover_effects(html)
+        return html2, html2 != html
     if not changed:
         return html, False
 
@@ -104,6 +96,7 @@ def patch_cover_page(html: str) -> tuple[str, bool]:
             return html, False
 
     html2 = replace_style(html2, OLD_COVER_STYLE_RE, NEW_COVER_STYLE, "offline-cover-video-style")
+    html2, _ = apply_cover_effects(html2)
     return html2, True
 
 

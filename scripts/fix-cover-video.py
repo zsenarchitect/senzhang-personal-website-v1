@@ -12,22 +12,11 @@ from pathlib import Path
 
 VIDEO_ID = "mYPQl6m7kMY"
 YOUTUBE_URL = "https://www.youtube.com/watch?v={}".format(VIDEO_ID)
+from cover_video_effects import apply_cover_effects, build_cover_style, build_playback_script, parse_gallery_config
+
 COVER_PAGES = ("index.html", "cover-page.html")
 
-OFFLINE_VIDEO_STYLE = """
-<style id="offline-cover-video-style">
-.sqs-slide-layer.layer-back { position: relative; }
-.sqs-slide-layer.layer-back .offline-cover-video-shell {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;
-}
-.sqs-slide-layer.layer-back .offline-cover-video-shell video.offline-cover-video {
-  position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%;
-  width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover;
-}
-.sqs-slice-gallery-item.gallery-video-background #player { display: none !important; }
-.sqs-slice-gallery-item.gallery-video-background .custom-fallback-image { display: none !important; }
-</style>
-"""
+OFFLINE_VIDEO_STYLE = build_cover_style(2, 13)
 
 LAYER_BACK_SHELL_RE = re.compile(
     r'(<div class="sqs-slide-layer layer-back[^"]*">)\s*'
@@ -82,13 +71,17 @@ def patch_cover_html(snap: Path, video_rel: str, poster_rel: str) -> list[str]:
             continue
         html = html_path.read_text(encoding="utf-8", errors="replace")
         if "offline-cover-video-shell" in html:
+            html, _ = apply_cover_effects(html)
+            html_path.write_text(html, encoding="utf-8")
             patched.append(name)
+            print("  refreshed effects {}".format(name))
             continue
         if OFFLINE_VIDEO_STYLE.strip() not in html:
             html = html.replace("</head>", OFFLINE_VIDEO_STYLE + "\n</head>", 1)
         html, n = LAYER_BACK_SHELL_RE.subn(r"\1\n  " + shell + r"\2", html, count=1)
         if n == 0:
             continue
+        html, _ = apply_cover_effects(html)
         html_path.write_text(html, encoding="utf-8")
         patched.append(name)
         print("  patched {}".format(name))
