@@ -39,6 +39,22 @@ if (-not (Test-Path $modeTemplate)) {
 Copy-Item $modeTemplate $vercelJson -Force
 Write-Host "Cache mode: $CacheMode"
 
+Write-Host "Verifying snapshot _cdn assets are not Git LFS pointers..."
+& (Join-Path $PSScriptRoot "verify-cdn-assets.ps1") -Date $Date
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+Write-Host "Relocalizing snapshot asset URLs from manifest..."
+& py -3 (Join-Path $PSScriptRoot "fix-offline-urls.py") $Date
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+Write-Host "Patching offline lightbox (base href + stuck-overlay recovery)..."
+& py -3 (Join-Path $PSScriptRoot "fix-offline-lightbox.py") $Date
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+Write-Host "Patching offline video player (seek bar + custom controls)..."
+& py -3 (Join-Path $PSScriptRoot "fix-offline-video-player.py") $Date
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 Write-Host "Stamping cache-bust build id on snapshot HTML..."
 & py -3 (Join-Path $PSScriptRoot "stamp-cache-version.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

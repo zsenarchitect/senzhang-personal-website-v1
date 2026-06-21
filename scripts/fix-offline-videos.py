@@ -32,8 +32,28 @@ OFFLINE_EMBED_STYLE = """
 .embed-block-wrapper .offline-embed-video-shell {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
 }
+.embed-block-wrapper .offline-embed-video-shell .ovp-player {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+}
 .embed-block-wrapper .offline-embed-video-shell video.offline-embed-video {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; background: #000;
+  object-fit: contain; background: #000;
+}
+.embed-block-wrapper.ovp-aspect-fit {
+  padding-bottom: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  aspect-ratio: var(--ovp-aspect-ratio, auto);
+}
+.embed-block-wrapper.ovp-aspect-fit .offline-embed-video-shell {
+  position: relative; top: auto; left: auto; width: 100%; height: auto;
+  aspect-ratio: inherit;
+}
+.embed-block-wrapper.ovp-aspect-fit .offline-embed-video-shell .ovp-player {
+  position: relative; top: auto; left: auto; width: 100%; height: auto;
+  aspect-ratio: inherit; background: transparent;
+}
+.embed-block-wrapper.ovp-aspect-fit .offline-embed-video-shell video.offline-embed-video {
+  object-fit: cover; background: transparent;
 }
 </style>
 """
@@ -58,6 +78,11 @@ OFFLINE_EMBED_VIDEO_CONTROLS_RE = re.compile(
     re.IGNORECASE,
 )
 
+OFFLINE_EMBED_VIDEO_PLAIN_RE = re.compile(
+    r'<video class="offline-embed-video" playsinline preload="metadata" src="([^"]+)"></video>',
+    re.IGNORECASE,
+)
+
 MENU_MOBILE_LAYOUT_STYLE = """
 <style id="offline-menu-mobile-layout">
 @media (max-width: 800px) {
@@ -78,9 +103,6 @@ MENU_MOBILE_LAYOUT_STYLE = """
     height: auto !important;
     object-fit: contain !important;
   }
-  .offline-embed-video-shell video.offline-embed-video {
-    object-fit: contain !important;
-  }
 }
 </style>
 """
@@ -90,10 +112,14 @@ OLD_MENU_MOBILE_STYLE_RE = re.compile(
     re.DOTALL | re.IGNORECASE,
 )
 
-OFFLINE_EMBED_VIDEO_COVER_RE = re.compile(
-    r"(\.embed-block-wrapper \.offline-embed-video-shell video\.offline-embed-video "
-    r"\{[^}]*object-fit:\s*)cover",
-    re.IGNORECASE,
+MENU_MOBILE_LAYOUT_STYLE_RE = re.compile(
+    r'<style id="offline-menu-mobile-layout">.*?</style>\s*',
+    re.DOTALL | re.IGNORECASE,
+)
+
+OFFLINE_EMBED_STYLE_RE = re.compile(
+    r'<style id="offline-embed-video-style">.*?</style>\s*',
+    re.DOTALL | re.IGNORECASE,
 )
 
 
@@ -158,11 +184,11 @@ def video_src_rel(video_id: str, start: int | None) -> str:
 def build_offline_video_tag(src: str, menu_autoplay: bool) -> str:
     if menu_autoplay:
         return (
-            '<video class="offline-embed-video" autoplay muted loop playsinline '
+            '<video class="offline-embed-video" autoplay muted loop playsinline preload="metadata" '
             'src="{src}"></video>'
         ).format(src=src)
     return (
-        '<video class="offline-embed-video" controls playsinline '
+        '<video class="offline-embed-video" playsinline preload="metadata" '
         'src="{src}"></video>'
     ).format(src=src)
 
@@ -186,7 +212,7 @@ def replace_embed_block(
 
 
 def patch_menu_autoplay(html_path: Path) -> bool:
-    """Menu grid videos: muted autoplay + no crop on narrow viewports."""
+    """Menu grid videos: muted autoplay loops that fill their aspect-ratio cells."""
     if html_path.name not in MENU_PAGES:
         return False
     html = html_path.read_text(encoding="utf-8", errors="replace")
@@ -199,10 +225,13 @@ def patch_menu_autoplay(html_path: Path) -> bool:
         new_html,
     )
 
-    new_html, _cover_n = OFFLINE_EMBED_VIDEO_COVER_RE.subn(r"\1contain", new_html)
+    if OFFLINE_EMBED_STYLE_RE.search(new_html):
+        new_html = OFFLINE_EMBED_STYLE_RE.sub(OFFLINE_EMBED_STYLE, new_html, count=1)
 
     new_html = OLD_MENU_MOBILE_STYLE_RE.sub("", new_html)
-    if 'id="offline-menu-mobile-layout"' not in new_html:
+    if MENU_MOBILE_LAYOUT_STYLE_RE.search(new_html):
+        new_html = MENU_MOBILE_LAYOUT_STYLE_RE.sub(MENU_MOBILE_LAYOUT_STYLE, new_html, count=1)
+    elif 'id="offline-menu-mobile-layout"' not in new_html:
         new_html = new_html.replace("</head>", MENU_MOBILE_LAYOUT_STYLE + "\n</head>", 1)
 
     if 'id="offline-menu-video-autoplay"' not in new_html:
@@ -211,7 +240,7 @@ def patch_menu_autoplay(html_path: Path) -> bool:
     if new_html == html:
         return False
     html_path.write_text(new_html, encoding="utf-8")
-    print("  menu autoplay/contain {}".format(html_path.name))
+    print("  menu autoplay/layout {}".format(html_path.name))
     return True
 
 

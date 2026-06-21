@@ -9,7 +9,7 @@
 
 
 <!-- This is Squarespace. --><!-- sen-zhang -->
-<base href="">
+<base href="/">
 <meta charset="utf-8" />
 <title>Negative Memory &mdash; Sen Zhang</title>
 <meta http-equiv="Accept-CH" content="Sec-CH-UA-Platform-Version, Sec-CH-UA-Model" /><link rel="icon" type="image/x-icon" href="_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico"/>
@@ -48,6 +48,286 @@
 <script type="module">Squarespace.afterBodyLoad(Y);</script>
 <script type="application/ld+json">{"url":"https://senzhang.me","name":"Sen Zhang","description":"","image":"_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif","@context":"http://schema.org","@type":"WebSite"}</script><link rel="stylesheet" type="text/css" href="_cdn/static1.squarespace.com/3f6928579d7ce4659e88.css"/><script>Static.COOKIE_BANNER_CAPABLE = true;</script>
 <!-- End of Squarespace Headers -->
+
+
+
+
+<style id="offline-lightbox-fix">
+/* Offline archive: hide Squarespace lightbox layers; we use the fallback viewer instead. */
+.yui3-lightbox2,
+.yui3-lightboxoverlay,
+.sqs-lightbox-overlay,
+.sqs-lightbox-slideshow,
+.sqs-lightbox-close {
+  display: none !important;
+}
+.offline-fs-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000001;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.offline-fs-lightbox img {
+  max-width: min(100%, 1600px);
+  max-height: calc(100vh - 48px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+}
+.offline-fs-lightbox-close {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 36px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 10000002;
+}
+html.offline-fs-lightbox-open,
+html.offline-fs-lightbox-open body {
+  overflow: hidden;
+}
+</style>
+
+<script id="offline-lightbox-fix">
+(function () {
+  function normalizeImageUrl(src) {
+    if (!src) {
+      return "";
+    }
+    if (
+      src.indexOf("http://") === 0 ||
+      src.indexOf("https://") === 0 ||
+      src.indexOf("data:") === 0
+    ) {
+      return src;
+    }
+    if (src.charAt(0) === "/") {
+      return src;
+    }
+    return "/" + src.replace(/^\.\//, "");
+  }
+
+  function bestImageUrl(img) {
+    if (!img) {
+      return "";
+    }
+    var srcset = img.getAttribute("srcset");
+    if (srcset) {
+      var best = "";
+      var bestW = -1;
+      srcset.split(",").forEach(function (part) {
+        part = part.trim();
+        var bits = part.split(/\\s+/);
+        if (bits.length < 2) {
+          return;
+        }
+        var url = bits[0];
+        var descriptor = bits[bits.length - 1];
+        if (descriptor.slice(-1) !== "w") {
+          return;
+        }
+        var width = parseInt(descriptor.slice(0, -1), 10);
+        if (width > bestW) {
+          bestW = width;
+          best = url;
+        }
+      });
+      if (best) {
+        return best;
+      }
+    }
+    return (
+      img.getAttribute("data-image") ||
+      img.getAttribute("data-src") ||
+      img.currentSrc ||
+      img.src ||
+      ""
+    );
+  }
+
+  function isProjectNavLink(anchor) {
+    if (!anchor) {
+      return false;
+    }
+    var href = anchor.getAttribute("href") || "";
+    return /\.html$/i.test(href) && href.indexOf("#") !== 0;
+  }
+
+  function closeSquarespaceLightbox() {
+    var close = document.querySelector(".sqs-lightbox-close");
+    if (close) {
+      close.click();
+    }
+  }
+
+  function closeFallbackLightbox() {
+    var el = document.getElementById("offline-fs-lightbox");
+    if (el) {
+      el.parentNode.removeChild(el);
+    }
+    document.documentElement.classList.remove("offline-fs-lightbox-open");
+    document.removeEventListener("keydown", onEscape, true);
+  }
+
+  function onEscape(event) {
+    if (event.key === "Escape") {
+      closeFallbackLightbox();
+      closeSquarespaceLightbox();
+    }
+  }
+
+  function openFallbackLightbox(src, alt) {
+    src = normalizeImageUrl(src);
+    if (!src || src.indexOf("data:") === 0) {
+      return;
+    }
+    closeFallbackLightbox();
+    closeSquarespaceLightbox();
+    document.documentElement.classList.add("offline-fs-lightbox-open");
+    var overlay = document.createElement("div");
+    overlay.id = "offline-fs-lightbox";
+    overlay.className = "offline-fs-lightbox";
+    overlay.innerHTML =
+      '<button type="button" class="offline-fs-lightbox-close" aria-label="Close">&times;</button>' +
+      '<img src="" alt="">';
+    var img = overlay.querySelector("img");
+    img.src = src;
+    img.alt = alt || "";
+    overlay.addEventListener("click", function (event) {
+      if (
+        event.target === overlay ||
+        event.target.classList.contains("offline-fs-lightbox-close")
+      ) {
+        closeFallbackLightbox();
+      }
+    });
+    document.body.appendChild(overlay);
+    document.addEventListener("keydown", onEscape, true);
+  }
+
+  function findLightboxImage(target) {
+    if (!target || !target.closest) {
+      return null;
+    }
+    var btn = target.closest("[data-sqsp-image-classic-block-lightbox-button]");
+    if (btn) {
+      return btn.querySelector("img");
+    }
+    var slide = target.closest(
+      ".sqs-gallery-block-slideshow .slide, .sqs-block-gallery .slide"
+    );
+    if (slide) {
+      return slide.querySelector("img");
+    }
+    var img = target.closest("img");
+    if (!img) {
+      return null;
+    }
+    if (!img.closest(".sqs-block-image, .sqs-block-gallery")) {
+      return null;
+    }
+    if (img.closest("[data-sqsp-image-classic-block-lightbox-button]")) {
+      return img;
+    }
+    if (img.hasAttribute("data-sqsp-image-classic-block-image")) {
+      return img;
+    }
+    return null;
+  }
+
+  function lightboxImageVisible() {
+    var lbImg = document.querySelector(".sqs-lightbox-slideshow img");
+    if (!lbImg || lbImg.naturalWidth < 1) {
+      return false;
+    }
+    var rect = lbImg.getBoundingClientRect();
+    if (rect.width < 120 || rect.height < 120) {
+      return false;
+    }
+    if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+      return false;
+    }
+    if (rect.right <= 0 || rect.left >= window.innerWidth) {
+      return false;
+    }
+    var slide = lbImg.closest(".sqs-lightbox-slide");
+    if (slide) {
+      var slideOpacity = parseFloat(
+        window.getComputedStyle(slide).opacity || "0"
+      );
+      if (slideOpacity < 0.5) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function suppressSquarespaceLightbox() {
+    closeSquarespaceLightbox();
+    var overlays = document.querySelectorAll(".sqs-lightbox-overlay");
+    overlays.forEach(function (overlay) {
+      overlay.style.display = "none";
+      overlay.style.opacity = "0";
+    });
+  }
+
+  document.addEventListener(
+    "click",
+    function (event) {
+      var img = findLightboxImage(event.target);
+      if (!img) {
+        return;
+      }
+      var nav = img.closest("a[href]");
+      if (nav && isProjectNavLink(nav)) {
+        return;
+      }
+      var src = bestImageUrl(img);
+      if (!src) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.stopImmediatePropagation) {
+        event.stopImmediatePropagation();
+      }
+
+      openFallbackLightbox(src, img.getAttribute("alt") || "");
+    },
+    true
+  );
+
+  setInterval(function () {
+    if (document.getElementById("offline-fs-lightbox")) {
+      suppressSquarespaceLightbox();
+      return;
+    }
+    var overlay = document.querySelector(".sqs-lightbox-overlay");
+    if (!overlay) {
+      return;
+    }
+    var opacity = parseFloat(window.getComputedStyle(overlay).opacity || "0");
+    if (opacity < 0.5) {
+      return;
+    }
+    if (!lightboxImageVisible()) {
+      suppressSquarespaceLightbox();
+    }
+  }, 500);
+})();
+</script>
 </head>
 <body class="sidebar-text-alignment-left sidebar-position-left sidebar-fixed mobile-site-title-style-auto blog-sidebar-right gallery-style-fit enable-gallery-thumbnails initial-gallery-view-slideshow homepage-gallery-view-inherit thumbnail-aspect-ratio-auto gallery-controls-simple social-icon-style-normal   show-category-navigation   event-show-past-events event-thumbnails event-thumbnail-size-32-standard event-date-label  event-list-show-cats event-list-date event-list-time event-list-address   event-icalgcal-links  event-excerpts  event-item-back-link    product-list-titles-under product-list-alignment-center product-item-size-23-standard-vertical product-image-auto-crop product-gallery-size-11-square product-gallery-auto-crop show-product-price show-product-item-nav product-social-sharing tweak-v1-related-products-image-aspect-ratio-11-square tweak-v1-related-products-details-alignment-center newsletter-style-dark hide-opentable-icons opentable-style-dark small-button-style-solid small-button-shape-square medium-button-style-solid medium-button-shape-square large-button-style-solid large-button-shape-square image-block-poster-text-alignment-center image-block-card-dynamic-font-sizing image-block-card-content-position-center image-block-card-text-alignment-left image-block-overlap-dynamic-font-sizing image-block-overlap-content-position-center image-block-overlap-text-alignment-left image-block-collage-dynamic-font-sizing image-block-collage-content-position-top image-block-collage-text-alignment-left image-block-stack-dynamic-font-sizing image-block-stack-text-alignment-left button-style-solid button-corner-style-square tweak-product-quick-view-button-style-floating tweak-product-quick-view-button-position-bottom tweak-product-quick-view-lightbox-excerpt-display-truncate tweak-product-quick-view-lightbox-show-arrows tweak-product-quick-view-lightbox-show-close-button tweak-product-quick-view-lightbox-controls-weight-light native-currency-code-usd collection-type-page collection-layout-default collection-593ed4a5f7e0ab586cb3d44e mobile-style-available" id="collection-593ed4a5f7e0ab586cb3d44e">
 
@@ -870,7 +1150,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/c6ab03ec8a673079bc19.jpg" data-image="_cdn/images.squarespace-cdn.com/c6ab03ec8a673079bc19.jpg" data-image-dimensions="2500x1401" data-image-focal-point="0.5,0.5" alt="Final Model, 1:200, Library and Reading Plaza." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/c6ab03ec8a673079bc19.jpg" width="2500" height="1401" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/74cfde90a565bc7fe5e9.jpg 100w, _cdn/images.squarespace-cdn.com/912844c630ec7f550847.jpg 300w, _cdn/images.squarespace-cdn.com/b2d9153ae314d63adec4.jpg 500w, _cdn/images.squarespace-cdn.com/dce1b765a30e466c98f6.jpg 750w, _cdn/images.squarespace-cdn.com/40f23046e7ad869b52ad.jpg 1000w, _cdn/images.squarespace-cdn.com/f6867c7b57110d51c14f.jpg 1500w, _cdn/images.squarespace-cdn.com/67427f8bb8e371ac8009.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/67427f8bb8e371ac8009.jpg" data-image="_cdn/images.squarespace-cdn.com/67427f8bb8e371ac8009.jpg" data-image-dimensions="2500x1401" data-image-focal-point="0.5,0.5" alt="Final Model, 1:200, Library and Reading Plaza." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/c6ab03ec8a673079bc19.jpg" width="2500" height="1401" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/74cfde90a565bc7fe5e9.jpg 100w, _cdn/images.squarespace-cdn.com/912844c630ec7f550847.jpg 300w, _cdn/images.squarespace-cdn.com/b2d9153ae314d63adec4.jpg 500w, _cdn/images.squarespace-cdn.com/dce1b765a30e466c98f6.jpg 750w, _cdn/images.squarespace-cdn.com/40f23046e7ad869b52ad.jpg 1000w, _cdn/images.squarespace-cdn.com/f6867c7b57110d51c14f.jpg 1500w, _cdn/images.squarespace-cdn.com/67427f8bb8e371ac8009.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1028,7 +1308,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/8a1ea249c2c174b2f829.jpg" data-image="_cdn/images.squarespace-cdn.com/8a1ea249c2c174b2f829.jpg" data-image-dimensions="1528x2104" data-image-focal-point="0.5,0.5" alt="Study of Casted Monument" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/8a1ea249c2c174b2f829.jpg" width="1528" height="2104" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/81bd678f4eb822e8ddcd.jpg 100w, _cdn/images.squarespace-cdn.com/c18fdc0926375434ef89.jpg 300w, _cdn/images.squarespace-cdn.com/950af5d17b57b783ee16.jpg 500w, _cdn/images.squarespace-cdn.com/de80dcd6ed73d40c55c7.jpg 750w, _cdn/images.squarespace-cdn.com/ae27aeaad1fdee842c19.jpg 1000w, _cdn/images.squarespace-cdn.com/ef2448c3fcd26f49219f.jpg 1500w, _cdn/images.squarespace-cdn.com/5ac7a0af9b6b1393fe3d.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/5ac7a0af9b6b1393fe3d.jpg" data-image="_cdn/images.squarespace-cdn.com/5ac7a0af9b6b1393fe3d.jpg" data-image-dimensions="1528x2104" data-image-focal-point="0.5,0.5" alt="Study of Casted Monument" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/8a1ea249c2c174b2f829.jpg" width="1528" height="2104" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/81bd678f4eb822e8ddcd.jpg 100w, _cdn/images.squarespace-cdn.com/c18fdc0926375434ef89.jpg 300w, _cdn/images.squarespace-cdn.com/950af5d17b57b783ee16.jpg 500w, _cdn/images.squarespace-cdn.com/de80dcd6ed73d40c55c7.jpg 750w, _cdn/images.squarespace-cdn.com/ae27aeaad1fdee842c19.jpg 1000w, _cdn/images.squarespace-cdn.com/ef2448c3fcd26f49219f.jpg 1500w, _cdn/images.squarespace-cdn.com/5ac7a0af9b6b1393fe3d.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1186,7 +1466,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/0c92564af846a669f662.jpeg" data-image="_cdn/images.squarespace-cdn.com/0c92564af846a669f662.jpeg" data-image-dimensions="2500x1442" data-image-focal-point="0.5,0.5" alt="Unerathing a cast of memeory" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/0c92564af846a669f662.jpeg" width="2500" height="1442" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/f61452accb5cf76afbe8.jpeg 100w, _cdn/images.squarespace-cdn.com/d1a443524f20c173277f.jpeg 300w, _cdn/images.squarespace-cdn.com/efe07d1f7186e2678f74.jpeg 500w, _cdn/images.squarespace-cdn.com/a506413c22ea26a45449.jpeg 750w, _cdn/images.squarespace-cdn.com/88f1913b1c5051a955c6.jpeg 1000w, _cdn/images.squarespace-cdn.com/15b17415bde739957ee7.jpeg 1500w, _cdn/images.squarespace-cdn.com/b5a297380a17e83f7b24.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/b5a297380a17e83f7b24.jpeg" data-image="_cdn/images.squarespace-cdn.com/b5a297380a17e83f7b24.jpeg" data-image-dimensions="2500x1442" data-image-focal-point="0.5,0.5" alt="Unerathing a cast of memeory" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/0c92564af846a669f662.jpeg" width="2500" height="1442" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/f61452accb5cf76afbe8.jpeg 100w, _cdn/images.squarespace-cdn.com/d1a443524f20c173277f.jpeg 300w, _cdn/images.squarespace-cdn.com/efe07d1f7186e2678f74.jpeg 500w, _cdn/images.squarespace-cdn.com/a506413c22ea26a45449.jpeg 750w, _cdn/images.squarespace-cdn.com/88f1913b1c5051a955c6.jpeg 1000w, _cdn/images.squarespace-cdn.com/15b17415bde739957ee7.jpeg 1500w, _cdn/images.squarespace-cdn.com/b5a297380a17e83f7b24.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1317,7 +1597,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/82145e456651a327b4c3.jpg" data-image="_cdn/images.squarespace-cdn.com/82145e456651a327b4c3.jpg" data-image-dimensions="1825x2500" data-image-focal-point="0.5,0.5" alt="Table of size and program restriction" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/82145e456651a327b4c3.jpg" width="1825" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/d689cbd1f8c97c958353.jpg 100w, _cdn/images.squarespace-cdn.com/a569e7e350b913734301.jpg 300w, _cdn/images.squarespace-cdn.com/19d93ec55e427795aec5.jpg 500w, _cdn/images.squarespace-cdn.com/dbbafc0110a76df7dc5f.jpg 750w, _cdn/images.squarespace-cdn.com/7c5d4f53e6bdccea67ef.jpg 1000w, _cdn/images.squarespace-cdn.com/2db056e39ec0691f23bb.jpg 1500w, _cdn/images.squarespace-cdn.com/cfbe8c56fa048bee47ad.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/cfbe8c56fa048bee47ad.jpg" data-image="_cdn/images.squarespace-cdn.com/cfbe8c56fa048bee47ad.jpg" data-image-dimensions="1825x2500" data-image-focal-point="0.5,0.5" alt="Table of size and program restriction" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/82145e456651a327b4c3.jpg" width="1825" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/d689cbd1f8c97c958353.jpg 100w, _cdn/images.squarespace-cdn.com/a569e7e350b913734301.jpg 300w, _cdn/images.squarespace-cdn.com/19d93ec55e427795aec5.jpg 500w, _cdn/images.squarespace-cdn.com/dbbafc0110a76df7dc5f.jpg 750w, _cdn/images.squarespace-cdn.com/7c5d4f53e6bdccea67ef.jpg 1000w, _cdn/images.squarespace-cdn.com/2db056e39ec0691f23bb.jpg 1500w, _cdn/images.squarespace-cdn.com/cfbe8c56fa048bee47ad.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1475,7 +1755,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/fd20516ae9e6fcc475c0.jpeg" data-image="_cdn/images.squarespace-cdn.com/fd20516ae9e6fcc475c0.jpeg" data-image-dimensions="1513x2017" data-image-focal-point="0.5,0.5" alt="Annotation infrastructure for the refugees, a poster" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/fd20516ae9e6fcc475c0.jpeg" width="1513" height="2017" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/0ef6765136ad1bc5e33e.jpeg 100w, _cdn/images.squarespace-cdn.com/f6a7a8495f3f42fb5182.jpeg 300w, _cdn/images.squarespace-cdn.com/d8af58f1d62bffd0fd05.jpeg 500w, _cdn/images.squarespace-cdn.com/66fca893f6b1f279e201.jpeg 750w, _cdn/images.squarespace-cdn.com/5d006ee884bc6335d03b.jpeg 1000w, _cdn/images.squarespace-cdn.com/9cba0a4a5003ac419ddc.jpeg 1500w, _cdn/images.squarespace-cdn.com/4a808aab17286b7acb31.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/4a808aab17286b7acb31.jpeg" data-image="_cdn/images.squarespace-cdn.com/4a808aab17286b7acb31.jpeg" data-image-dimensions="1513x2017" data-image-focal-point="0.5,0.5" alt="Annotation infrastructure for the refugees, a poster" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/fd20516ae9e6fcc475c0.jpeg" width="1513" height="2017" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/0ef6765136ad1bc5e33e.jpeg 100w, _cdn/images.squarespace-cdn.com/f6a7a8495f3f42fb5182.jpeg 300w, _cdn/images.squarespace-cdn.com/d8af58f1d62bffd0fd05.jpeg 500w, _cdn/images.squarespace-cdn.com/66fca893f6b1f279e201.jpeg 750w, _cdn/images.squarespace-cdn.com/5d006ee884bc6335d03b.jpeg 1000w, _cdn/images.squarespace-cdn.com/9cba0a4a5003ac419ddc.jpeg 1500w, _cdn/images.squarespace-cdn.com/4a808aab17286b7acb31.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1725,7 +2005,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/c747a179f7d66fe0054c.jpeg" data-image="_cdn/images.squarespace-cdn.com/c747a179f7d66fe0054c.jpeg" data-image-dimensions="2500x2500" data-image-focal-point="0.5,0.5" alt="A phyical annotation--The Border" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/c747a179f7d66fe0054c.jpeg" width="2500" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/f2c8ce7e411425c6431c.jpeg 100w, _cdn/images.squarespace-cdn.com/6395fa2e9a4e63aa643c.jpeg 300w, _cdn/images.squarespace-cdn.com/fd56bbeb6f41ddb59803.jpeg 500w, _cdn/images.squarespace-cdn.com/e025dc6c49dc665ee8b2.jpeg 750w, _cdn/images.squarespace-cdn.com/052e76c42b7d6c6b541a.jpeg 1000w, _cdn/images.squarespace-cdn.com/16d15398ab85192d0401.jpeg 1500w, _cdn/images.squarespace-cdn.com/d13684435428f16f5e92.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/d13684435428f16f5e92.jpeg" data-image="_cdn/images.squarespace-cdn.com/d13684435428f16f5e92.jpeg" data-image-dimensions="2500x2500" data-image-focal-point="0.5,0.5" alt="A phyical annotation--The Border" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/c747a179f7d66fe0054c.jpeg" width="2500" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/f2c8ce7e411425c6431c.jpeg 100w, _cdn/images.squarespace-cdn.com/6395fa2e9a4e63aa643c.jpeg 300w, _cdn/images.squarespace-cdn.com/fd56bbeb6f41ddb59803.jpeg 500w, _cdn/images.squarespace-cdn.com/e025dc6c49dc665ee8b2.jpeg 750w, _cdn/images.squarespace-cdn.com/052e76c42b7d6c6b541a.jpeg 1000w, _cdn/images.squarespace-cdn.com/16d15398ab85192d0401.jpeg 1500w, _cdn/images.squarespace-cdn.com/d13684435428f16f5e92.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1869,7 +2149,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/1f487c4a9d809ef466a8.jpg" data-image="_cdn/images.squarespace-cdn.com/1f487c4a9d809ef466a8.jpg" data-image-dimensions="2500x1685" data-image-focal-point="0.5,0.5" alt="Embassy, an Architecture as the new Border" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/1f487c4a9d809ef466a8.jpg" width="2500" height="1685" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/ec95e00c2d8489109697.jpg 100w, _cdn/images.squarespace-cdn.com/5b91581b6d6f7771d89a.jpg 300w, _cdn/images.squarespace-cdn.com/fd1856b9d4c7eff7c106.jpg 500w, _cdn/images.squarespace-cdn.com/069583b4431d18818a0b.jpg 750w, _cdn/images.squarespace-cdn.com/7a44b208de9e4c2cd5f6.jpg 1000w, _cdn/images.squarespace-cdn.com/b937ef9f8b55e488cda5.jpg 1500w, _cdn/images.squarespace-cdn.com/9af2c20d3ab30700a816.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/9af2c20d3ab30700a816.jpg" data-image="_cdn/images.squarespace-cdn.com/9af2c20d3ab30700a816.jpg" data-image-dimensions="2500x1685" data-image-focal-point="0.5,0.5" alt="Embassy, an Architecture as the new Border" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/1f487c4a9d809ef466a8.jpg" width="2500" height="1685" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/ec95e00c2d8489109697.jpg 100w, _cdn/images.squarespace-cdn.com/5b91581b6d6f7771d89a.jpg 300w, _cdn/images.squarespace-cdn.com/fd1856b9d4c7eff7c106.jpg 500w, _cdn/images.squarespace-cdn.com/069583b4431d18818a0b.jpg 750w, _cdn/images.squarespace-cdn.com/7a44b208de9e4c2cd5f6.jpg 1000w, _cdn/images.squarespace-cdn.com/b937ef9f8b55e488cda5.jpg 1500w, _cdn/images.squarespace-cdn.com/9af2c20d3ab30700a816.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -2014,7 +2294,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/1f8a2ece65c9ad2f6f64.jpg" data-image="_cdn/images.squarespace-cdn.com/1f8a2ece65c9ad2f6f64.jpg" data-image-dimensions="1704x2500" data-image-focal-point="0.5,0.5" alt="Street View, No One Noticed." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/1f8a2ece65c9ad2f6f64.jpg" width="1704" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/4e80d239446df1763011.jpg 100w, _cdn/images.squarespace-cdn.com/a8f1bbda0f5722387f15.jpg 300w, _cdn/images.squarespace-cdn.com/c22c5227613158a935c4.jpg 500w, _cdn/images.squarespace-cdn.com/33ffe06d9bb63f1f3a12.jpg 750w, _cdn/images.squarespace-cdn.com/a5e69bb3ca1bd8008e3d.jpg 1000w, _cdn/images.squarespace-cdn.com/bb358567523606212c0a.jpg 1500w, _cdn/images.squarespace-cdn.com/e3ec6717ac063356447d.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/e3ec6717ac063356447d.jpg" data-image="_cdn/images.squarespace-cdn.com/e3ec6717ac063356447d.jpg" data-image-dimensions="1704x2500" data-image-focal-point="0.5,0.5" alt="Street View, No One Noticed." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/1f8a2ece65c9ad2f6f64.jpg" width="1704" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/4e80d239446df1763011.jpg 100w, _cdn/images.squarespace-cdn.com/a8f1bbda0f5722387f15.jpg 300w, _cdn/images.squarespace-cdn.com/c22c5227613158a935c4.jpg 500w, _cdn/images.squarespace-cdn.com/33ffe06d9bb63f1f3a12.jpg 750w, _cdn/images.squarespace-cdn.com/a5e69bb3ca1bd8008e3d.jpg 1000w, _cdn/images.squarespace-cdn.com/bb358567523606212c0a.jpg 1500w, _cdn/images.squarespace-cdn.com/e3ec6717ac063356447d.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -2265,7 +2545,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/3a44182575399a4c459c.jpg" data-image="_cdn/images.squarespace-cdn.com/3a44182575399a4c459c.jpg" data-image-dimensions="2500x1770" data-image-focal-point="0.5,0.5" alt="New Monument Blends into the Urban Fabric" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/3a44182575399a4c459c.jpg" width="2500" height="1770" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/53b54d5d410d2e677f93.jpg 100w, _cdn/images.squarespace-cdn.com/5520a45fb14314aa7635.jpg 300w, _cdn/images.squarespace-cdn.com/cf314e3f06f3f5595156.jpg 500w, _cdn/images.squarespace-cdn.com/ebb10ff9bdc0e90237d8.jpg 750w, _cdn/images.squarespace-cdn.com/0af3cf64fdcf4bba4495.jpg 1000w, _cdn/images.squarespace-cdn.com/2a2bc045b865f5a8d884.jpg 1500w, _cdn/images.squarespace-cdn.com/b42ce1a69f5a216c611e.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/b42ce1a69f5a216c611e.jpg" data-image="_cdn/images.squarespace-cdn.com/b42ce1a69f5a216c611e.jpg" data-image-dimensions="2500x1770" data-image-focal-point="0.5,0.5" alt="New Monument Blends into the Urban Fabric" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/3a44182575399a4c459c.jpg" width="2500" height="1770" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/53b54d5d410d2e677f93.jpg 100w, _cdn/images.squarespace-cdn.com/5520a45fb14314aa7635.jpg 300w, _cdn/images.squarespace-cdn.com/cf314e3f06f3f5595156.jpg 500w, _cdn/images.squarespace-cdn.com/ebb10ff9bdc0e90237d8.jpg 750w, _cdn/images.squarespace-cdn.com/0af3cf64fdcf4bba4495.jpg 1000w, _cdn/images.squarespace-cdn.com/2a2bc045b865f5a8d884.jpg 1500w, _cdn/images.squarespace-cdn.com/b42ce1a69f5a216c611e.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -2396,7 +2676,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/4a4542270b31a6e3a17c.jpg" data-image="_cdn/images.squarespace-cdn.com/4a4542270b31a6e3a17c.jpg" data-image-dimensions="2500x2500" data-image-focal-point="0.5,0.5" alt="Street Elevation, New Meets Old." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/4a4542270b31a6e3a17c.jpg" width="2500" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/75df2738a52a2f6b080d.jpg 100w, _cdn/images.squarespace-cdn.com/c220d7ab98ce0628320c.jpg 300w, _cdn/images.squarespace-cdn.com/2ee558164418a6d4f1de.jpg 500w, _cdn/images.squarespace-cdn.com/844d0767bb21ae27efad.jpg 750w, _cdn/images.squarespace-cdn.com/abcc539c235036ffe615.jpg 1000w, _cdn/images.squarespace-cdn.com/f6712abaaf4b138c4001.jpg 1500w, _cdn/images.squarespace-cdn.com/eccdc5ebc5e60251cd8c.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/eccdc5ebc5e60251cd8c.jpg" data-image="_cdn/images.squarespace-cdn.com/eccdc5ebc5e60251cd8c.jpg" data-image-dimensions="2500x2500" data-image-focal-point="0.5,0.5" alt="Street Elevation, New Meets Old." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/4a4542270b31a6e3a17c.jpg" width="2500" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/75df2738a52a2f6b080d.jpg 100w, _cdn/images.squarespace-cdn.com/c220d7ab98ce0628320c.jpg 300w, _cdn/images.squarespace-cdn.com/2ee558164418a6d4f1de.jpg 500w, _cdn/images.squarespace-cdn.com/844d0767bb21ae27efad.jpg 750w, _cdn/images.squarespace-cdn.com/abcc539c235036ffe615.jpg 1000w, _cdn/images.squarespace-cdn.com/f6712abaaf4b138c4001.jpg 1500w, _cdn/images.squarespace-cdn.com/eccdc5ebc5e60251cd8c.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -2527,7 +2807,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/09414f8942f33a4dce39.jpeg" data-image="_cdn/images.squarespace-cdn.com/09414f8942f33a4dce39.jpeg" data-image-dimensions="2500x2190" data-image-focal-point="0.5,0.5" alt="Underground reading space" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/09414f8942f33a4dce39.jpeg" width="2500" height="2190" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/bd8eaef7574e7bd44292.jpeg 100w, _cdn/images.squarespace-cdn.com/b631b7db89ad947a28b7.jpeg 300w, _cdn/images.squarespace-cdn.com/10a94fe985a261376a55.jpeg 500w, _cdn/images.squarespace-cdn.com/37ab27e838a140a73e53.jpeg 750w, _cdn/images.squarespace-cdn.com/1c9b6b1c7411e3343849.jpeg 1000w, _cdn/images.squarespace-cdn.com/cc0eb728078e17624761.jpeg 1500w, _cdn/images.squarespace-cdn.com/24b9165161665ff28456.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/24b9165161665ff28456.jpeg" data-image="_cdn/images.squarespace-cdn.com/24b9165161665ff28456.jpeg" data-image-dimensions="2500x2190" data-image-focal-point="0.5,0.5" alt="Underground reading space" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/09414f8942f33a4dce39.jpeg" width="2500" height="2190" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/bd8eaef7574e7bd44292.jpeg 100w, _cdn/images.squarespace-cdn.com/b631b7db89ad947a28b7.jpeg 300w, _cdn/images.squarespace-cdn.com/10a94fe985a261376a55.jpeg 500w, _cdn/images.squarespace-cdn.com/37ab27e838a140a73e53.jpeg 750w, _cdn/images.squarespace-cdn.com/1c9b6b1c7411e3343849.jpeg 1000w, _cdn/images.squarespace-cdn.com/cc0eb728078e17624761.jpeg 1500w, _cdn/images.squarespace-cdn.com/24b9165161665ff28456.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -2962,7 +3242,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/8cbaf06beade568b2985.jpg" data-image="_cdn/images.squarespace-cdn.com/8cbaf06beade568b2985.jpg" data-image-dimensions="2500x1686" data-image-focal-point="0.5,0.5" alt="“Reading Space Plaza.”" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/8cbaf06beade568b2985.jpg" width="2500" height="1686" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/f67d2f62287e1fe7e66f.jpg 100w, _cdn/images.squarespace-cdn.com/18560fcc1ceee3835db1.jpg 300w, _cdn/images.squarespace-cdn.com/ce98c349f6f5f58262b3.jpg 500w, _cdn/images.squarespace-cdn.com/b9d6fa1d24720a769fea.jpg 750w, _cdn/images.squarespace-cdn.com/8ac9a2243dc78c5d4af6.jpg 1000w, _cdn/images.squarespace-cdn.com/3cf406bc94c64b42e786.jpg 1500w, _cdn/images.squarespace-cdn.com/82ae758d3610846b9fed.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/82ae758d3610846b9fed.jpg" data-image="_cdn/images.squarespace-cdn.com/82ae758d3610846b9fed.jpg" data-image-dimensions="2500x1686" data-image-focal-point="0.5,0.5" alt="“Reading Space Plaza.”" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/8cbaf06beade568b2985.jpg" width="2500" height="1686" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/f67d2f62287e1fe7e66f.jpg 100w, _cdn/images.squarespace-cdn.com/18560fcc1ceee3835db1.jpg 300w, _cdn/images.squarespace-cdn.com/ce98c349f6f5f58262b3.jpg 500w, _cdn/images.squarespace-cdn.com/b9d6fa1d24720a769fea.jpg 750w, _cdn/images.squarespace-cdn.com/8ac9a2243dc78c5d4af6.jpg 1000w, _cdn/images.squarespace-cdn.com/3cf406bc94c64b42e786.jpg 1500w, _cdn/images.squarespace-cdn.com/82ae758d3610846b9fed.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -3120,7 +3400,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/617f1a228ce7315f8532.jpeg" data-image="_cdn/images.squarespace-cdn.com/617f1a228ce7315f8532.jpeg" data-image-dimensions="2164x1406" data-image-focal-point="0.5,0.5" alt="Exterior of the Interior." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/617f1a228ce7315f8532.jpeg" width="2164" height="1406" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/f27bc9c12307e7b1245a.jpeg 100w, _cdn/images.squarespace-cdn.com/8c8de12eb4353a5c848d.jpeg 300w, _cdn/images.squarespace-cdn.com/af03ba0ac5a099556a06.jpeg 500w, _cdn/images.squarespace-cdn.com/bc3613db8b480e43c8d8.jpeg 750w, _cdn/images.squarespace-cdn.com/95f7acb188d930061dcf.jpeg 1000w, _cdn/images.squarespace-cdn.com/a53eae1f33ea7f4e2b0b.jpeg 1500w, _cdn/images.squarespace-cdn.com/2100b64660ec2abc4cdc.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/2100b64660ec2abc4cdc.jpeg" data-image="_cdn/images.squarespace-cdn.com/2100b64660ec2abc4cdc.jpeg" data-image-dimensions="2164x1406" data-image-focal-point="0.5,0.5" alt="Exterior of the Interior." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/617f1a228ce7315f8532.jpeg" width="2164" height="1406" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/f27bc9c12307e7b1245a.jpeg 100w, _cdn/images.squarespace-cdn.com/8c8de12eb4353a5c848d.jpeg 300w, _cdn/images.squarespace-cdn.com/af03ba0ac5a099556a06.jpeg 500w, _cdn/images.squarespace-cdn.com/bc3613db8b480e43c8d8.jpeg 750w, _cdn/images.squarespace-cdn.com/95f7acb188d930061dcf.jpeg 1000w, _cdn/images.squarespace-cdn.com/a53eae1f33ea7f4e2b0b.jpeg 1500w, _cdn/images.squarespace-cdn.com/2100b64660ec2abc4cdc.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -3598,7 +3878,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/914df200952c3d71e53d.jpeg" data-image="_cdn/images.squarespace-cdn.com/914df200952c3d71e53d.jpeg" data-image-dimensions="1932x2500" data-image-focal-point="0.5,0.5" alt="Study Model, Library and Reading Plaza." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/914df200952c3d71e53d.jpeg" width="1932" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/38d4dcabd6502aa6d289.jpeg 100w, _cdn/images.squarespace-cdn.com/d0d6b53ca3330d123b53.jpeg 300w, _cdn/images.squarespace-cdn.com/9ffffe319e65c9f8f04b.jpeg 500w, _cdn/images.squarespace-cdn.com/782a6b0c4feb0bc89569.jpeg 750w, _cdn/images.squarespace-cdn.com/e3e0355316c979d528cf.jpeg 1000w, _cdn/images.squarespace-cdn.com/dc455b7b45bff8b041e5.jpeg 1500w, _cdn/images.squarespace-cdn.com/e080cb5189df7ac7d5d0.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/e080cb5189df7ac7d5d0.jpeg" data-image="_cdn/images.squarespace-cdn.com/e080cb5189df7ac7d5d0.jpeg" data-image-dimensions="1932x2500" data-image-focal-point="0.5,0.5" alt="Study Model, Library and Reading Plaza." data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/914df200952c3d71e53d.jpeg" width="1932" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/38d4dcabd6502aa6d289.jpeg 100w, _cdn/images.squarespace-cdn.com/d0d6b53ca3330d123b53.jpeg 300w, _cdn/images.squarespace-cdn.com/9ffffe319e65c9f8f04b.jpeg 500w, _cdn/images.squarespace-cdn.com/782a6b0c4feb0bc89569.jpeg 750w, _cdn/images.squarespace-cdn.com/e3e0355316c979d528cf.jpeg 1000w, _cdn/images.squarespace-cdn.com/dc455b7b45bff8b041e5.jpeg 1500w, _cdn/images.squarespace-cdn.com/e080cb5189df7ac7d5d0.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -3729,7 +4009,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/5ddd2e3472d07f748d23.jpeg" data-image="_cdn/images.squarespace-cdn.com/5ddd2e3472d07f748d23.jpeg" data-image-dimensions="788x1757" data-image-focal-point="0.5,0.5" alt="The border on the monument" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/5ddd2e3472d07f748d23.jpeg" width="788" height="1757" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/d219c39e8caa73d57841.jpeg 100w, _cdn/images.squarespace-cdn.com/64ec0fbbfc46877b467d.jpeg 300w, _cdn/images.squarespace-cdn.com/fc66821b11c9c2c917c7.jpeg 500w, _cdn/images.squarespace-cdn.com/ce939f521a95a44b6bdc.jpeg 750w, _cdn/images.squarespace-cdn.com/b8046ea3a53073272580.jpeg 1000w, _cdn/images.squarespace-cdn.com/a0a4bc5c76b709f3b0c9.jpeg 1500w, _cdn/images.squarespace-cdn.com/4e251077d19ad2d62632.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/4e251077d19ad2d62632.jpeg" data-image="_cdn/images.squarespace-cdn.com/4e251077d19ad2d62632.jpeg" data-image-dimensions="788x1757" data-image-focal-point="0.5,0.5" alt="The border on the monument" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/5ddd2e3472d07f748d23.jpeg" width="788" height="1757" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/d219c39e8caa73d57841.jpeg 100w, _cdn/images.squarespace-cdn.com/64ec0fbbfc46877b467d.jpeg 300w, _cdn/images.squarespace-cdn.com/fc66821b11c9c2c917c7.jpeg 500w, _cdn/images.squarespace-cdn.com/ce939f521a95a44b6bdc.jpeg 750w, _cdn/images.squarespace-cdn.com/b8046ea3a53073272580.jpeg 1000w, _cdn/images.squarespace-cdn.com/a0a4bc5c76b709f3b0c9.jpeg 1500w, _cdn/images.squarespace-cdn.com/4e251077d19ad2d62632.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -3860,7 +4140,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/11da3c7812c5a5da8ea1.jpg" data-image="_cdn/images.squarespace-cdn.com/11da3c7812c5a5da8ea1.jpg" data-image-dimensions="2500x1503" data-image-focal-point="0.5,0.5" alt="View from Above, where is the new Library?" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/11da3c7812c5a5da8ea1.jpg" width="2500" height="1503" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/ad79c350816a72fcbe8d.jpg 100w, _cdn/images.squarespace-cdn.com/4e2b325a58fd8e9f277b.jpg 300w, _cdn/images.squarespace-cdn.com/5f7a028f8ccb8e6e978f.jpg 500w, _cdn/images.squarespace-cdn.com/48ed721daadf15711769.jpg 750w, _cdn/images.squarespace-cdn.com/44fd8896b5044a53104e.jpg 1000w, _cdn/images.squarespace-cdn.com/d2969f380800b4c158b5.jpg 1500w, _cdn/images.squarespace-cdn.com/060b74b77e306b033cea.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/060b74b77e306b033cea.jpg" data-image="_cdn/images.squarespace-cdn.com/060b74b77e306b033cea.jpg" data-image-dimensions="2500x1503" data-image-focal-point="0.5,0.5" alt="View from Above, where is the new Library?" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/11da3c7812c5a5da8ea1.jpg" width="2500" height="1503" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/ad79c350816a72fcbe8d.jpg 100w, _cdn/images.squarespace-cdn.com/4e2b325a58fd8e9f277b.jpg 300w, _cdn/images.squarespace-cdn.com/5f7a028f8ccb8e6e978f.jpg 500w, _cdn/images.squarespace-cdn.com/48ed721daadf15711769.jpg 750w, _cdn/images.squarespace-cdn.com/44fd8896b5044a53104e.jpg 1000w, _cdn/images.squarespace-cdn.com/d2969f380800b4c158b5.jpg 1500w, _cdn/images.squarespace-cdn.com/060b74b77e306b033cea.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -3991,7 +4271,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/41ab5ad95cd4eaa5f23e.jpeg" data-image="_cdn/images.squarespace-cdn.com/41ab5ad95cd4eaa5f23e.jpeg" data-image-dimensions="2500x1958" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/41ab5ad95cd4eaa5f23e.jpeg" width="2500" height="1958" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/a1351812fefd87abec3c.jpeg 100w, _cdn/images.squarespace-cdn.com/3cd78a38ca5742ca0830.jpeg 300w, _cdn/images.squarespace-cdn.com/d417734478fab743934d.jpeg 500w, _cdn/images.squarespace-cdn.com/472b25107117c01e69bb.jpeg 750w, _cdn/images.squarespace-cdn.com/22bd1e46b1785726f814.jpeg 1000w, _cdn/images.squarespace-cdn.com/8f33db7d9092da74eaf0.jpeg 1500w, _cdn/images.squarespace-cdn.com/e64824a955981103e7a4.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/e64824a955981103e7a4.jpeg" data-image="_cdn/images.squarespace-cdn.com/e64824a955981103e7a4.jpeg" data-image-dimensions="2500x1958" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/41ab5ad95cd4eaa5f23e.jpeg" width="2500" height="1958" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/a1351812fefd87abec3c.jpeg 100w, _cdn/images.squarespace-cdn.com/3cd78a38ca5742ca0830.jpeg 300w, _cdn/images.squarespace-cdn.com/d417734478fab743934d.jpeg 500w, _cdn/images.squarespace-cdn.com/472b25107117c01e69bb.jpeg 750w, _cdn/images.squarespace-cdn.com/22bd1e46b1785726f814.jpeg 1000w, _cdn/images.squarespace-cdn.com/8f33db7d9092da74eaf0.jpeg 1500w, _cdn/images.squarespace-cdn.com/e64824a955981103e7a4.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -4144,7 +4424,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/dfa3c35a759ea3936459.jpeg" data-image="_cdn/images.squarespace-cdn.com/dfa3c35a759ea3936459.jpeg" data-image-dimensions="1932x2500" data-image-focal-point="0.5,0.5" alt="Detailed Axo of the Library" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/dfa3c35a759ea3936459.jpeg" width="1932" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/501fb28a3d63fc83fdf3.jpeg 100w, _cdn/images.squarespace-cdn.com/c3fdb6cee875d4c20c38.jpeg 300w, _cdn/images.squarespace-cdn.com/699dd23fa87bebc24d6b.jpeg 500w, _cdn/images.squarespace-cdn.com/2b78f928ddfc735bae18.jpeg 750w, _cdn/images.squarespace-cdn.com/92c9208331698359f3fd.jpeg 1000w, _cdn/images.squarespace-cdn.com/130d55e20ddac5f668f0.jpeg 1500w, _cdn/images.squarespace-cdn.com/d0824bd1e5ba11d96653.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/d0824bd1e5ba11d96653.jpeg" data-image="_cdn/images.squarespace-cdn.com/d0824bd1e5ba11d96653.jpeg" data-image-dimensions="1932x2500" data-image-focal-point="0.5,0.5" alt="Detailed Axo of the Library" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/dfa3c35a759ea3936459.jpeg" width="1932" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/501fb28a3d63fc83fdf3.jpeg 100w, _cdn/images.squarespace-cdn.com/c3fdb6cee875d4c20c38.jpeg 300w, _cdn/images.squarespace-cdn.com/699dd23fa87bebc24d6b.jpeg 500w, _cdn/images.squarespace-cdn.com/2b78f928ddfc735bae18.jpeg 750w, _cdn/images.squarespace-cdn.com/92c9208331698359f3fd.jpeg 1000w, _cdn/images.squarespace-cdn.com/130d55e20ddac5f668f0.jpeg 1500w, _cdn/images.squarespace-cdn.com/d0824bd1e5ba11d96653.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>

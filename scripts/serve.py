@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import http.server
+import io
 import os
 import socket
 import sys
@@ -42,6 +43,8 @@ def is_stub_api_path(path: str) -> bool:
 
 def make_request_handler(quiet_api_logs: bool):
     class SnapshotRequestHandler(http.server.SimpleHTTPRequestHandler):
+        # HTTP/1.1 enables Range requests so MP4 seek/scrub works in the video player.
+        protocol_version = "HTTP/1.1"
         def _read_request_body(self) -> None:
             length = int(self.headers.get("Content-Length", 0))
             if length > 0:
@@ -81,6 +84,66 @@ def make_request_handler(quiet_api_logs: bool):
                 self._send_stub_api()
                 return
             self.send_error(501, "Unsupported method ('PUT')")
+
+        def do_GET(self) -> None:
+            if is_stub_api_path(self.path):
+                self.send_error(404)
+                return
+            super().do_GET()
+
+        def send_head(self):
+            path = self.translate_path(self.path)
+            if not os.path.isfile(path):
+                return super().send_head()
+
+            ctype = self.guess_type(path)
+            if not (ctype.startswith("video/") or ctype.startswith("audio/")):
+                return super().send_head()
+
+            range_header = self.headers.get("Range")
+            if not range_header:
+                return super().send_head()
+
+            try:
+                file_size = os.path.getsize(path)
+                start, end = self._parse_byte_range(range_header, file_size)
+            except ValueError:
+                self.send_error(416)
+                return None
+
+            length = end - start + 1
+            with open(path, "rb") as handle:
+                handle.seek(start)
+                data = handle.read(length)
+
+            self.send_response(206)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Accept-Ranges", "bytes")
+            self.send_header("Content-Range", "bytes {}-{}/{}".format(start, end, file_size))
+            self.send_header("Content-Length", str(len(data)))
+            self.send_header("Last-Modified", self.date_time_string(os.path.getmtime(path)))
+            self.end_headers()
+            return io.BytesIO(data)
+
+        @staticmethod
+        def _parse_byte_range(header: str, file_size: int) -> tuple[int, int]:
+            if not header.startswith("bytes="):
+                raise ValueError("unsupported range")
+            spec = header.split("=", 1)[1].strip()
+            if "," in spec:
+                raise ValueError("multipart range unsupported")
+            start_text, end_text = spec.split("-", 1)
+            if start_text == "":
+                suffix = int(end_text)
+                start = max(file_size - suffix, 0)
+                end = file_size - 1
+            else:
+                start = int(start_text)
+                end = int(end_text) if end_text else file_size - 1
+            if start > end or start >= file_size:
+                raise ValueError("invalid range")
+            end = min(end, file_size - 1)
+            return start, end
 
         def log_message(self, format: str, *args) -> None:
             if quiet_api_logs and args:

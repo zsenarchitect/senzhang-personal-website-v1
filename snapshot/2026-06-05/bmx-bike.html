@@ -9,7 +9,7 @@
 
 
 <!-- This is Squarespace. --><!-- sen-zhang -->
-<base href="">
+<base href="/">
 <meta charset="utf-8" />
 <title>BMX Bike &mdash; Sen Zhang</title>
 <meta http-equiv="Accept-CH" content="Sec-CH-UA-Platform-Version, Sec-CH-UA-Model" /><link rel="icon" type="image/x-icon" href="_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico"/>
@@ -48,6 +48,287 @@
 <script type="module">Squarespace.afterBodyLoad(Y);</script>
 <script type="application/ld+json">{"url":"https://senzhang.me","name":"Sen Zhang","description":"","image":"_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif","@context":"http://schema.org","@type":"WebSite"}</script><link rel="stylesheet" type="text/css" href="_cdn/static1.squarespace.com/3f6928579d7ce4659e88.css"/><script>Static.COOKIE_BANNER_CAPABLE = true;</script>
 <!-- End of Squarespace Headers -->
+
+
+
+
+
+<style id="offline-lightbox-fix">
+/* Offline archive: hide Squarespace lightbox layers; we use the fallback viewer instead. */
+.yui3-lightbox2,
+.yui3-lightboxoverlay,
+.sqs-lightbox-overlay,
+.sqs-lightbox-slideshow,
+.sqs-lightbox-close {
+  display: none !important;
+}
+.offline-fs-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000001;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.offline-fs-lightbox img {
+  max-width: min(100%, 1600px);
+  max-height: calc(100vh - 48px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+}
+.offline-fs-lightbox-close {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 36px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 10000002;
+}
+html.offline-fs-lightbox-open,
+html.offline-fs-lightbox-open body {
+  overflow: hidden;
+}
+</style>
+
+<script id="offline-lightbox-fix">
+(function () {
+  function normalizeImageUrl(src) {
+    if (!src) {
+      return "";
+    }
+    if (
+      src.indexOf("http://") === 0 ||
+      src.indexOf("https://") === 0 ||
+      src.indexOf("data:") === 0
+    ) {
+      return src;
+    }
+    if (src.charAt(0) === "/") {
+      return src;
+    }
+    return "/" + src.replace(/^\.\//, "");
+  }
+
+  function bestImageUrl(img) {
+    if (!img) {
+      return "";
+    }
+    var srcset = img.getAttribute("srcset");
+    if (srcset) {
+      var best = "";
+      var bestW = -1;
+      srcset.split(",").forEach(function (part) {
+        part = part.trim();
+        var bits = part.split(/\\s+/);
+        if (bits.length < 2) {
+          return;
+        }
+        var url = bits[0];
+        var descriptor = bits[bits.length - 1];
+        if (descriptor.slice(-1) !== "w") {
+          return;
+        }
+        var width = parseInt(descriptor.slice(0, -1), 10);
+        if (width > bestW) {
+          bestW = width;
+          best = url;
+        }
+      });
+      if (best) {
+        return best;
+      }
+    }
+    return (
+      img.getAttribute("data-image") ||
+      img.getAttribute("data-src") ||
+      img.currentSrc ||
+      img.src ||
+      ""
+    );
+  }
+
+  function isProjectNavLink(anchor) {
+    if (!anchor) {
+      return false;
+    }
+    var href = anchor.getAttribute("href") || "";
+    return /\.html$/i.test(href) && href.indexOf("#") !== 0;
+  }
+
+  function closeSquarespaceLightbox() {
+    var close = document.querySelector(".sqs-lightbox-close");
+    if (close) {
+      close.click();
+    }
+  }
+
+  function closeFallbackLightbox() {
+    var el = document.getElementById("offline-fs-lightbox");
+    if (el) {
+      el.parentNode.removeChild(el);
+    }
+    document.documentElement.classList.remove("offline-fs-lightbox-open");
+    document.removeEventListener("keydown", onEscape, true);
+  }
+
+  function onEscape(event) {
+    if (event.key === "Escape") {
+      closeFallbackLightbox();
+      closeSquarespaceLightbox();
+    }
+  }
+
+  function openFallbackLightbox(src, alt) {
+    src = normalizeImageUrl(src);
+    if (!src || src.indexOf("data:") === 0) {
+      return;
+    }
+    closeFallbackLightbox();
+    closeSquarespaceLightbox();
+    document.documentElement.classList.add("offline-fs-lightbox-open");
+    var overlay = document.createElement("div");
+    overlay.id = "offline-fs-lightbox";
+    overlay.className = "offline-fs-lightbox";
+    overlay.innerHTML =
+      '<button type="button" class="offline-fs-lightbox-close" aria-label="Close">&times;</button>' +
+      '<img src="" alt="">';
+    var img = overlay.querySelector("img");
+    img.src = src;
+    img.alt = alt || "";
+    overlay.addEventListener("click", function (event) {
+      if (
+        event.target === overlay ||
+        event.target.classList.contains("offline-fs-lightbox-close")
+      ) {
+        closeFallbackLightbox();
+      }
+    });
+    document.body.appendChild(overlay);
+    document.addEventListener("keydown", onEscape, true);
+  }
+
+  function findLightboxImage(target) {
+    if (!target || !target.closest) {
+      return null;
+    }
+    var btn = target.closest("[data-sqsp-image-classic-block-lightbox-button]");
+    if (btn) {
+      return btn.querySelector("img");
+    }
+    var slide = target.closest(
+      ".sqs-gallery-block-slideshow .slide, .sqs-block-gallery .slide"
+    );
+    if (slide) {
+      return slide.querySelector("img");
+    }
+    var img = target.closest("img");
+    if (!img) {
+      return null;
+    }
+    if (!img.closest(".sqs-block-image, .sqs-block-gallery")) {
+      return null;
+    }
+    if (img.closest("[data-sqsp-image-classic-block-lightbox-button]")) {
+      return img;
+    }
+    if (img.hasAttribute("data-sqsp-image-classic-block-image")) {
+      return img;
+    }
+    return null;
+  }
+
+  function lightboxImageVisible() {
+    var lbImg = document.querySelector(".sqs-lightbox-slideshow img");
+    if (!lbImg || lbImg.naturalWidth < 1) {
+      return false;
+    }
+    var rect = lbImg.getBoundingClientRect();
+    if (rect.width < 120 || rect.height < 120) {
+      return false;
+    }
+    if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+      return false;
+    }
+    if (rect.right <= 0 || rect.left >= window.innerWidth) {
+      return false;
+    }
+    var slide = lbImg.closest(".sqs-lightbox-slide");
+    if (slide) {
+      var slideOpacity = parseFloat(
+        window.getComputedStyle(slide).opacity || "0"
+      );
+      if (slideOpacity < 0.5) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function suppressSquarespaceLightbox() {
+    closeSquarespaceLightbox();
+    var overlays = document.querySelectorAll(".sqs-lightbox-overlay");
+    overlays.forEach(function (overlay) {
+      overlay.style.display = "none";
+      overlay.style.opacity = "0";
+    });
+  }
+
+  document.addEventListener(
+    "click",
+    function (event) {
+      var img = findLightboxImage(event.target);
+      if (!img) {
+        return;
+      }
+      var nav = img.closest("a[href]");
+      if (nav && isProjectNavLink(nav)) {
+        return;
+      }
+      var src = bestImageUrl(img);
+      if (!src) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.stopImmediatePropagation) {
+        event.stopImmediatePropagation();
+      }
+
+      openFallbackLightbox(src, img.getAttribute("alt") || "");
+    },
+    true
+  );
+
+  setInterval(function () {
+    if (document.getElementById("offline-fs-lightbox")) {
+      suppressSquarespaceLightbox();
+      return;
+    }
+    var overlay = document.querySelector(".sqs-lightbox-overlay");
+    if (!overlay) {
+      return;
+    }
+    var opacity = parseFloat(window.getComputedStyle(overlay).opacity || "0");
+    if (opacity < 0.5) {
+      return;
+    }
+    if (!lightboxImageVisible()) {
+      suppressSquarespaceLightbox();
+    }
+  }, 500);
+})();
+</script>
 </head>
 <body class="sidebar-text-alignment-left sidebar-position-left sidebar-fixed mobile-site-title-style-auto blog-sidebar-right gallery-style-fit enable-gallery-thumbnails initial-gallery-view-slideshow homepage-gallery-view-inherit thumbnail-aspect-ratio-auto gallery-controls-simple social-icon-style-normal   show-category-navigation   event-show-past-events event-thumbnails event-thumbnail-size-32-standard event-date-label  event-list-show-cats event-list-date event-list-time event-list-address   event-icalgcal-links  event-excerpts  event-item-back-link    product-list-titles-under product-list-alignment-center product-item-size-23-standard-vertical product-image-auto-crop product-gallery-size-11-square product-gallery-auto-crop show-product-price show-product-item-nav product-social-sharing tweak-v1-related-products-image-aspect-ratio-11-square tweak-v1-related-products-details-alignment-center newsletter-style-dark hide-opentable-icons opentable-style-dark small-button-style-solid small-button-shape-square medium-button-style-solid medium-button-shape-square large-button-style-solid large-button-shape-square image-block-poster-text-alignment-center image-block-card-dynamic-font-sizing image-block-card-content-position-center image-block-card-text-alignment-left image-block-overlap-dynamic-font-sizing image-block-overlap-content-position-center image-block-overlap-text-alignment-left image-block-collage-dynamic-font-sizing image-block-collage-content-position-top image-block-collage-text-alignment-left image-block-stack-dynamic-font-sizing image-block-stack-text-alignment-left button-style-solid button-corner-style-square tweak-product-quick-view-button-style-floating tweak-product-quick-view-button-position-bottom tweak-product-quick-view-lightbox-excerpt-display-truncate tweak-product-quick-view-lightbox-show-arrows tweak-product-quick-view-lightbox-show-close-button tweak-product-quick-view-lightbox-controls-weight-light native-currency-code-usd collection-5960e1efb3db2b7eda2bb0ab collection-type-page collection-layout-default mobile-style-available" id="collection-5960e1efb3db2b7eda2bb0ab">
 
@@ -870,7 +1151,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/c7a39c603840fb28a14b.png" data-image="_cdn/images.squarespace-cdn.com/c7a39c603840fb28a14b.png" data-image-dimensions="1920x1080" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/c7a39c603840fb28a14b.png" width="1920" height="1080" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/4fdf614a976ee4412270.png 100w, _cdn/images.squarespace-cdn.com/0f3c6b3d31e6ec430d6b.png 300w, _cdn/images.squarespace-cdn.com/e80dc0029ab022e6430d.png 500w, _cdn/images.squarespace-cdn.com/6ce7fc34ce7cc735bb25.png 750w, _cdn/images.squarespace-cdn.com/675fe6e74386f7c113cc.png 1000w, _cdn/images.squarespace-cdn.com/f55fc13696c421136f06.png 1500w, _cdn/images.squarespace-cdn.com/e495eb127bab3e121953.png 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/e495eb127bab3e121953.png" data-image="_cdn/images.squarespace-cdn.com/e495eb127bab3e121953.png" data-image-dimensions="1920x1080" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/c7a39c603840fb28a14b.png" width="1920" height="1080" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/4fdf614a976ee4412270.png 100w, _cdn/images.squarespace-cdn.com/0f3c6b3d31e6ec430d6b.png 300w, _cdn/images.squarespace-cdn.com/e80dc0029ab022e6430d.png 500w, _cdn/images.squarespace-cdn.com/6ce7fc34ce7cc735bb25.png 750w, _cdn/images.squarespace-cdn.com/675fe6e74386f7c113cc.png 1000w, _cdn/images.squarespace-cdn.com/f55fc13696c421136f06.png 1500w, _cdn/images.squarespace-cdn.com/e495eb127bab3e121953.png 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1207,7 +1488,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/cde9439ce51607e8977f.png" data-image="_cdn/images.squarespace-cdn.com/cde9439ce51607e8977f.png" data-image-dimensions="1920x1080" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/cde9439ce51607e8977f.png" width="1920" height="1080" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/ab8e273a9e23c88dcfbc.png 100w, _cdn/images.squarespace-cdn.com/c81bd6075aa50e2faa6b.png 300w, _cdn/images.squarespace-cdn.com/f003eb24f5c6db0ba0e4.png 500w, _cdn/images.squarespace-cdn.com/a32f02c9cb71ec6c0144.png 750w, _cdn/images.squarespace-cdn.com/4967e76fee25dcd7ac68.png 1000w, _cdn/images.squarespace-cdn.com/25f7eda5e5f23e1da3a5.png 1500w, _cdn/images.squarespace-cdn.com/4f752d21e083a395ba31.png 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/4f752d21e083a395ba31.png" data-image="_cdn/images.squarespace-cdn.com/4f752d21e083a395ba31.png" data-image-dimensions="1920x1080" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/cde9439ce51607e8977f.png" width="1920" height="1080" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/ab8e273a9e23c88dcfbc.png 100w, _cdn/images.squarespace-cdn.com/c81bd6075aa50e2faa6b.png 300w, _cdn/images.squarespace-cdn.com/f003eb24f5c6db0ba0e4.png 500w, _cdn/images.squarespace-cdn.com/a32f02c9cb71ec6c0144.png 750w, _cdn/images.squarespace-cdn.com/4967e76fee25dcd7ac68.png 1000w, _cdn/images.squarespace-cdn.com/25f7eda5e5f23e1da3a5.png 1500w, _cdn/images.squarespace-cdn.com/4f752d21e083a395ba31.png 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1333,7 +1614,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/ea3f0aaeabde9dfc6764.png" data-image="_cdn/images.squarespace-cdn.com/ea3f0aaeabde9dfc6764.png" data-image-dimensions="1920x1080" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/ea3f0aaeabde9dfc6764.png" width="1920" height="1080" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/dc6db8241be6515f934d.png 100w, _cdn/images.squarespace-cdn.com/02eefce8b10542daee19.png 300w, _cdn/images.squarespace-cdn.com/6dad2de4430688c27cb3.png 500w, _cdn/images.squarespace-cdn.com/2883cbba05cec75e83e2.png 750w, _cdn/images.squarespace-cdn.com/7923b2d89afaaa0d8fa6.png 1000w, _cdn/images.squarespace-cdn.com/5f57c4af00eea55e1679.png 1500w, _cdn/images.squarespace-cdn.com/fc671726fc1e7afbbc87.png 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/fc671726fc1e7afbbc87.png" data-image="_cdn/images.squarespace-cdn.com/fc671726fc1e7afbbc87.png" data-image-dimensions="1920x1080" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/ea3f0aaeabde9dfc6764.png" width="1920" height="1080" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/dc6db8241be6515f934d.png 100w, _cdn/images.squarespace-cdn.com/02eefce8b10542daee19.png 300w, _cdn/images.squarespace-cdn.com/6dad2de4430688c27cb3.png 500w, _cdn/images.squarespace-cdn.com/2883cbba05cec75e83e2.png 750w, _cdn/images.squarespace-cdn.com/7923b2d89afaaa0d8fa6.png 1000w, _cdn/images.squarespace-cdn.com/5f57c4af00eea55e1679.png 1500w, _cdn/images.squarespace-cdn.com/fc671726fc1e7afbbc87.png 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1459,7 +1740,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/9466086d84a6f94cb956.gif" data-image="_cdn/images.squarespace-cdn.com/9466086d84a6f94cb956.gif" data-image-dimensions="768x432" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/9466086d84a6f94cb956.gif" width="768" height="432" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/086f6e3304e1d31b98f4.gif 100w, _cdn/images.squarespace-cdn.com/e778f67d0491ebd4174e.gif 300w, _cdn/images.squarespace-cdn.com/48dba207c822947ec50d.gif 500w, _cdn/images.squarespace-cdn.com/b74f981b1e2f4a92d2a5.gif 750w, _cdn/images.squarespace-cdn.com/d5fe203c274511a3421a.gif 1000w, _cdn/images.squarespace-cdn.com/5c0ae9416ade4e70c8c9.gif 1500w, _cdn/images.squarespace-cdn.com/b33a424fd0d2232f468c.gif 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/b33a424fd0d2232f468c.gif" data-image="_cdn/images.squarespace-cdn.com/b33a424fd0d2232f468c.gif" data-image-dimensions="768x432" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/9466086d84a6f94cb956.gif" width="768" height="432" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/086f6e3304e1d31b98f4.gif 100w, _cdn/images.squarespace-cdn.com/e778f67d0491ebd4174e.gif 300w, _cdn/images.squarespace-cdn.com/48dba207c822947ec50d.gif 500w, _cdn/images.squarespace-cdn.com/b74f981b1e2f4a92d2a5.gif 750w, _cdn/images.squarespace-cdn.com/d5fe203c274511a3421a.gif 1000w, _cdn/images.squarespace-cdn.com/5c0ae9416ade4e70c8c9.gif 1500w, _cdn/images.squarespace-cdn.com/b33a424fd0d2232f468c.gif 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>

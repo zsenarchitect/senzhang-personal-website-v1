@@ -9,7 +9,7 @@
 
 
 <!-- This is Squarespace. --><!-- sen-zhang -->
-<base href="">
+<base href="/">
 <meta charset="utf-8" />
 <title>University Island &mdash; Sen Zhang</title>
 <meta http-equiv="Accept-CH" content="Sec-CH-UA-Platform-Version, Sec-CH-UA-Model" /><link rel="icon" type="image/x-icon" href="_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico"/>
@@ -48,6 +48,286 @@
 <script type="module">Squarespace.afterBodyLoad(Y);</script>
 <script type="application/ld+json">{"url":"https://senzhang.me","name":"Sen Zhang","description":"","image":"_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif","@context":"http://schema.org","@type":"WebSite"}</script><link rel="stylesheet" type="text/css" href="_cdn/static1.squarespace.com/3f6928579d7ce4659e88.css"/><script>Static.COOKIE_BANNER_CAPABLE = true;</script>
 <!-- End of Squarespace Headers -->
+
+
+
+
+<style id="offline-lightbox-fix">
+/* Offline archive: hide Squarespace lightbox layers; we use the fallback viewer instead. */
+.yui3-lightbox2,
+.yui3-lightboxoverlay,
+.sqs-lightbox-overlay,
+.sqs-lightbox-slideshow,
+.sqs-lightbox-close {
+  display: none !important;
+}
+.offline-fs-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000001;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.offline-fs-lightbox img {
+  max-width: min(100%, 1600px);
+  max-height: calc(100vh - 48px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+}
+.offline-fs-lightbox-close {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 36px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 10000002;
+}
+html.offline-fs-lightbox-open,
+html.offline-fs-lightbox-open body {
+  overflow: hidden;
+}
+</style>
+
+<script id="offline-lightbox-fix">
+(function () {
+  function normalizeImageUrl(src) {
+    if (!src) {
+      return "";
+    }
+    if (
+      src.indexOf("http://") === 0 ||
+      src.indexOf("https://") === 0 ||
+      src.indexOf("data:") === 0
+    ) {
+      return src;
+    }
+    if (src.charAt(0) === "/") {
+      return src;
+    }
+    return "/" + src.replace(/^\.\//, "");
+  }
+
+  function bestImageUrl(img) {
+    if (!img) {
+      return "";
+    }
+    var srcset = img.getAttribute("srcset");
+    if (srcset) {
+      var best = "";
+      var bestW = -1;
+      srcset.split(",").forEach(function (part) {
+        part = part.trim();
+        var bits = part.split(/\\s+/);
+        if (bits.length < 2) {
+          return;
+        }
+        var url = bits[0];
+        var descriptor = bits[bits.length - 1];
+        if (descriptor.slice(-1) !== "w") {
+          return;
+        }
+        var width = parseInt(descriptor.slice(0, -1), 10);
+        if (width > bestW) {
+          bestW = width;
+          best = url;
+        }
+      });
+      if (best) {
+        return best;
+      }
+    }
+    return (
+      img.getAttribute("data-image") ||
+      img.getAttribute("data-src") ||
+      img.currentSrc ||
+      img.src ||
+      ""
+    );
+  }
+
+  function isProjectNavLink(anchor) {
+    if (!anchor) {
+      return false;
+    }
+    var href = anchor.getAttribute("href") || "";
+    return /\.html$/i.test(href) && href.indexOf("#") !== 0;
+  }
+
+  function closeSquarespaceLightbox() {
+    var close = document.querySelector(".sqs-lightbox-close");
+    if (close) {
+      close.click();
+    }
+  }
+
+  function closeFallbackLightbox() {
+    var el = document.getElementById("offline-fs-lightbox");
+    if (el) {
+      el.parentNode.removeChild(el);
+    }
+    document.documentElement.classList.remove("offline-fs-lightbox-open");
+    document.removeEventListener("keydown", onEscape, true);
+  }
+
+  function onEscape(event) {
+    if (event.key === "Escape") {
+      closeFallbackLightbox();
+      closeSquarespaceLightbox();
+    }
+  }
+
+  function openFallbackLightbox(src, alt) {
+    src = normalizeImageUrl(src);
+    if (!src || src.indexOf("data:") === 0) {
+      return;
+    }
+    closeFallbackLightbox();
+    closeSquarespaceLightbox();
+    document.documentElement.classList.add("offline-fs-lightbox-open");
+    var overlay = document.createElement("div");
+    overlay.id = "offline-fs-lightbox";
+    overlay.className = "offline-fs-lightbox";
+    overlay.innerHTML =
+      '<button type="button" class="offline-fs-lightbox-close" aria-label="Close">&times;</button>' +
+      '<img src="" alt="">';
+    var img = overlay.querySelector("img");
+    img.src = src;
+    img.alt = alt || "";
+    overlay.addEventListener("click", function (event) {
+      if (
+        event.target === overlay ||
+        event.target.classList.contains("offline-fs-lightbox-close")
+      ) {
+        closeFallbackLightbox();
+      }
+    });
+    document.body.appendChild(overlay);
+    document.addEventListener("keydown", onEscape, true);
+  }
+
+  function findLightboxImage(target) {
+    if (!target || !target.closest) {
+      return null;
+    }
+    var btn = target.closest("[data-sqsp-image-classic-block-lightbox-button]");
+    if (btn) {
+      return btn.querySelector("img");
+    }
+    var slide = target.closest(
+      ".sqs-gallery-block-slideshow .slide, .sqs-block-gallery .slide"
+    );
+    if (slide) {
+      return slide.querySelector("img");
+    }
+    var img = target.closest("img");
+    if (!img) {
+      return null;
+    }
+    if (!img.closest(".sqs-block-image, .sqs-block-gallery")) {
+      return null;
+    }
+    if (img.closest("[data-sqsp-image-classic-block-lightbox-button]")) {
+      return img;
+    }
+    if (img.hasAttribute("data-sqsp-image-classic-block-image")) {
+      return img;
+    }
+    return null;
+  }
+
+  function lightboxImageVisible() {
+    var lbImg = document.querySelector(".sqs-lightbox-slideshow img");
+    if (!lbImg || lbImg.naturalWidth < 1) {
+      return false;
+    }
+    var rect = lbImg.getBoundingClientRect();
+    if (rect.width < 120 || rect.height < 120) {
+      return false;
+    }
+    if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+      return false;
+    }
+    if (rect.right <= 0 || rect.left >= window.innerWidth) {
+      return false;
+    }
+    var slide = lbImg.closest(".sqs-lightbox-slide");
+    if (slide) {
+      var slideOpacity = parseFloat(
+        window.getComputedStyle(slide).opacity || "0"
+      );
+      if (slideOpacity < 0.5) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function suppressSquarespaceLightbox() {
+    closeSquarespaceLightbox();
+    var overlays = document.querySelectorAll(".sqs-lightbox-overlay");
+    overlays.forEach(function (overlay) {
+      overlay.style.display = "none";
+      overlay.style.opacity = "0";
+    });
+  }
+
+  document.addEventListener(
+    "click",
+    function (event) {
+      var img = findLightboxImage(event.target);
+      if (!img) {
+        return;
+      }
+      var nav = img.closest("a[href]");
+      if (nav && isProjectNavLink(nav)) {
+        return;
+      }
+      var src = bestImageUrl(img);
+      if (!src) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.stopImmediatePropagation) {
+        event.stopImmediatePropagation();
+      }
+
+      openFallbackLightbox(src, img.getAttribute("alt") || "");
+    },
+    true
+  );
+
+  setInterval(function () {
+    if (document.getElementById("offline-fs-lightbox")) {
+      suppressSquarespaceLightbox();
+      return;
+    }
+    var overlay = document.querySelector(".sqs-lightbox-overlay");
+    if (!overlay) {
+      return;
+    }
+    var opacity = parseFloat(window.getComputedStyle(overlay).opacity || "0");
+    if (opacity < 0.5) {
+      return;
+    }
+    if (!lightboxImageVisible()) {
+      suppressSquarespaceLightbox();
+    }
+  }, 500);
+})();
+</script>
 </head>
 <body class="sidebar-text-alignment-left sidebar-position-left sidebar-fixed mobile-site-title-style-auto blog-sidebar-right gallery-style-fit enable-gallery-thumbnails initial-gallery-view-slideshow homepage-gallery-view-inherit thumbnail-aspect-ratio-auto gallery-controls-simple social-icon-style-normal   show-category-navigation   event-show-past-events event-thumbnails event-thumbnail-size-32-standard event-date-label  event-list-show-cats event-list-date event-list-time event-list-address   event-icalgcal-links  event-excerpts  event-item-back-link    product-list-titles-under product-list-alignment-center product-item-size-23-standard-vertical product-image-auto-crop product-gallery-size-11-square product-gallery-auto-crop show-product-price show-product-item-nav product-social-sharing tweak-v1-related-products-image-aspect-ratio-11-square tweak-v1-related-products-details-alignment-center newsletter-style-dark hide-opentable-icons opentable-style-dark small-button-style-solid small-button-shape-square medium-button-style-solid medium-button-shape-square large-button-style-solid large-button-shape-square image-block-poster-text-alignment-center image-block-card-dynamic-font-sizing image-block-card-content-position-center image-block-card-text-alignment-left image-block-overlap-dynamic-font-sizing image-block-overlap-content-position-center image-block-overlap-text-alignment-left image-block-collage-dynamic-font-sizing image-block-collage-content-position-top image-block-collage-text-alignment-left image-block-stack-dynamic-font-sizing image-block-stack-text-alignment-left button-style-solid button-corner-style-square tweak-product-quick-view-button-style-floating tweak-product-quick-view-button-position-bottom tweak-product-quick-view-lightbox-excerpt-display-truncate tweak-product-quick-view-lightbox-show-arrows tweak-product-quick-view-lightbox-show-close-button tweak-product-quick-view-lightbox-controls-weight-light native-currency-code-usd collection-5941fdf6e3df28fddaf46b16 collection-type-page collection-layout-default mobile-style-available" id="collection-5941fdf6e3df28fddaf46b16">
 
@@ -870,7 +1150,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/cea1ff24e1a7ac100ec1.png" data-image="_cdn/images.squarespace-cdn.com/cea1ff24e1a7ac100ec1.png" data-image-dimensions="2500x2500" data-image-focal-point="0.5,0.5" alt="Aerial Axo" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/cea1ff24e1a7ac100ec1.png" width="2500" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/4c7fa8df3a69e91dee13.png 100w, _cdn/images.squarespace-cdn.com/f1993d31d2f326f67c76.png 300w, _cdn/images.squarespace-cdn.com/63f320cbc255817a5698.png 500w, _cdn/images.squarespace-cdn.com/0462e92ab6bcf205d92a.png 750w, _cdn/images.squarespace-cdn.com/13b1afc12c756abd99eb.png 1000w, _cdn/images.squarespace-cdn.com/77f40afff5a9a70a6a7d.png 1500w, _cdn/images.squarespace-cdn.com/e64f503ad2bdce4531d9.png 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/e64f503ad2bdce4531d9.png" data-image="_cdn/images.squarespace-cdn.com/e64f503ad2bdce4531d9.png" data-image-dimensions="2500x2500" data-image-focal-point="0.5,0.5" alt="Aerial Axo" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/cea1ff24e1a7ac100ec1.png" width="2500" height="2500" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/4c7fa8df3a69e91dee13.png 100w, _cdn/images.squarespace-cdn.com/f1993d31d2f326f67c76.png 300w, _cdn/images.squarespace-cdn.com/63f320cbc255817a5698.png 500w, _cdn/images.squarespace-cdn.com/0462e92ab6bcf205d92a.png 750w, _cdn/images.squarespace-cdn.com/13b1afc12c756abd99eb.png 1000w, _cdn/images.squarespace-cdn.com/77f40afff5a9a70a6a7d.png 1500w, _cdn/images.squarespace-cdn.com/e64f503ad2bdce4531d9.png 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1028,7 +1308,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/c47a34fc7f6d3fe38642.jpeg" data-image="_cdn/images.squarespace-cdn.com/c47a34fc7f6d3fe38642.jpeg" data-image-dimensions="590x835" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/c47a34fc7f6d3fe38642.jpeg" width="590" height="835" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/533f8d6138a035c92c0f.jpeg 100w, _cdn/images.squarespace-cdn.com/45dafbb1beeb371dbd1f.jpeg 300w, _cdn/images.squarespace-cdn.com/47d465994d97d86920c9.jpeg 500w, _cdn/images.squarespace-cdn.com/52738d51683bfc00b359.jpeg 750w, _cdn/images.squarespace-cdn.com/0fcdff78e7f72079ce83.jpeg 1000w, _cdn/images.squarespace-cdn.com/a459bfe75cec77c413a5.jpeg 1500w, _cdn/images.squarespace-cdn.com/887bb5536798fce902c6.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/887bb5536798fce902c6.jpeg" data-image="_cdn/images.squarespace-cdn.com/887bb5536798fce902c6.jpeg" data-image-dimensions="590x835" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/c47a34fc7f6d3fe38642.jpeg" width="590" height="835" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 50vw, 50vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/533f8d6138a035c92c0f.jpeg 100w, _cdn/images.squarespace-cdn.com/45dafbb1beeb371dbd1f.jpeg 300w, _cdn/images.squarespace-cdn.com/47d465994d97d86920c9.jpeg 500w, _cdn/images.squarespace-cdn.com/52738d51683bfc00b359.jpeg 750w, _cdn/images.squarespace-cdn.com/0fcdff78e7f72079ce83.jpeg 1000w, _cdn/images.squarespace-cdn.com/a459bfe75cec77c413a5.jpeg 1500w, _cdn/images.squarespace-cdn.com/887bb5536798fce902c6.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1281,7 +1561,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/0a002d07c3d0124f8230.jpg" data-image="_cdn/images.squarespace-cdn.com/0a002d07c3d0124f8230.jpg" data-image-dimensions="2500x780" data-image-focal-point="0.5,0.5" alt="A mobile island as school calander" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/0a002d07c3d0124f8230.jpg" width="2500" height="780" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/c211e4aa3979837c96f8.jpg 100w, _cdn/images.squarespace-cdn.com/8a996b3ae2a32641c438.jpg 300w, _cdn/images.squarespace-cdn.com/34a7c049c5ab52ad5ef2.jpg 500w, _cdn/images.squarespace-cdn.com/d356ed1fe7724033afeb.jpg 750w, _cdn/images.squarespace-cdn.com/d9b6ff5355d0f96475a3.jpg 1000w, _cdn/images.squarespace-cdn.com/77e3254a88f1ce02f897.jpg 1500w, _cdn/images.squarespace-cdn.com/41016175f78ab16fe4c7.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/41016175f78ab16fe4c7.jpg" data-image="_cdn/images.squarespace-cdn.com/41016175f78ab16fe4c7.jpg" data-image-dimensions="2500x780" data-image-focal-point="0.5,0.5" alt="A mobile island as school calander" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/0a002d07c3d0124f8230.jpg" width="2500" height="780" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/c211e4aa3979837c96f8.jpg 100w, _cdn/images.squarespace-cdn.com/8a996b3ae2a32641c438.jpg 300w, _cdn/images.squarespace-cdn.com/34a7c049c5ab52ad5ef2.jpg 500w, _cdn/images.squarespace-cdn.com/d356ed1fe7724033afeb.jpg 750w, _cdn/images.squarespace-cdn.com/d9b6ff5355d0f96475a3.jpg 1000w, _cdn/images.squarespace-cdn.com/77e3254a88f1ce02f897.jpg 1500w, _cdn/images.squarespace-cdn.com/41016175f78ab16fe4c7.jpg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1413,7 +1693,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/02118fee6ea78da94471.jpeg" data-image="_cdn/images.squarespace-cdn.com/02118fee6ea78da94471.jpeg" data-image-dimensions="2500x2938" data-image-focal-point="0.5,0.5" alt="Plan" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/02118fee6ea78da94471.jpeg" width="2500" height="2938" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/6b67995e6f776cf5ae3d.jpeg 100w, _cdn/images.squarespace-cdn.com/e89c530c939b0cb9b92b.jpeg 300w, _cdn/images.squarespace-cdn.com/71ba857094e1774a7587.jpeg 500w, _cdn/images.squarespace-cdn.com/28d200e55536d34ec878.jpeg 750w, _cdn/images.squarespace-cdn.com/6b28991cc5da736d55b0.jpeg 1000w, _cdn/images.squarespace-cdn.com/8e090898c9dacd0e64de.jpeg 1500w, _cdn/images.squarespace-cdn.com/15ceaf8a0004db64e497.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/15ceaf8a0004db64e497.jpeg" data-image="_cdn/images.squarespace-cdn.com/15ceaf8a0004db64e497.jpeg" data-image-dimensions="2500x2938" data-image-focal-point="0.5,0.5" alt="Plan" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/02118fee6ea78da94471.jpeg" width="2500" height="2938" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/6b67995e6f776cf5ae3d.jpeg 100w, _cdn/images.squarespace-cdn.com/e89c530c939b0cb9b92b.jpeg 300w, _cdn/images.squarespace-cdn.com/71ba857094e1774a7587.jpeg 500w, _cdn/images.squarespace-cdn.com/28d200e55536d34ec878.jpeg 750w, _cdn/images.squarespace-cdn.com/6b28991cc5da736d55b0.jpeg 1000w, _cdn/images.squarespace-cdn.com/8e090898c9dacd0e64de.jpeg 1500w, _cdn/images.squarespace-cdn.com/15ceaf8a0004db64e497.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1544,7 +1824,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/980ac40f5d9c755d4264.jpeg" data-image="_cdn/images.squarespace-cdn.com/980ac40f5d9c755d4264.jpeg" data-image-dimensions="2500x3906" data-image-focal-point="0.5,0.5" alt="Exploded Axo" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/980ac40f5d9c755d4264.jpeg" width="2500" height="3906" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/b688b7663e86275166b1.jpeg 100w, _cdn/images.squarespace-cdn.com/d6e80fb611348c4695d2.jpeg 300w, _cdn/images.squarespace-cdn.com/d753b1e11ae7b9c1125f.jpeg 500w, _cdn/images.squarespace-cdn.com/2ac2639bb5ac30c69a02.jpeg 750w, _cdn/images.squarespace-cdn.com/f0388ad46c91e5d0c32b.jpeg 1000w, _cdn/images.squarespace-cdn.com/d07e157b927ba65f6daa.jpeg 1500w, _cdn/images.squarespace-cdn.com/8971356b2252734e3de2.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/8971356b2252734e3de2.jpeg" data-image="_cdn/images.squarespace-cdn.com/8971356b2252734e3de2.jpeg" data-image-dimensions="2500x3906" data-image-focal-point="0.5,0.5" alt="Exploded Axo" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/980ac40f5d9c755d4264.jpeg" width="2500" height="3906" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/b688b7663e86275166b1.jpeg 100w, _cdn/images.squarespace-cdn.com/d6e80fb611348c4695d2.jpeg 300w, _cdn/images.squarespace-cdn.com/d753b1e11ae7b9c1125f.jpeg 500w, _cdn/images.squarespace-cdn.com/2ac2639bb5ac30c69a02.jpeg 750w, _cdn/images.squarespace-cdn.com/f0388ad46c91e5d0c32b.jpeg 1000w, _cdn/images.squarespace-cdn.com/d07e157b927ba65f6daa.jpeg 1500w, _cdn/images.squarespace-cdn.com/8971356b2252734e3de2.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
@@ -1675,7 +1955,7 @@
                 
                 
                 
-                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/3c7a24a968b7efde6d7a.jpeg" data-image="_cdn/images.squarespace-cdn.com/3c7a24a968b7efde6d7a.jpeg" data-image-dimensions="2500x3235" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/3c7a24a968b7efde6d7a.jpeg" width="2500" height="3235" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/1f62ba0ac3f79e1cbe88.jpeg 100w, _cdn/images.squarespace-cdn.com/8c7b0b63854e0d7a979b.jpeg 300w, _cdn/images.squarespace-cdn.com/aed5525ed64460cf8e53.jpeg 500w, _cdn/images.squarespace-cdn.com/96979c1adb5216d27dae.jpeg 750w, _cdn/images.squarespace-cdn.com/97cafeb2ba8df7c6cda5.jpeg 1000w, _cdn/images.squarespace-cdn.com/06d9053fecf667cb75c3.jpeg 1500w, _cdn/images.squarespace-cdn.com/289bb212cf1ace5cb27c.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
+                <img data-stretch="false" data-src="_cdn/images.squarespace-cdn.com/289bb212cf1ace5cb27c.jpeg" data-image="_cdn/images.squarespace-cdn.com/289bb212cf1ace5cb27c.jpeg" data-image-dimensions="2500x3235" data-image-focal-point="0.5,0.5" alt="" data-load="false" elementtiming="system-image-block" data-sqsp-image-classic-block-image src="_cdn/images.squarespace-cdn.com/3c7a24a968b7efde6d7a.jpeg" width="2500" height="3235" alt="" sizes="(max-width: 640px) 100vw, (max-width: 767px) 100vw, 100vw" style="display:block;object-fit: cover; width: 100%; height: 100%; object-position: 50% 50%" onload="this.classList.add(&quot;loaded&quot;)" srcset="_cdn/images.squarespace-cdn.com/1f62ba0ac3f79e1cbe88.jpeg 100w, _cdn/images.squarespace-cdn.com/8c7b0b63854e0d7a979b.jpeg 300w, _cdn/images.squarespace-cdn.com/aed5525ed64460cf8e53.jpeg 500w, _cdn/images.squarespace-cdn.com/96979c1adb5216d27dae.jpeg 750w, _cdn/images.squarespace-cdn.com/97cafeb2ba8df7c6cda5.jpeg 1000w, _cdn/images.squarespace-cdn.com/06d9053fecf667cb75c3.jpeg 1500w, _cdn/images.squarespace-cdn.com/289bb212cf1ace5cb27c.jpeg 2500w" loading="lazy" decoding="async" data-loader="sqs">
 
             </div>
           </div>
