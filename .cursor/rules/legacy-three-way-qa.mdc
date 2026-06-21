@@ -1,0 +1,30 @@
+---
+description: Three-way QA for senzhang legacy archive (Live vs Vercel vs Local)
+alwaysApply: true
+---
+
+# senzhang legacy archive — three-way QA
+
+Repo: `Personal/senzhang-legacy-website-archive`. Full doc: `docs/qa-workflow.md`.
+
+## Three URLs (same page, three tabs)
+
+| Layer | URL | Role |
+|-------|-----|------|
+| Live | https://senzhang.me | Squarespace original |
+| Deployed | https://legacy-personal-website.vercel.app | Archive truth on web (last `-Prod` deploy) |
+| Local | http://127.0.0.1:8765/ | Verify fixes — refresh only, no Vercel cost |
+
+Print URLs: `.\scripts\qa-urls.ps1 -Page <stem>` (e.g. `museum-of-verbs`).
+
+## Agent workflow on gap reports
+
+1. Fix under `snapshot/2026-06-05/` (HTML or `scripts/fix-*.py`). **No server restart** — user hard-refreshes Local (`Ctrl+Shift+R`).
+2. Start/repair local server: `.\scripts\serve.ps1 -NoOpen` (auto-kills stale `serve.py` on 8765).
+3. **`git push` = backup only.** Never run `deploy-vercel.ps1 -Prod` unless user explicitly asks to publish (~1.7 GB upload).
+4. User compares Live vs Vercel for remaining deployed gaps; Local proves fix before sign-off deploy.
+
+## Local server pitfalls
+
+- Multiple stale `serve.py` on 8765 → `ERR_EMPTY_RESPONSE`. Fix: `serve.ps1` (cleans port) or kill all `serve.py` PIDs.
+- Live paths have no `.html`; Local/Vercel use `page-name.html`.

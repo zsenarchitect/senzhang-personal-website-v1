@@ -60,6 +60,32 @@
 }
 </style>
 
+
+<style id="offline-menu-mobile-layout">
+@media (max-width: 800px) {
+  #page-593e0796c534a5c8d10121cb .sqs-layout [class*="sqs-col"] {
+    width: 100% !important;
+    float: none !important;
+  }
+}
+@media (max-width: 767px) {
+  #page-593e0796c534a5c8d10121cb .sqs-image-shape-container-element.has-aspect-ratio {
+    padding-bottom: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  #page-593e0796c534a5c8d10121cb .sqs-image-shape-container-element img {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+  .offline-embed-video-shell video.offline-embed-video {
+    object-fit: contain !important;
+  }
+}
+</style>
+
 </head>
 <body class="sidebar-text-alignment-left sidebar-position-left sidebar-fixed mobile-site-title-style-auto blog-sidebar-right gallery-style-fit enable-gallery-thumbnails initial-gallery-view-slideshow homepage-gallery-view-inherit thumbnail-aspect-ratio-auto gallery-controls-simple social-icon-style-normal   show-category-navigation   event-show-past-events event-thumbnails event-thumbnail-size-32-standard event-date-label  event-list-show-cats event-list-date event-list-time event-list-address   event-icalgcal-links  event-excerpts  event-item-back-link    product-list-titles-under product-list-alignment-center product-item-size-23-standard-vertical product-image-auto-crop product-gallery-size-11-square product-gallery-auto-crop show-product-price show-product-item-nav product-social-sharing tweak-v1-related-products-image-aspect-ratio-11-square tweak-v1-related-products-details-alignment-center newsletter-style-dark hide-opentable-icons opentable-style-dark small-button-style-solid small-button-shape-square medium-button-style-solid medium-button-shape-square large-button-style-solid large-button-shape-square image-block-poster-text-alignment-center image-block-card-dynamic-font-sizing image-block-card-content-position-center image-block-card-text-alignment-left image-block-overlap-dynamic-font-sizing image-block-overlap-content-position-center image-block-overlap-text-alignment-left image-block-collage-dynamic-font-sizing image-block-collage-content-position-top image-block-collage-text-alignment-left image-block-stack-dynamic-font-sizing image-block-stack-text-alignment-left button-style-solid button-corner-style-square tweak-product-quick-view-button-style-floating tweak-product-quick-view-button-position-bottom tweak-product-quick-view-lightbox-excerpt-display-truncate tweak-product-quick-view-lightbox-show-arrows tweak-product-quick-view-lightbox-show-close-button tweak-product-quick-view-lightbox-controls-weight-light native-currency-code-usd collection-type-page collection-layout-default collection-593e0796c534a5c8d10121cb mobile-style-available" id="collection-593e0796c534a5c8d10121cb">
 
@@ -5354,7 +5380,7 @@
       class="embed-block-wrapper"
       style="padding-bottom:75%;"
     >
-      <div class="sqs-video-wrapper" data-offline-static="1" data-offline-video="_media/fAl5EJuQpUM.mp4"></div><div class="offline-embed-video-shell"><video class="offline-embed-video" controls playsinline src="_media/fAl5EJuQpUM.mp4"></video></div>
+      <div class="sqs-video-wrapper" data-offline-static="1" data-offline-video="_media/fAl5EJuQpUM.mp4"></div><div class="offline-embed-video-shell"><video class="offline-embed-video" autoplay muted loop playsinline src="_media/fAl5EJuQpUM.mp4"></video></div>
     </div>
     
   </div>
@@ -5774,7 +5800,7 @@
       class="embed-block-wrapper"
       style="padding-bottom:56.20608899297424%;"
     >
-      <div class="sqs-video-wrapper" data-offline-static="1" data-offline-video="_media/mYPQl6m7kMY.mp4"></div><div class="offline-embed-video-shell"><video class="offline-embed-video" controls playsinline src="_media/mYPQl6m7kMY.mp4"></video></div>
+      <div class="sqs-video-wrapper" data-offline-static="1" data-offline-video="_media/mYPQl6m7kMY.mp4"></div><div class="offline-embed-video-shell"><video class="offline-embed-video" autoplay muted loop playsinline src="_media/mYPQl6m7kMY.mp4"></video></div>
     </div>
     
   </div>
@@ -6448,6 +6474,20 @@
   </div>
 
 <script type="text/javascript" defer src="_cdn/static1.squarespace.com/a18db5a5935d29c30e46"></script>
+
+
+<script id="offline-menu-video-autoplay">
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.offline-embed-video-shell video.offline-embed-video').forEach(function(v){
+    v.muted=true;
+    v.loop=true;
+    v.setAttribute('playsinline','');
+    v.setAttribute('webkit-playsinline','');
+    var p=v.play();
+    if(p&&p.catch){p.catch(function(){});}
+  });
+});
+</script>
 
 </body>
 </html>

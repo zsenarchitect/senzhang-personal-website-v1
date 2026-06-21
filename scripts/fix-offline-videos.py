@@ -12,6 +12,7 @@ from pathlib import Path
 
 # Cover pages use fix-cover-video.py (background loop).
 SKIP_COVER_PAGES = frozenset({"index.html", "cover-page.html"})
+MENU_PAGES = frozenset({"menu.html"})
 
 YOUTUBE_ID_RE = re.compile(
     r"(?:youtube\.com/embed/|youtu\.be/)([A-Za-z0-9_-]{11})",
@@ -36,6 +37,64 @@ OFFLINE_EMBED_STYLE = """
 }
 </style>
 """
+
+MENU_AUTOPLAY_SCRIPT = """
+<script id="offline-menu-video-autoplay">
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.offline-embed-video-shell video.offline-embed-video').forEach(function(v){
+    v.muted=true;
+    v.loop=true;
+    v.setAttribute('playsinline','');
+    v.setAttribute('webkit-playsinline','');
+    var p=v.play();
+    if(p&&p.catch){p.catch(function(){});}
+  });
+});
+</script>
+"""
+
+OFFLINE_EMBED_VIDEO_CONTROLS_RE = re.compile(
+    r'<video class="offline-embed-video" controls playsinline src="([^"]+)"></video>',
+    re.IGNORECASE,
+)
+
+MENU_MOBILE_LAYOUT_STYLE = """
+<style id="offline-menu-mobile-layout">
+@media (max-width: 800px) {
+  #page-593e0796c534a5c8d10121cb .sqs-layout [class*="sqs-col"] {
+    width: 100% !important;
+    float: none !important;
+  }
+}
+@media (max-width: 767px) {
+  #page-593e0796c534a5c8d10121cb .sqs-image-shape-container-element.has-aspect-ratio {
+    padding-bottom: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  #page-593e0796c534a5c8d10121cb .sqs-image-shape-container-element img {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+  .offline-embed-video-shell video.offline-embed-video {
+    object-fit: contain !important;
+  }
+}
+</style>
+"""
+
+OLD_MENU_MOBILE_STYLE_RE = re.compile(
+    r'<style id="offline-menu-mobile-contain">.*?</style>\s*',
+    re.DOTALL | re.IGNORECASE,
+)
+
+OFFLINE_EMBED_VIDEO_COVER_RE = re.compile(
+    r"(\.embed-block-wrapper \.offline-embed-video-shell video\.offline-embed-video "
+    r"\{[^}]*object-fit:\s*)cover",
+    re.IGNORECASE,
+)
 
 
 def repo_root() -> Path:
@@ -96,20 +155,64 @@ def video_src_rel(video_id: str, start: int | None) -> str:
     return base
 
 
-def replace_embed_block(match: re.Match[str], media_rel: dict[str, str]) -> str:
+def build_offline_video_tag(src: str, menu_autoplay: bool) -> str:
+    if menu_autoplay:
+        return (
+            '<video class="offline-embed-video" autoplay muted loop playsinline '
+            'src="{src}"></video>'
+        ).format(src=src)
+    return (
+        '<video class="offline-embed-video" controls playsinline '
+        'src="{src}"></video>'
+    ).format(src=src)
+
+
+def replace_embed_block(
+    match: re.Match[str], media_rel: dict[str, str], menu_autoplay: bool = False
+) -> str:
     data_html = match.group(1)
     vid, start = parse_youtube_from_data_html(data_html)
     if not vid:
         return match.group(0)
     src = video_src_rel(vid, start)
     media_rel[vid] = "_media/{}.mp4".format(vid)
+    tag = build_offline_video_tag(src, menu_autoplay)
     return (
         '<div class="sqs-video-wrapper" data-offline-static="1" '
         'data-offline-video="{src}"></div>'
         '<div class="offline-embed-video-shell">'
-        '<video class="offline-embed-video" controls playsinline '
-        'src="{src}"></video></div>'
-    ).format(src=src)
+        "{tag}</div>"
+    ).format(src=src, tag=tag)
+
+
+def patch_menu_autoplay(html_path: Path) -> bool:
+    """Menu grid videos: muted autoplay + no crop on narrow viewports."""
+    if html_path.name not in MENU_PAGES:
+        return False
+    html = html_path.read_text(encoding="utf-8", errors="replace")
+    if "offline-embed-video-shell" not in html:
+        return False
+
+    new_html = html
+    new_html, n = OFFLINE_EMBED_VIDEO_CONTROLS_RE.subn(
+        r'<video class="offline-embed-video" autoplay muted loop playsinline src="\1"></video>',
+        new_html,
+    )
+
+    new_html, _cover_n = OFFLINE_EMBED_VIDEO_COVER_RE.subn(r"\1contain", new_html)
+
+    new_html = OLD_MENU_MOBILE_STYLE_RE.sub("", new_html)
+    if 'id="offline-menu-mobile-layout"' not in new_html:
+        new_html = new_html.replace("</head>", MENU_MOBILE_LAYOUT_STYLE + "\n</head>", 1)
+
+    if 'id="offline-menu-video-autoplay"' not in new_html:
+        new_html = new_html.replace("</body>", MENU_AUTOPLAY_SCRIPT + "\n</body>", 1)
+
+    if new_html == html:
+        return False
+    html_path.write_text(new_html, encoding="utf-8")
+    print("  menu autoplay/contain {}".format(html_path.name))
+    return True
 
 
 def patch_html_file(html_path: Path, media_rel: dict[str, str]) -> bool:
@@ -119,7 +222,10 @@ def patch_html_file(html_path: Path, media_rel: dict[str, str]) -> bool:
     if "youtube.com/embed" not in html and "youtu.be" not in html:
         return False
 
-    new_html = EMBED_BLOCK_RE.sub(lambda m: replace_embed_block(m, media_rel), html)
+    menu_autoplay = html_path.name in MENU_PAGES
+    new_html = EMBED_BLOCK_RE.sub(
+        lambda m: replace_embed_block(m, media_rel, menu_autoplay), html
+    )
     if new_html == html:
         return False
 
@@ -168,6 +274,11 @@ def main() -> int:
             continue
         if patch_html_file(html_path, media_rel):
             patched_files.append(html_path.name)
+
+    for html_path in sorted(snap.glob("*.html")):
+        if patch_menu_autoplay(html_path):
+            if html_path.name not in patched_files:
+                patched_files.append(html_path.name + " (autoplay)")
 
     if manifest_path.is_file():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))

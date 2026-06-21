@@ -138,6 +138,8 @@ def main() -> int:
     print("Serving senzhang.me legacy snapshot")
     print("  Root: {}".format(root))
     print("  URL:  {}".format(url))
+    print("  QA:   live https://senzhang.me/  |  deployed https://legacy-personal-website.vercel.app/index.html")
+    print("  Edits under snapshot/ appear on browser refresh (Ctrl+Shift+R). No server restart.")
     print("  Stop: Ctrl+C")
     print("")
 

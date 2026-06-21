@@ -90,12 +90,20 @@ Requires `yt-dlp` for cover video (`py -3 -m pip install yt-dlp`).
 
 Static site deploys from `snapshot/2026-06-05/` via `vercel.json`.
 
-**Policy (cost):** `git push` does **not** update production. Redeploy only when you explicitly sign off — each prod deploy uploads ~1.7 GB of snapshot files. Use local preview for day-to-day QA:
+**Three-way QA** (see `docs/qa-workflow.md`):
+
+| Layer | URL |
+|-------|-----|
+| Live (Squarespace) | https://senzhang.me |
+| Deployed archive | https://legacy-personal-website.vercel.app |
+| Local fixes | http://127.0.0.1:8765/ (refresh after edits — no Vercel cost) |
 
 ```powershell
-.\scripts\serve.ps1
-# http://127.0.0.1:8765/index.html
+.\scripts\serve.ps1                              # local server (auto-cleans stale port 8765)
+.\scripts\qa-urls.ps1 -Page museum-of-verbs      # same page, three URLs
 ```
+
+**Policy (cost):** `git push` does **not** update production. Redeploy only when you explicitly sign off — each prod deploy uploads ~1.7 GB. Fix and verify on **Local** while you send gap lists; use **Vercel** as deployed archive truth until the next `-Prod`.
 
 When ready to publish snapshot changes to the web:
 
@@ -158,7 +166,9 @@ senzhang-legacy-website-archive/
 │   ├── fix-cover-video.ps1
 │   ├── fix-offline-videos.ps1
 │   ├── fix-missing-assets.py
+│   ├── fix-lazy-images.py  # Slideshow thumbs: data-src -> src
 │   ├── audit-completeness.py
+│   ├── qa-urls.ps1         # Live / Vercel / Local URLs for one page
 │   ├── deploy-vercel.ps1   # Deploy snapshot to Vercel
 │   └── verify-snapshot.ps1 # Compare snapshot vs live sitemap
 └── snapshot/
