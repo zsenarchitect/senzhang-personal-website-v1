@@ -88,13 +88,22 @@ Requires `yt-dlp` for cover video (`py -3 -m pip install yt-dlp`).
 
 ### Live deployment (Vercel)
 
-Static site deploys from `snapshot/2026-06-05/` via `vercel.json`:
+Static site deploys from `snapshot/2026-06-05/` via `vercel.json`.
+
+**Policy (cost):** `git push` does **not** update production. Redeploy only when you explicitly sign off — each prod deploy uploads ~1.7 GB of snapshot files. Use local preview for day-to-day QA:
+
+```powershell
+.\scripts\serve.ps1
+# http://127.0.0.1:8765/index.html
+```
+
+When ready to publish snapshot changes to the web:
 
 ```powershell
 .\scripts\deploy-vercel.ps1 -Prod
 ```
 
-**Production:** https://legacy-personal-website.vercel.app
+**Production (last manual deploy):** https://legacy-personal-website.vercel.app
 
 ## First snapshot (2026-06-05)
 

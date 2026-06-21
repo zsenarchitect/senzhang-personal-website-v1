@@ -33,9 +33,11 @@ No user-visible impact expected.
 
 ## Production deploy
 
-**https://legacy-personal-website.vercel.app** — redeployed 2026-06-19 after offline video + audit fixes.
+**https://legacy-personal-website.vercel.app** — updated only via manual `.\scripts\deploy-vercel.ps1 -Prod` (not on every git push; saves upload cost).
 
-Deployment inspect: `vercel inspect legacy-personal-website-n0rome6fr-zsen-dump-yard.vercel.app`
+Latest snapshot fixes (blur, hydration, offline video) are in git `main`; redeploy when you sign off Task 1.
+
+Deployment inspect (after a deploy): `vercel inspect legacy-personal-website-n0rome6fr-zsen-dump-yard.vercel.app`
 
 ---
 

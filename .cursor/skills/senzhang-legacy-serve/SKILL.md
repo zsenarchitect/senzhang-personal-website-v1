@@ -49,6 +49,10 @@ py -3 scripts\serve.py --date 2026-06-05 --port 8765
 3. Open `http://127.0.0.1:8765/index.html` in the browser (MCP browser or `open_resource`).
 4. Tell the user the URL and snapshot date being served.
 
+## Vercel production
+
+Do **not** run `deploy-vercel.ps1 -Prod` unless the user explicitly asks to publish. `git push` is enough for backup/sync; prod deploy uploads ~1.7 GB. Use local `serve.ps1` for QA.
+
 ## Snapshot selection
 
 - Default: **latest** dated folder under `snapshot/` (sorted by folder name).
