@@ -137,6 +137,64 @@ def count_youtube_embed_refs(snap: Path) -> int:
     return total
 
 
+def write_gap_report(report: dict, snap: Path) -> Path:
+    """Human-readable gap summary (Phase 2 — replaces confusing 721-style headline)."""
+    out = snap / "audit-gaps.md"
+    legacy = report.get("missing_mirrorable_refs_page_occurrences", 0)
+    lines = [
+        "# Audit gaps — {}".format(report["snapshot_date"]),
+        "",
+        "**Offline pass:** {} (local HTML assets + zero YouTube embed refs)".format(
+            "YES" if report["pass"] else "NO"
+        ),
+        "",
+        "## Metrics that matter",
+        "",
+        "| Check | Count | Meaning |",
+        "|-------|------:|---------|",
+        "| Local HTML missing assets | {} | Mirrorable URLs in snapshot HTML not on disk — **must be 0** |".format(
+            report["truly_missing_assets_local_html"]
+        ),
+        "| YouTube embed refs (local) | {} | Runtime YouTube iframes left in HTML — **must be 0** |".format(
+            report["local_youtube_refs_in_html"]
+        ),
+        "| Real missing manifest files | {} | Manifest keys with no file; only count if referenced in HTML |".format(
+            report["real_missing_local_files"]
+        ),
+        "",
+        "## Informational (not offline blockers)",
+        "",
+        "| Check | Count | Meaning |",
+        "|-------|------:|---------|",
+        "| Live HTML CDN drift | {} | Live Squarespace bundle hashes newer than snapshot |".format(
+            report["truly_missing_assets_live_html"]
+        ),
+        "| Manifest phantom entries | {} | Regex false-positives (`h1`, `blockquote`, etc.) — ignore |".format(
+            report["manifest_phantom_entries"]
+        ),
+        "| Download errors (manifest) | {} | Mostly phantom URLs from inline JS |".format(
+            report.get("download_errors_manifest", 0)
+        ),
+        "",
+        "## Deprecated counter (do not use)",
+        "",
+        "`missing_mirrorable_refs_page_occurrences` = **{}** — same URL counted once per page;".format(legacy),
+        "not unique missing files. Use `truly_missing_assets_local_html` instead.",
+        "",
+        "Machine-readable details: `audit-report.json`.",
+    ]
+    if report.get("sample_truly_missing_local"):
+        lines.extend(["", "## Sample local missing", ""])
+        for u in report["sample_truly_missing_local"][:10]:
+            lines.append("- `{}`".format(u))
+    if report.get("sample_real_missing_files"):
+        lines.extend(["", "## Sample real manifest orphans", ""])
+        for url, rel in report["sample_real_missing_files"][:6]:
+            lines.append("- `{}` → `{}`".format(url[:80], rel))
+    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return out
+
+
 def audit_local_html_assets(snap: Path) -> tuple[set[str], set[str]]:
     """Return (truly_missing, on_disk) URL sets from local snapshot HTML only."""
     truly: set[str] = set()
@@ -283,22 +341,28 @@ def main() -> int:
 
     out = root / "snapshot" / date / "audit-report.json"
     out.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    gaps_md = write_gap_report(report, snap)
 
-    print("=== AUDIT SUMMARY ===")
-    print("PASS:                       {}".format(report["pass"]))
-    print("Pages audited:              {}".format(report["pages_audited"]))
-    print("Local HTML missing assets:  {}".format(report["truly_missing_assets_local_html"]))
-    print("Live HTML CDN drift:      {}".format(report["truly_missing_assets_live_html"]))
-    print("YouTube embed refs (local): {}".format(report["local_youtube_refs_in_html"]))
-    print("Real missing manifest files:{}".format(report["real_missing_local_files"]))
-    print("Manifest phantom entries:   {}".format(report["manifest_phantom_entries"]))
-    print("(legacy inflated counter)   {}".format(report["missing_mirrorable_refs_page_occurrences"]))
+    print("=== AUDIT SUMMARY (offline pass criterion) ===")
+    print("PASS:                         {}".format(report["pass"]))
+    print("Pages audited:                {}".format(report["pages_audited"]))
+    print("truly_missing (local HTML):   {}  <- use this".format(report["truly_missing_assets_local_html"]))
+    print("YouTube embed refs (local):   {}".format(report["local_youtube_refs_in_html"]))
+    print("Real missing manifest files:  {}".format(report["real_missing_local_files"]))
+    print("Manifest phantom entries:     {}  (noise, not gaps)".format(report["manifest_phantom_entries"]))
     print()
-    print("Breakdown of live mirrorable URLs not in manifest:")
+    print("Informational only:")
+    print("  Live CDN drift (unique):    {}".format(report["truly_missing_assets_live_html"]))
+    print("  Legacy page-occurrence sum: {}  (deprecated — not missing files)".format(
+        report["missing_mirrorable_refs_page_occurrences"]
+    ))
+    print()
+    print("Live mirrorable URL breakdown (not in manifest string match):")
     for k, v in report["missing_mirrorable_breakdown"].items():
         print("  {:20s} {}".format(k, v))
     print()
-    print("Full report: {}".format(out))
+    print("JSON:  {}".format(out))
+    print("Gaps:  {}".format(gaps_md))
     return 0 if report["pass"] else 1
 
 

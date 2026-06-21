@@ -19,7 +19,8 @@ Task 1 verification for [senzhang-legacy-website-archive](..) snapshot `2026-06-
 |----------|------------|---------------|
 | `mYPQl6m7kMY` | `_media/cover-background.mp4` | `index.html`, `cover-page.html`, `menu.html` |
 | `fAl5EJuQpUM` | `_media/fAl5EJuQpUM.mp4` | `menu.html` |
-| `4sQc0d3HRck` | `_media/4sQc0d3HRck.mp4` | `museum-of-verbs.html`, `works.html` |
+| `4sQc0d3HRck` | `_media/4sQc0d3HRck.mp4` | `museum-of-verbs.html` |
+| `fAl5EJuQpUM`, `mYPQl6m7kMY` | `_media/*.mp4` | `works.html` (portfolio index; rebuilt from `menu.html`) |
 | `3pFCHJNHKEU` | `_media/3pFCHJNHKEU.mp4` | `bank-of-15mins-fame.html` |
 
 ## Manifest orphan entries (non-blocking)
