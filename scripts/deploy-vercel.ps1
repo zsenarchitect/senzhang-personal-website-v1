@@ -46,7 +46,10 @@ try {
     $code = $LASTEXITCODE
 } finally {
     Write-Host "Restoring unstamped snapshot HTML in git working tree..."
-    git checkout -- "snapshot/$Date/*.html" "snapshot/$Date/archive-version.json" 2>$null
+    git checkout -- "snapshot/$Date/*.html" 2>$null
+    if (Test-Path "snapshot/$Date/archive-version.json") {
+        Remove-Item "snapshot/$Date/archive-version.json" -Force -ErrorAction SilentlyContinue
+    }
 }
 
 exit $code
