@@ -39,6 +39,21 @@ if (-not (Test-Path $modeTemplate)) {
 Copy-Item $modeTemplate $vercelJson -Force
 Write-Host "Cache mode: $CacheMode"
 
+# CLI deploy uploads the local working tree (already smudged via `git lfs pull`).
+# buildCommand/installCommand are for Git-triggered builds only; they fail with exit 128
+# when Vercel has no .git checkout during `vercel deploy`.
+& py -3 -c @"
+import json
+from pathlib import Path
+path = Path(r'$vercelJson')
+cfg = json.loads(path.read_text(encoding='utf-8'))
+cfg.pop('buildCommand', None)
+cfg.pop('installCommand', None)
+path.write_text(json.dumps(cfg, indent=2) + '\n', encoding='utf-8')
+"@
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+Write-Host "CLI deploy: stripped git lfs build/install commands from vercel.json"
+
 Write-Host "Verifying snapshot _cdn assets are not Git LFS pointers..."
 & (Join-Path $PSScriptRoot "verify-cdn-assets.ps1") -Date $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -67,6 +82,13 @@ $code = 1
 try {
     & vercel @vercelArgs
     $code = $LASTEXITCODE
+    if ($code -eq 0) {
+        Write-Host "Verifying production CDN assets (not LFS pointers)..."
+        & py -3 (Join-Path $PSScriptRoot "verify-prod-assets.py")
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "WARNING: Production asset probe failed. Enable Git LFS in Vercel Settings -> Git and redeploy." -ForegroundColor Red
+        }
+    }
 } finally {
     Write-Host "Restoring unstamped snapshot HTML in git working tree..."
     git checkout -- "snapshot/$Date/*.html" 2>$null
