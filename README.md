@@ -124,6 +124,25 @@ See `docs/qa-workflow.md` and `vercel.qa.json` / `vercel.final.json`.
 
 **Production (last manual deploy):** https://legacy-personal-website.vercel.app
 
+### Broken images / unstyled pages on Vercel
+
+Snapshot `_cdn/` and `_media/` binaries are stored in **Git LFS**. If Vercel deploys LFS **pointer stubs** (~130 bytes) instead of real files, pages return HTTP 200 but images/CSS/JS fail to render (common after a Git-triggered deploy without LFS enabled).
+
+**Symptoms:** blank or unstyled pages; Network tab shows `_cdn/...jpg` at ~130 bytes starting with `version https://git-lfs.github.com/spec/v1`.
+
+**Fix (preferred):** redeploy from a machine with smudged LFS files:
+
+```powershell
+git lfs pull
+.\scripts\verify-cdn-assets.ps1          # must pass before deploy
+.\scripts\deploy-vercel.ps1 -Prod        # CLI upload (~1.7 GB); uploads real binaries
+py -3 scripts\verify-prod-assets.py      # post-deploy smoke test
+```
+
+**Git-triggered deploys:** enable **Git LFS** under Vercel project **Settings → Git** (uses `installCommand` / `buildCommand` in `vercel.qa.json`). Without that toggle, push-based deploys will keep serving pointer stubs.
+
+Typekit / Google Fonts console errors on the archive are expected offline limitations; they do not block images.
+
 ## First snapshot (2026-06-05)
 
 | Metric | Value |
