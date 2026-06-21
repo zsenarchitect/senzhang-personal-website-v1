@@ -108,8 +108,17 @@ Static site deploys from `snapshot/2026-06-05/` via `vercel.json`.
 When ready to publish snapshot changes to the web:
 
 ```powershell
-.\scripts\deploy-vercel.ps1 -Prod
+.\scripts\deploy-vercel.ps1 -Prod          # Phase 2: QA cache (HTML no-cache)
 ```
+
+After archive sign-off (lower CDN cost, immutable everything):
+
+```powershell
+.\scripts\set-vercel-cache-mode.ps1 -Mode Final
+.\scripts\deploy-vercel.ps1 -Prod -CacheMode Final
+```
+
+See `docs/qa-workflow.md` and `vercel.qa.json` / `vercel.final.json`.
 
 **Production (last manual deploy):** https://legacy-personal-website.vercel.app
 

@@ -37,6 +37,37 @@ Use three URLs while closing gaps between the live site and the archived copy.
    ```
    One ~1.7 GB upload; then Vercel should match Local.
 
+## Cache modes (Phase 2 vs after sign-off)
+
+| Mode | When | HTML / pages | `_cdn` / `_media` | Cost |
+|------|------|--------------|-------------------|------|
+| **QA** (default now) | Active gap-fixing | `no-cache` (always fresh) | `immutable` + `?v=<git-sha>` on each deploy | Higher edge revalidation |
+| **Final** | Archive frozen after Task 2 | `immutable` 1y | `immutable` 1y | Lower bandwidth / CDN cost |
+
+Templates: `vercel.qa.json`, `vercel.final.json` (active file: `vercel.json`).
+
+**Phase 2 deploy** (while still fixing):
+```powershell
+.\scripts\deploy-vercel.ps1 -Prod
+# same as -CacheMode QA
+```
+
+**After sign-off** (switch once, commit, deploy):
+```powershell
+.\scripts\set-vercel-cache-mode.ps1 -Mode Final
+git add vercel.json
+git commit -m "Switch Vercel to immutable cache after archive sign-off."
+.\scripts\deploy-vercel.ps1 -Prod -CacheMode Final
+git push
+```
+
+To go back to QA mode during fixes:
+```powershell
+.\scripts\set-vercel-cache-mode.ps1 -Mode QA
+```
+
+Verify deploy build: https://legacy-personal-website.vercel.app/archive-version.json
+
 ## What local picks up automatically
 
 | Change | Restart server? |

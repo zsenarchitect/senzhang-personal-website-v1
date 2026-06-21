@@ -4,16 +4,15 @@
   Deploy the dated snapshot to the linked Vercel project (legacy-personal-website).
 
 .NOTES
-  Cost policy: do NOT run this automatically after every fix. git push alone does not
-  update production. Run -Prod only when the user explicitly asks to publish (sign-off).
-  For QA, use .\scripts\serve.ps1 locally instead (~1.7 GB upload per prod deploy).
-
-  Before upload: stamp-cache-version.py appends ?v=<git-sha> to _cdn/_media URLs so
-  browsers/CDN fetch fresh assets. Working-tree HTML is restored after deploy.
+  Phase 2 (default -CacheMode QA): HTML no-cache; assets immutable with ?v=<git-sha> stamp.
+  After sign-off: set-vercel-cache-mode.ps1 -Mode Final, commit vercel.json, then
+  .\scripts\deploy-vercel.ps1 -Prod -CacheMode Final for lowest ongoing CDN cost.
 #>
 param(
     [switch]$Prod,
-    [string]$Date = "2026-06-05"
+    [string]$Date = "2026-06-05",
+    [ValidateSet("QA", "Final")]
+    [string]$CacheMode = "QA"
 )
 
 $ErrorActionPreference = "Stop"
@@ -31,6 +30,14 @@ if (-not (Get-Command py -ErrorAction SilentlyContinue)) {
 if ($Prod) {
     Write-Host "PROD deploy - uploads full snapshot (~1.7 GB). User must have requested this." -ForegroundColor Yellow
 }
+
+$vercelJson = Join-Path $RepoRoot "vercel.json"
+$modeTemplate = Join-Path $RepoRoot ("vercel.{0}.json" -f $CacheMode.ToLower())
+if (-not (Test-Path $modeTemplate)) {
+    throw "Missing cache template: $modeTemplate"
+}
+Copy-Item $modeTemplate $vercelJson -Force
+Write-Host "Cache mode: $CacheMode"
 
 Write-Host "Stamping cache-bust build id on snapshot HTML..."
 & py -3 (Join-Path $PSScriptRoot "stamp-cache-version.py") $Date
@@ -50,6 +57,7 @@ try {
     if (Test-Path "snapshot/$Date/archive-version.json") {
         Remove-Item "snapshot/$Date/archive-version.json" -Force -ErrorAction SilentlyContinue
     }
+    git checkout -- vercel.json 2>$null
 }
 
 exit $code
