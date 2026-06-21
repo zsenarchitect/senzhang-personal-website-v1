@@ -20,7 +20,9 @@ CDN_PROBES = (
 
 # Offline YouTube -> _media/*.mp4 (see docs/completeness-2026-06-19.md).
 MEDIA_PROBES = (
+    ("cover-background-video", "/_media/cover-background.mp4", 1_000_000),
     ("museum-video", "/_media/4sQc0d3HRck.mp4", 1_000_000),
+    ("bank-video", "/_media/3pFCHJNHKEU.mp4", 100_000),
     ("works-hero-video", "/_media/fAl5EJuQpUM.mp4", 100_000),
 )
 

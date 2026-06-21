@@ -155,6 +155,25 @@ py -3 scripts\verify-prod-assets.py      # post-deploy smoke test
 
 Typekit / Google Fonts console errors on the archive are expected offline limitations; they do not block images.
 
+## Risk register (2026-06-21)
+
+Ranked gaps in the **same class** as LFS pointer deploys, cache drift, and broken asset URLs.
+
+| Priority | Gap | Mitigation |
+|----------|-----|------------|
+| **P0** | Git-triggered Vercel deploy uploads LFS pointer stubs (~130 B) | `git.deploymentEnabled: false`; **CLI-only** `deploy-vercel.ps1 -Prod` after `git lfs pull` + `verify-cdn-assets.ps1` |
+| **P0** | Emergency prod broken (unstyled / no images) | `verify-prod-assets.py` after every prod deploy; redeploy from smudged tree |
+| **P1** | `_media` cover video not probed pre-deploy | `cover-background.mp4` in `verify-cdn-assets.ps1` + `verify-prod-assets.py` |
+| **P1** | GitHub repo **archived** blocks push without unarchive | Unarchive briefly, push, re-archive; CLI deploy does not need git push |
+| **P1** | Live `definitions.sqspcdn.com` URLs in HTML (spacer/video/code blocks) | Still load from Squarespace CDN at runtime; mirror locally before Squarespace cancel (#19) |
+| **P1** | `vercel.json` drifts from `vercel.qa.json` / `vercel.final.json` | `deploy-vercel.ps1` copies template; `set-vercel-cache-mode.ps1` for permanent switch; commit after #1680 Final |
+| **P1** | ~1.7 GB CLI upload every prod deploy | Deploy only on sign-off; iterate on `serve.ps1` local; Final cache mode after cutover |
+| **P2** | `stamp-cache-version.py` skips inline `style="background:url(_cdn/...)"` | Low impact (QA no-cache HTML); extend regex if needed |
+| **P2** | Duplicate snapshot pages (`zen-house` / `zen-house-1`, etc.) | cleanUrls serves both; harmless |
+| **P2** | Live HTML CDN hash drift (23 bundles) | Informational; snapshot is frozen reference |
+| **P2** | No service worker | None present — no stale SW risk |
+| **P2** | `preconnect` to live `images.squarespace-cdn.com` | Harmless DNS hint; assets served from `_cdn/` |
+
 ## First snapshot (2026-06-05)
 
 | Metric | Value |

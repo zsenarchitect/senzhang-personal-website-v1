@@ -83,6 +83,7 @@ Then re-run deploy or preview.
     Write-Host "_media probe OK ($Label, $size bytes): $FileName"
 }
 
+Test-MediaAssetProbe -Label "cover-background-video" -FileName "cover-background.mp4" -MinBytes 1000000
 Test-MediaAssetProbe -Label "museum-video" -FileName "4sQc0d3HRck.mp4" -MinBytes 1000000
 Test-MediaAssetProbe -Label "bank-video" -FileName "3pFCHJNHKEU.mp4" -MinBytes 100000
 Test-MediaAssetProbe -Label "works-hero-video" -FileName "fAl5EJuQpUM.mp4" -MinBytes 100000
