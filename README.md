@@ -1,6 +1,8 @@
+﻿> **FROZEN REFERENCE (2026-06-21).** Do **not** edit `snapshot/` or re-scrape live Squarespace. Reference-only for [senzhang-personal-website](https://github.com/zsenarchitect/senzhang-personal-website) migration — see `docs/plans/2026-06-21-recruiter-hiring-portfolio-plan.md` in that repo. **`snapshot.ps1` / live crawl:** emergency preservation only; routine work uses committed snapshot **2026-06-05** and https://legacy-personal-website.vercel.app. **GitHub repo archived** — unarchive briefly only for an explicit signed-off change (e.g. todo **#1680** Vercel cache Final after #1101 cutover).
+
 # senzhang-legacy-website-archive
 
-A **1:1 offline snapshot** of [senzhang.me](https://senzhang.me) — a Squarespace portfolio site — preserved so the full legacy website remains available after Squarespace is discontinued.
+A **1:1 offline snapshot** of [senzhang.me](https://senzhang.me) â€” a Squarespace portfolio site â€” preserved so the full legacy website remains available after Squarespace is discontinued.
 
 ## What this archive contains
 
@@ -31,7 +33,7 @@ Local preview URL: **http://127.0.0.1:8765/index.html** (serves latest `snapshot
 
 ## Requirements
 
-- **Python 3** (stdlib only — no pip packages)
+- **Python 3** (stdlib only â€” no pip packages)
 - PowerShell 5.1+
 - Optional: **HTTrack** for alternative mirror via `.\scripts\snapshot.ps1 -UseHtTrack`
 
@@ -96,14 +98,14 @@ Static site deploys from `snapshot/2026-06-05/` via `vercel.json`.
 |-------|-----|
 | Live (Squarespace) | https://senzhang.me |
 | Deployed archive | https://legacy-personal-website.vercel.app |
-| Local fixes | http://127.0.0.1:8765/ (refresh after edits — no Vercel cost) |
+| Local fixes | http://127.0.0.1:8765/ (refresh after edits â€” no Vercel cost) |
 
 ```powershell
 .\scripts\serve.ps1                              # local server (auto-cleans stale port 8765)
 .\scripts\qa-urls.ps1 -Page museum-of-verbs      # same page, three URLs
 ```
 
-**Policy (cost):** `git push` does **not** update production. Redeploy only when you explicitly sign off — each prod deploy uploads ~1.7 GB. Fix and verify on **Local** while you send gap lists; use **Vercel** as deployed archive truth until the next `-Prod`.
+**Policy (cost):** `git push` does **not** update production. Redeploy only when you explicitly sign off â€” each prod deploy uploads ~1.7 GB. Fix and verify on **Local** while you send gap lists; use **Vercel** as deployed archive truth until the next `-Prod`.
 
 When ready to publish snapshot changes to the web:
 
@@ -134,7 +136,7 @@ See `docs/qa-workflow.md` and `vercel.qa.json` / `vercel.final.json`.
 
 ## Storage note
 
-Each full snapshot is **~1.5–2 GB**. Use **Git LFS** before pushing snapshots (see `.gitattributes`). Alternatively keep snapshots on disk / cloud storage and commit only `scripts/` + `manifest.json` summaries.
+Each full snapshot is **~1.5â€“2 GB**. Use **Git LFS** before pushing snapshots (see `.gitattributes`). Alternatively keep snapshots on disk / cloud storage and commit only `scripts/` + `manifest.json` summaries.
 
 ## Re-snapshot before Squarespace shutdown
 
@@ -157,34 +159,34 @@ Opens **http://127.0.0.1:8765/index.html** (latest snapshot). Internal navigatio
 
 If pages look blank or broken after a snapshot, run `.\scripts\repair-html.ps1` then restart the server.
 
-**Cursor skill:** `.cursor/skills/senzhang-legacy-serve/SKILL.md` — agents use this to start the local preview.
+**Cursor skill:** `.cursor/skills/senzhang-legacy-serve/SKILL.md` â€” agents use this to start the local preview.
 
 ## Repository layout
 
 ```
 senzhang-legacy-website-archive/
-├── README.md
-├── .cursor/skills/senzhang-legacy-serve/
-├── scripts/
-│   ├── serve.ps1           # Local preview server
-│   ├── snapshot.ps1        # Create a dated mirror
-│   ├── crawl-config.json   # Default polite crawl settings (safe profile)
-│   ├── crawl_config.py     # Shared fetch/retry/delay logic
-│   ├── repair-html.ps1     # Re-fetch HTML + sync CDN assets
-│   ├── fix-offline-fonts.ps1
-│   ├── fix-cover-video.ps1
-│   ├── fix-offline-videos.ps1
-│   ├── fix-missing-assets.py
-│   ├── fix-lazy-images.py  # Slideshow thumbs: data-src -> src
-│   ├── audit-completeness.py
-│   ├── qa-urls.ps1         # Live / Vercel / Local URLs for one page
-│   ├── deploy-vercel.ps1   # Deploy snapshot to Vercel
-│   └── verify-snapshot.ps1 # Compare snapshot vs live sitemap
-└── snapshot/
-    └── YYYY-MM-DD/         # Dated snapshots (committed to git)
-        ├── manifest.json
-        ├── index.html      # Homepage
-        └── _cdn/           # Mirrored CDN assets
+â”œâ”€â”€ README.md
+â”œâ”€â”€ .cursor/skills/senzhang-legacy-serve/
+â”œâ”€â”€ scripts/
+â”‚   â”œâ”€â”€ serve.ps1           # Local preview server
+â”‚   â”œâ”€â”€ snapshot.ps1        # Create a dated mirror
+â”‚   â”œâ”€â”€ crawl-config.json   # Default polite crawl settings (safe profile)
+â”‚   â”œâ”€â”€ crawl_config.py     # Shared fetch/retry/delay logic
+â”‚   â”œâ”€â”€ repair-html.ps1     # Re-fetch HTML + sync CDN assets
+â”‚   â”œâ”€â”€ fix-offline-fonts.ps1
+â”‚   â”œâ”€â”€ fix-cover-video.ps1
+â”‚   â”œâ”€â”€ fix-offline-videos.ps1
+â”‚   â”œâ”€â”€ fix-missing-assets.py
+â”‚   â”œâ”€â”€ fix-lazy-images.py  # Slideshow thumbs: data-src -> src
+â”‚   â”œâ”€â”€ audit-completeness.py
+â”‚   â”œâ”€â”€ qa-urls.ps1         # Live / Vercel / Local URLs for one page
+â”‚   â”œâ”€â”€ deploy-vercel.ps1   # Deploy snapshot to Vercel
+â”‚   â””â”€â”€ verify-snapshot.ps1 # Compare snapshot vs live sitemap
+â””â”€â”€ snapshot/
+    â””â”€â”€ YYYY-MM-DD/         # Dated snapshots (committed to git)
+        â”œâ”€â”€ manifest.json
+        â”œâ”€â”€ index.html      # Homepage
+        â””â”€â”€ _cdn/           # Mirrored CDN assets
 ```
 
 ## License / rights
