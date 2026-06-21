@@ -10,7 +10,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ASSET_URL_RE = re.compile(
-    r'((?:href|src)\s*=\s*")(_cdn/[^"?#]+|_media/[^"?#]+)(")',
+    r'((?:href|src)\s*=\s*")((?:_cdn/|_media/)[^"]*)(")',
+    re.IGNORECASE,
+)
+DATA_OFFLINE_VIDEO_RE = re.compile(
+    r'(data-offline-video\s*=\s*")((?:_cdn/|_media/)[^"]*)(")',
     re.IGNORECASE,
 )
 SRCSET_RE = re.compile(
@@ -41,8 +45,15 @@ def git_short_sha() -> str:
 
 
 def bust_asset_url(url: str, build_id: str) -> str:
-    bare = OLD_V_RE.sub("", url)
-    return bare + "?v=" + build_id
+    fragment = ""
+    if "#" in url:
+        base, frag = url.split("#", 1)
+        fragment = "#" + frag
+    else:
+        base = url
+    bare = OLD_V_RE.sub("", base)
+    sep = "&" if "?" in bare else "?"
+    return bare + sep + "v=" + build_id + fragment
 
 
 def patch_srcset(value: str, build_id: str) -> str:
@@ -58,10 +69,11 @@ def patch_srcset(value: str, build_id: str) -> str:
 
 
 def patch_html(html: str, build_id: str) -> str:
-    html = ASSET_URL_RE.sub(
-        lambda m: m.group(1) + bust_asset_url(m.group(2), build_id) + m.group(3),
-        html,
-    )
+    def asset_repl(m: re.Match[str]) -> str:
+        return m.group(1) + bust_asset_url(m.group(2), build_id) + m.group(3)
+
+    html = ASSET_URL_RE.sub(asset_repl, html)
+    html = DATA_OFFLINE_VIDEO_RE.sub(asset_repl, html)
 
     def srcset_repl(m: re.Match[str]) -> str:
         return m.group(1) + patch_srcset(m.group(2), build_id) + m.group(3)

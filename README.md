@@ -92,6 +92,18 @@ Requires `yt-dlp` for cover video (`py -3 -m pip install yt-dlp`).
 
 Static site deploys from `snapshot/2026-06-05/` via `vercel.json`.
 
+#### Production priority (P0 reference site)
+
+**https://legacy-personal-website.vercel.app** is the S2.5 Tab A reference for migration sign-off. It must stay fully functional (images, JS, CSS, `_media` mp4, navigation).
+
+| Rule | Why |
+|------|-----|
+| **Never git-push deploy** | Git-triggered builds can upload Git LFS pointer stubs (~130 bytes) instead of real binaries |
+| **Always CLI deploy** | `.\scripts\deploy-vercel.ps1 -Prod` uploads the local smudged tree (~1.7 GB) |
+| **LFS before deploy** | `git lfs pull` then `.\scripts\verify-cdn-assets.ps1` (must pass) |
+| **Verify after deploy** | `py -3 scripts\verify-prod-assets.py` — CDN, `_media` mp4, key pages |
+| **Git auto-deploy off** | `vercel.json` sets `"git": { "deploymentEnabled": false }` — prod changes only via CLI |
+
 **Three-way QA** (see `docs/qa-workflow.md`):
 
 | Layer | URL |
@@ -139,7 +151,7 @@ git lfs pull
 py -3 scripts\verify-prod-assets.py      # post-deploy smoke test
 ```
 
-**Git-triggered deploys:** enable **Git LFS** under Vercel project **Settings → Git** (uses `installCommand` / `buildCommand` in `vercel.qa.json`). Without that toggle, push-based deploys will keep serving pointer stubs.
+**Git-triggered deploys:** `vercel.qa.json` / `vercel.final.json` include `git lfs pull` for documentation, but **auto-deploy is disabled** (`git.deploymentEnabled: false`). Use CLI deploy only.
 
 Typekit / Google Fonts console errors on the archive are expected offline limitations; they do not block images.
 

@@ -80,8 +80,12 @@ if ($Prod) { $vercelArgs += "--prod" }
 Write-Host "Deploying from $RepoRoot (output: snapshot/$Date per vercel.json)..."
 $code = 1
 try {
+    # Vercel CLI prints its version banner on stderr; with $ErrorActionPreference Stop that aborts deploy.
+    $prevEap = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
     & vercel @vercelArgs
     $code = $LASTEXITCODE
+    $ErrorActionPreference = $prevEap
     if ($code -eq 0) {
         Write-Host "Verifying production CDN assets (not LFS pointers)..."
         & py -3 (Join-Path $PSScriptRoot "verify-prod-assets.py")
@@ -91,11 +95,14 @@ try {
     }
 } finally {
     Write-Host "Restoring unstamped snapshot HTML in git working tree..."
+    $prevEap = $ErrorActionPreference
+    $ErrorActionPreference = "SilentlyContinue"
     git checkout -- "snapshot/$Date/*.html" 2>$null
     if (Test-Path "snapshot/$Date/archive-version.json") {
         Remove-Item "snapshot/$Date/archive-version.json" -Force -ErrorAction SilentlyContinue
     }
     git checkout -- vercel.json 2>$null
+    $ErrorActionPreference = $prevEap
 }
 
 exit $code
