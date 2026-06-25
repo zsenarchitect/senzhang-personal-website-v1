@@ -92,7 +92,7 @@ try {
     $ErrorActionPreference = $prevEap
     if ($code -eq 0) {
         Write-Host "Verifying production CDN assets (not LFS pointers)..."
-        & py -3 (Join-Path $PSScriptRoot "verify-prod-assets.py")
+        & py -3 (Join-Path $PSScriptRoot "verify-prod-assets.py") --base "https://senzhang-personal-website-v1.vercel.app"
         if ($LASTEXITCODE -ne 0) {
             Write-Host "WARNING: Production asset probe failed. Enable Git LFS in Vercel Settings -> Git and redeploy." -ForegroundColor Red
         }

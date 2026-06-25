@@ -31,6 +31,9 @@ PAGE_PROBES = (
     ("museum-of-verbs", "/museum-of-verbs"),
     ("tokyo-antilibrary", "/tokyo-antilibrary"),
     ("about-me", "/about-me"),
+    ("bilibili-hq", "/bilibili-hq"),
+    ("code-bimrunner", "/code/bimrunner"),
+    ("speaking-aec-2025", "/speaking/aec-hackathon-2025"),
 )
 
 
@@ -79,7 +82,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Verify deployed archive CDN/media/page assets")
     parser.add_argument(
         "--base",
-        default="https://legacy-personal-website.vercel.app",
+        default="https://senzhang-personal-website-v1.vercel.app",
         help="Production base URL",
     )
     args = parser.parse_args()
