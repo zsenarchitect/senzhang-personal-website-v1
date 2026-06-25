@@ -1,9 +1,10 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-  Deploy the dated snapshot to the linked Vercel project (legacy-personal-website).
+  Deploy the dated snapshot to the linked Vercel project (senzhang-personal-website-v1).
 
 .NOTES
+  Default scope: zsen-idea-house (personal). NOT ennead-projects.
   Phase 2 (default -CacheMode QA): HTML no-cache; assets immutable with ?v=<git-sha> stamp.
   After sign-off: set-vercel-cache-mode.ps1 -Mode Final, commit vercel.json, then
   .\scripts\deploy-vercel.ps1 -Prod -CacheMode Final for lowest ongoing CDN cost.
@@ -12,7 +13,8 @@ param(
     [switch]$Prod,
     [string]$Date = "2026-06-05",
     [ValidateSet("QA", "Final")]
-    [string]$CacheMode = "QA"
+    [string]$CacheMode = "QA",
+    [string]$VercelScope = "zsen-idea-house"
 )
 
 $ErrorActionPreference = "Stop"
@@ -85,18 +87,21 @@ Write-Host "Stamping cache-bust build id on snapshot HTML..."
 & py -3 (Join-Path $PSScriptRoot "stamp-cache-version.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+Write-Host "Vercel scope: $VercelScope"
+$scopeFlag = @("--scope", $VercelScope)
+
 Write-Host "Deploying via local build + --prebuilt (remote git lfs pull fails on Vercel)..."
 $code = 1
 try {
     $prevEap = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    vercel pull --yes --environment=production
+    vercel pull --yes --environment=production @scopeFlag
     if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE; throw "vercel pull failed" }
-    $buildArgs = @("build")
+    $buildArgs = @("build") + $scopeFlag
     if ($Prod) { $buildArgs += "--prod" }
     vercel @buildArgs
     if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE; throw "vercel build failed" }
-    $deployArgs = @("deploy", "--prebuilt", "--yes")
+    $deployArgs = @("deploy", "--prebuilt", "--yes") + $scopeFlag
     if ($Prod) { $deployArgs += "--prod" }
     vercel @deployArgs
     $code = $LASTEXITCODE
@@ -112,7 +117,7 @@ try {
     Write-Host "Restoring unstamped snapshot HTML in git working tree..."
     $prevEap = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
-    git checkout -- "snapshot/$Date/*.html" 2>$null
+    git checkout -- "snapshot/$Date/" 2>$null
     if (Test-Path "snapshot/$Date/archive-version.json") {
         Remove-Item "snapshot/$Date/archive-version.json" -Force -ErrorAction SilentlyContinue
     }
