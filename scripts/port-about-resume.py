@@ -260,6 +260,14 @@ def extract_headshot_col(page):
 def patch_about(data, registry=None):
     registry = registry or load_registry()
     page = ABOUT.read_text(encoding="utf-8")
+    mc_open = '<div class="main-content" data-content-field="main-content">'
+    if mc_open not in page:
+        raise SystemExit("main-content block not found in about-me.html")
+    i0 = page.index(mc_open) + len(mc_open)
+    section_end = page.index("</section>", i0)
+    main_close = page.rfind("</div>", i0, section_end)
+    if main_close < 0:
+        raise SystemExit("main-content close tag not found in about-me.html")
     headshot = extract_headshot_col(page)
     hero_col = (
         '<div class="col sqs-col-8 span-8"><div class="sqs-block html-block sqs-block-html" '
@@ -287,15 +295,10 @@ def patch_about(data, registry=None):
         + sections
         + "</div>"
     )
-    patched = re.sub(
-        r'<div class="sqs-layout sqs-grid-12 columns-12"[^>]*>.*?</div>\s*</div>\s*\n\s*</section>',
-        layout + "\n      </div>\n\n      \n\n      </section>",
-        page,
-        count=1,
-        flags=re.DOTALL,
-    )
+    patched = page[:i0] + "\n        " + layout + "\n      " + page[main_close:]
     if patched == page:
-        raise SystemExit("failed to patch about-me.html layout")
+        print("about-me.html already current; skipping layout patch")
+        return
     ABOUT.write_text(patched, encoding="utf-8")
     print("wrote", ABOUT.relative_to(V1))
 
