@@ -74,16 +74,20 @@ Write-Host "Stamping cache-bust build id on snapshot HTML..."
 & py -3 (Join-Path $PSScriptRoot "stamp-cache-version.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-$vercelArgs = @("deploy", "--yes")
-if ($Prod) { $vercelArgs += "--prod" }
-
-Write-Host "Deploying from $RepoRoot (output: snapshot/$Date per vercel.json)..."
+Write-Host "Deploying via local build + --prebuilt (remote git lfs pull fails on Vercel)..."
 $code = 1
 try {
-    # Vercel CLI prints its version banner on stderr; with $ErrorActionPreference Stop that aborts deploy.
     $prevEap = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    & vercel @vercelArgs
+    vercel pull --yes --environment=production
+    if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE; throw "vercel pull failed" }
+    $buildArgs = @("build")
+    if ($Prod) { $buildArgs += "--prod" }
+    vercel @buildArgs
+    if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE; throw "vercel build failed" }
+    $deployArgs = @("deploy", "--prebuilt", "--yes")
+    if ($Prod) { $deployArgs += "--prod" }
+    vercel @deployArgs
     $code = $LASTEXITCODE
     $ErrorActionPreference = $prevEap
     if ($code -eq 0) {
