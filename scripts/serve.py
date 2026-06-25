@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import http.server
 import io
+import json
 import os
 import socket
 import sys
@@ -14,6 +15,11 @@ from pathlib import Path
 # Squarespace platform JS POSTs analytics to /api/census/* on the page origin.
 # Stub these during offline preview so SimpleHTTPRequestHandler does not 501.
 STUB_API_PREFIXES = ("/api/", "/universal/")
+PROJECTS_API = "/api/projects"
+
+
+def projects_json_path() -> Path:
+    return repo_root() / "data" / "projects.json"
 
 
 def repo_root() -> Path:
@@ -38,6 +44,8 @@ def latest_snapshot(snapshot_root: Path) -> Path:
 
 def is_stub_api_path(path: str) -> bool:
     bare = path.split("?", 1)[0]
+    if bare == PROJECTS_API:
+        return False
     return bare.startswith(STUB_API_PREFIXES)
 
 
@@ -45,10 +53,46 @@ def make_request_handler(quiet_api_logs: bool):
     class SnapshotRequestHandler(http.server.SimpleHTTPRequestHandler):
         # HTTP/1.1 enables Range requests so MP4 seek/scrub works in the video player.
         protocol_version = "HTTP/1.1"
-        def _read_request_body(self) -> None:
+
+        def _read_request_body(self) -> bytes:
             length = int(self.headers.get("Content-Length", 0))
             if length > 0:
-                self.rfile.read(length)
+                return self.rfile.read(length)
+            return b""
+
+        def _send_json(self, status: int, payload: dict) -> None:
+            body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+
+        def _handle_projects_get(self) -> None:
+            path = projects_json_path()
+            if not path.is_file():
+                sys.path.insert(0, str(repo_root() / "scripts"))
+                from project_registry import merge_registry_on_disk
+
+                merge_registry_on_disk()
+            data = json.loads(path.read_text(encoding="utf-8"))
+            self._send_json(200, data)
+
+        def _handle_projects_post(self, body: bytes) -> None:
+            try:
+                payload = json.loads(body.decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                self._send_json(400, {"error": "invalid json"})
+                return
+            if not isinstance(payload, dict) or "projects" not in payload:
+                self._send_json(400, {"error": "expected { projects: {...} }"})
+                return
+            out = projects_json_path()
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            self._send_json(200, {"ok": True, "path": str(out)})
 
         def _send_stub_api(self) -> None:
             self._read_request_body()
@@ -61,7 +105,8 @@ def make_request_handler(quiet_api_logs: bool):
             self.wfile.write(body)
 
         def do_OPTIONS(self) -> None:
-            if is_stub_api_path(self.path):
+            bare = self.path.split("?", 1)[0]
+            if bare == PROJECTS_API or is_stub_api_path(self.path):
                 self.send_response(204)
                 self.send_header("Access-Control-Allow-Origin", "*")
                 self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
@@ -74,6 +119,10 @@ def make_request_handler(quiet_api_logs: bool):
             self.send_error(501, "Unsupported method ('OPTIONS')")
 
         def do_POST(self) -> None:
+            bare = self.path.split("?", 1)[0]
+            if bare == PROJECTS_API:
+                self._handle_projects_post(self._read_request_body())
+                return
             if is_stub_api_path(self.path):
                 self._send_stub_api()
                 return
@@ -97,6 +146,12 @@ def make_request_handler(quiet_api_logs: bool):
                 candidate = "/index.html"
             else:
                 candidate = clean + ".html"
+            translated = self.translate_path(candidate)
+            if not os.path.isfile(translated):
+                idx = os.path.join(clean.lstrip("/"), "index.html")
+                idx_path = self.translate_path("/" + idx.replace("\\", "/"))
+                if os.path.isfile(idx_path):
+                    candidate = "/" + idx.replace("\\", "/")
             if os.path.isfile(self.translate_path(candidate)):
                 query = ""
                 if "?" in self.path:
@@ -111,6 +166,10 @@ def make_request_handler(quiet_api_logs: bool):
             return super().do_HEAD()
 
         def do_GET(self) -> None:
+            bare = self.path.split("?", 1)[0]
+            if bare == PROJECTS_API:
+                self._handle_projects_get()
+                return
             if is_stub_api_path(self.path):
                 self.send_error(404)
                 return
@@ -229,6 +288,8 @@ def main() -> int:
     print("  URL:  {}".format(url))
     print("  QA:   live https://senzhang.me/  |  deployed https://legacy-personal-website.vercel.app/index.html")
     print("  Edits under snapshot/ appear on browser refresh (Ctrl+Shift+R). No server restart.")
+    print("  Dashboard: http://{}:{}/dashboard".format(args.host, port))
+    print("  Projects API: http://{}:{}/api/projects".format(args.host, port))
     print("  Stop: Ctrl+C")
     print("")
 

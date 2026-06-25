@@ -1,0 +1,381 @@
+{
+  "version": 1,
+  "projects": {
+    "museum-of-verbs": {
+      "slug": "museum-of-verbs",
+      "title": "Museum Of Verbs",
+      "category": "academic",
+      "visible": true,
+      "highlight": true,
+      "includeInResume": true
+    },
+    "gravity-rises": {
+      "slug": "gravity-rises",
+      "title": "Gravity Rises",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "forumfold": {
+      "slug": "forumfold",
+      "title": "Forumfold",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "bank-of-15mins-fame": {
+      "slug": "bank-of-15mins-fame",
+      "title": "Bank Of 15Mins Fame",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "hashtag-brunch": {
+      "slug": "hashtag-brunch",
+      "title": "Hashtag Brunch",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "negative-memory": {
+      "slug": "negative-memory",
+      "title": "Negative Memory",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "liberty-museum": {
+      "slug": "liberty-museum",
+      "title": "Liberty Museum",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "mushroom-chair": {
+      "slug": "mushroom-chair",
+      "title": "Mushroom Chair",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "a-measurement-of-isolation": {
+      "slug": "a-measurement-of-isolation",
+      "title": "A Measurement Of Isolation",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "zen-house-1": {
+      "slug": "zen-house-1",
+      "title": "Block Field",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "silence-of-the-mask": {
+      "slug": "silence-of-the-mask",
+      "title": "Silence Of The Mask",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "tokyo-antilibrary": {
+      "slug": "tokyo-antilibrary",
+      "title": "Tokyo Antilibrary",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "new-museum-in-motion": {
+      "slug": "new-museum-in-motion",
+      "title": "New Museum In Motion",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "vertical-campus": {
+      "slug": "vertical-campus",
+      "title": "Vertical Campus",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "seed-on-mars": {
+      "slug": "seed-on-mars",
+      "title": "Seed On Mars",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "black-hole-horizon": {
+      "slug": "black-hole-horizon",
+      "title": "Black Hole Horizon",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "walk-on-the-edge": {
+      "slug": "walk-on-the-edge",
+      "title": "Walk On The Edge",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "zen-house": {
+      "slug": "zen-house",
+      "title": "Zen House",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "university-island": {
+      "slug": "university-island",
+      "title": "University Island",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "black-hole-horizon-1": {
+      "slug": "black-hole-horizon-1",
+      "title": "Ticket Booth for Nose",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "takenaka-pavillion": {
+      "slug": "takenaka-pavillion",
+      "title": "Takenaka Pavilion",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "nyc-taxi-20": {
+      "slug": "nyc-taxi-20",
+      "title": "Nyc Taxi 20",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "bmx-bike": {
+      "slug": "bmx-bike",
+      "title": "Bmx Bike",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "app-ghost-hunter": {
+      "slug": "app-ghost-hunter",
+      "title": "App Ghost Hunter",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "app-ghost-hunter-1": {
+      "slug": "app-ghost-hunter-1",
+      "title": "Beijing Untouched",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "bubble-bar": {
+      "slug": "bubble-bar",
+      "title": "Bubble Bar",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "post-carbon-city": {
+      "slug": "post-carbon-city",
+      "title": "Post Carbon City",
+      "category": "academic",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "bilibili-hq": {
+      "slug": "bilibili-hq",
+      "title": "Bilibili Hq",
+      "category": "professional",
+      "visible": true,
+      "highlight": true,
+      "includeInResume": true
+    },
+    "bytedance-hq": {
+      "slug": "bytedance-hq",
+      "title": "Bytedance Hq",
+      "category": "professional",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "ftz-shanghai": {
+      "slug": "ftz-shanghai",
+      "title": "Ftz Shanghai",
+      "category": "professional",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "hudson-yards": {
+      "slug": "hudson-yards",
+      "title": "Hudson Yards",
+      "category": "professional",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "ideafactory": {
+      "slug": "ideafactory",
+      "title": "Ideafactory",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "realm": {
+      "slug": "realm",
+      "title": "Realm",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "fat2fit": {
+      "slug": "fat2fit",
+      "title": "Fat2Fit",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "toni": {
+      "slug": "toni",
+      "title": "Toni",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "timebank": {
+      "slug": "timebank",
+      "title": "Timebank",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "enneadtab-ecosystem": {
+      "slug": "enneadtab-ecosystem",
+      "title": "Enneadtab Ecosystem",
+      "category": "code",
+      "visible": true,
+      "highlight": true,
+      "includeInResume": true
+    },
+    "enneadtab-revit": {
+      "slug": "enneadtab-revit",
+      "title": "Enneadtab Revit",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "enneadtab-rhino": {
+      "slug": "enneadtab-rhino",
+      "title": "Enneadtab Rhino",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "enneadtabwiki": {
+      "slug": "enneadtabwiki",
+      "title": "Enneadtabwiki",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "renderpolisher": {
+      "slug": "renderpolisher",
+      "title": "Renderpolisher",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "bimrunner": {
+      "slug": "bimrunner",
+      "title": "Bimrunner",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": true
+    },
+    "revit-games": {
+      "slug": "revit-games",
+      "title": "Revit Games",
+      "category": "code",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "aec-hackathon-2025": {
+      "slug": "aec-hackathon-2025",
+      "title": "Aec Hackathon 2025",
+      "category": "speaking",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "autodesk-university-2024": {
+      "slug": "autodesk-university-2024",
+      "title": "Autodesk University 2024",
+      "category": "speaking",
+      "visible": true,
+      "highlight": true,
+      "includeInResume": false
+    },
+    "aec-hackathon-2023": {
+      "slug": "aec-hackathon-2023",
+      "title": "Aec Hackathon 2023",
+      "category": "speaking",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "digital-built-week-2023": {
+      "slug": "digital-built-week-2023",
+      "title": "Digital Built Week 2023",
+      "category": "speaking",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
+    }
+  }
+}

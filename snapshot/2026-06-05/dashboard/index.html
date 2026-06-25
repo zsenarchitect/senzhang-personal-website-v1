@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Dashboard — Sen Zhang</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #111; background: #fafafa; }
+    body { margin: 0; padding: 24px; max-width: 1200px; margin-inline: auto; }
+    h1 { font-size: 1.25rem; font-weight: 600; margin: 0 0 4px; }
+    .sub { color: #666; font-size: 13px; margin-bottom: 20px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    button, select, input[type="search"] { font: inherit; padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
+    button.primary { background: #111; color: #fff; border-color: #111; cursor: pointer; }
+    button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    #status { font-size: 13px; color: #444; min-height: 1.2em; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #ddd; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
+    th { background: #f3f3f3; font-weight: 600; position: sticky; top: 0; }
+    tr.hidden-row { opacity: 0.45; }
+    .slug { font-family: ui-monospace, monospace; font-size: 12px; color: #555; }
+    .chk { text-align: center; }
+    a { color: #06c; }
+  </style>
+</head>
+<body>
+  <h1>Portfolio Project Dashboard</h1>
+  <p class="sub">Local dev only. Edit visibility, category, highlights, and resume flags. Save writes <code>data/projects.json</code>, then run <code>py -3 scripts/restructure-menu-sections.py</code>.</p>
+  <div class="toolbar">
+    <input type="search" id="filter" placeholder="Filter by title or slug..." />
+    <select id="catFilter">
+      <option value="">All categories</option>
+      <option value="academic">Academic</option>
+      <option value="professional">Professional</option>
+      <option value="code">Code</option>
+      <option value="speaking">Speaking</option>
+    </select>
+    <button type="button" class="primary" id="saveBtn">Save to disk</button>
+    <button type="button" id="reloadBtn">Reload</button>
+    <a href="/menu">Back to site</a>
+  </div>
+  <div id="status"></div>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Category</th>
+        <th class="chk">Visible</th>
+        <th class="chk">Highlight</th>
+        <th class="chk">Resume</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <script>
+    const CATEGORIES = ["academic", "professional", "code", "speaking"];
+    let registry = { version: 1, projects: {} };
+
+    function setStatus(msg, ok) {
+      const el = document.getElementById("status");
+      el.textContent = msg;
+      el.style.color = ok === false ? "#b00" : "#444";
+    }
+
+    async function loadRegistry() {
+      setStatus("Loading...");
+      const res = await fetch("/api/projects");
+      if (!res.ok) throw new Error("GET /api/projects failed: " + res.status);
+      registry = await res.json();
+      render();
+      setStatus("Loaded " + Object.keys(registry.projects || {}).length + " projects.");
+    }
+
+    function projectList() {
+      return Object.entries(registry.projects || {}).map(([slug, meta]) => ({ slug, ...meta }));
+    }
+
+    function render() {
+      const q = document.getElementById("filter").value.trim().toLowerCase();
+      const cat = document.getElementById("catFilter").value;
+      const tbody = document.getElementById("rows");
+      tbody.innerHTML = "";
+      const items = projectList().sort((a, b) => {
+        const ca = a.category || "", cb = b.category || "";
+        if (ca !== cb) return ca.localeCompare(cb);
+        return (a.title || a.slug).localeCompare(b.title || b.slug);
+      });
+      for (const p of items) {
+        if (cat && p.category !== cat) continue;
+        const hay = (p.title + " " + p.slug).toLowerCase();
+        if (q && !hay.includes(q)) continue;
+        const tr = document.createElement("tr");
+        if (p.visible === false) tr.className = "hidden-row";
+        tr.innerHTML = `
+          <td>${esc(p.title || p.slug)}</td>
+          <td class="slug">${esc(p.slug)}</td>
+          <td><select data-slug="${esc(p.slug)}" data-field="category">${catOptions(p.category)}</select></td>
+          <td class="chk"><input type="checkbox" data-slug="${esc(p.slug)}" data-field="visible" ${p.visible !== false ? "checked" : ""} /></td>
+          <td class="chk"><input type="checkbox" data-slug="${esc(p.slug)}" data-field="highlight" ${p.highlight ? "checked" : ""} /></td>
+          <td class="chk"><input type="checkbox" data-slug="${esc(p.slug)}" data-field="includeInResume" ${p.includeInResume ? "checked" : ""} /></td>`;
+        tbody.appendChild(tr);
+      }
+      tbody.querySelectorAll("select, input").forEach(el => {
+        el.addEventListener("change", onFieldChange);
+      });
+    }
+
+    function catOptions(selected) {
+      return CATEGORIES.map(c => `<option value="${c}" ${c === selected ? "selected" : ""}>${c}</option>`).join("");
+    }
+
+    function esc(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+    }
+
+    function onFieldChange(e) {
+      const el = e.target;
+      const slug = el.dataset.slug;
+      const field = el.dataset.field;
+      if (!registry.projects[slug]) registry.projects[slug] = { slug };
+      if (field === "visible" || field === "highlight" || field === "includeInResume") {
+        registry.projects[slug][field] = el.checked;
+      } else {
+        registry.projects[slug][field] = el.value;
+      }
+      render();
+    }
+
+    async function saveRegistry() {
+      const btn = document.getElementById("saveBtn");
+      btn.disabled = true;
+      setStatus("Saving...");
+      try {
+        const res = await fetch("/api/projects", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(registry),
+        });
+        if (!res.ok) throw new Error("POST failed: " + res.status);
+        setStatus("Saved data/projects.json. Run restructure-menu-sections.py to rebuild grids.", true);
+      } catch (err) {
+        setStatus(err.message, false);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    document.getElementById("saveBtn").addEventListener("click", saveRegistry);
+    document.getElementById("reloadBtn").addEventListener("click", () => loadRegistry().catch(e => setStatus(e.message, false)));
+    document.getElementById("filter").addEventListener("input", render);
+    document.getElementById("catFilter").addEventListener("change", render);
+    loadRegistry().catch(e => setStatus(e.message + " — start scripts/serve.py for API.", false));
+  </script>
+</body>
+</html>

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import html, re, shutil
+import html, re, shutil, subprocess, sys
 from pathlib import Path
 
-V0 = Path(r"C:\Users\szhang\github\Personal\senzhang-personal-website")
+V0 = Path(r"C:\Users\szhang\github\Personal\senzhang-personal-website-v0-failed-attempt")
 V1 = Path(r"C:\Users\szhang\github\Personal\senzhang-personal-website-v1")
 SNAP = V1 / "snapshot" / "2026-06-05"
 TPL = SNAP / "liberty-museum.html"
@@ -140,10 +140,18 @@ def speak_page(slug):
 
 def port_resume():
     shutil.copy2(V0 / "public/Sen Zhang Resume.pdf", MEDIA / "Sen-Zhang-Resume.pdf")
-    p = SNAP / "about-me.html"
-    p.write_text(p.read_text(encoding="utf-8").replace('href="/s/Sen-Zhang-Resume.pdf"', 'href="_media/Sen-Zhang-Resume.pdf"'), encoding="utf-8")
+    subprocess.check_call([sys.executable, str(V1 / "scripts" / "port-about-resume.py")], cwd=str(V1))
     (V1 / "docs/resume-source.md").parent.mkdir(parents=True, exist_ok=True)
-    (V1 / "docs/resume-source.md").write_text("# Resume source\n\nCanonical: v0 src/data/resume.ts\n\nPDF: snapshot/2026-06-05/_media/Sen-Zhang-Resume.pdf\n", encoding="utf-8")
+    (V1 / "docs/resume-source.md").write_text(
+        "# Resume source\n\n"
+        "Canonical: v0 `src/data/resume.ts` in `senzhang-personal-website-v0-failed-attempt`\n\n"
+        "PDF: `snapshot/2026-06-05/_media/Sen-Zhang-Resume.pdf` "
+        "(copied from v0 `public/Sen Zhang Resume.pdf`)\n\n"
+        "Regenerate about-me body from resume.ts:\n\n"
+        "```powershell\npy -3 scripts\\port-about-resume.py\n```\n\n"
+        "`port-v0-content.py` calls this automatically when porting resume.\n",
+        encoding="utf-8",
+    )
 
 def nav(href, label, ind=False):
     pad = "            " if ind else "          "
@@ -180,4 +188,5 @@ if __name__ == "__main__":
     for s in CODE: code_page(s)
     for s in SPEAK: speak_page(s)
     update_menu()
+    subprocess.check_call([sys.executable, str(V1 / "scripts" / "restructure-menu-sections.py")], cwd=str(V1))
     print("done")
