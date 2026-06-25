@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnneadTab Ecosystem Network</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: transparent;
+            /* Transparent background */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .node-label {
+            position: absolute;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2d3748;
+            text-align: center;
+            pointer-events: none;
+            white-space: nowrap;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+        }
+
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #coord-display,
+        #node-table-container {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Authoring/debug panels hidden for the portfolio embed. */
+        #coord-display:hover,
+        #node-table-container:hover {
+            opacity: 1;
+        }
+
+        #coord-display {
+            top: 20px;
+            left: 20px;
+            width: 180px;
+            pointer-events: auto;
+            /* Allow hover */
+        }
+
+        #node-table-container {
+            top: 20px;
+            right: 20px;
+            width: 240px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 6px 4px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            font-weight: 700;
+            color: #4a5568;
+            text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 0.05em;
+        }
+
+        .highlight-row {
+            background: rgba(66, 153, 225, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="coord-display">Hover or Drag to see coordinates</div>
+    <div id="node-table-container"></div>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let centerX = canvas.width / 2;
+        let centerY = canvas.height / 2;
+
+        // Define nodes with positions, colors, and icons
+        // Define nodes with positions, colors, and icons
+        // Define nodes with positions, colors, and icons
+        const nodes = [
+            // Center nodes cluster
+            {
+                id: 1,
+                name: 'EnneadTab\nfor Revit',
+                x: centerX + 8,
+                y: centerY + 42,
+                radius: 50,
+                color: '#4299E1',
+                icon: 'revit.png'
+            },
+            {
+                id: 2,
+                name: 'EnneadTab\nfor Rhino',
+                x: centerX + 265,
+                y: centerY - 140,
+                radius: 50,
+                color: '#48BB78',
+                icon: 'rhino.png'
+            },
+            {
+                id: 6,
+                name: 'EnneadTab\nWiki',
+                x: centerX - 33,
+                y: centerY - 98,
+                radius: 45,
+                color: '#F56565',
+                icon: 'wiki.png'
+            },
+            {
+                id: 10,
+                name: 'AI Rendering',
+                x: centerX + 172,
+                y: centerY + 100,
+                radius: 45,
+                color: '#F59E0B',
+                icon: 'rendering.png'
+            },
+
+            // Peripheral nodes (Spread out)
+            {
+                id: 3,
+                name: 'EnneadTab\nfor HR',
+                x: centerX - 128,
+                y: centerY - 230,
+                radius: 25,
+                color: '#9F7AEA',
+                icon: 'hr.png'
+            },
+            {
+                id: 4,
+                name: 'EnneadTab\nfor IT',
+                x: centerX + 38,
+                y: centerY - 225,
+                radius: 25,
+                color: '#ED8936',
+                icon: 'it.png'
+            },
+            {
+                id: 5,
+                name: 'BIM-Data\nDashboard for PA',
+                x: centerX - 264,
+                y: centerY + 19,
+                radius: 35,
+                color: '#38B2AC',
+                icon: 'dashboard.png'
+            },
+            {
+                id: 11,
+                name: 'Excel-Revit\nConnector',
+                x: centerX - 173,
+                y: centerY + 68,
+                radius: 25,
+                color: '#06B6D4',
+                icon: 'connector.png'
+            },
+            {
+                id: 7,
+                name: 'Remote\nKeynote System',
+                x: centerX - 97,
+                y: centerY + 111,
+                radius: 25,
+                color: '#EC4899',
+                icon: 'keynote.png'
+            },
+            {
+                id: 8,
+                name: 'BXP Writing\nAssistant',
+                x: centerX - 237,
+                y: centerY - 120,
+                radius: 25,
+                color: '#8B5CF6',
+                icon: 'writer.png'
+            },
+            {
+                id: 9,
+                name: 'VR Guide',
+                x: centerX + 90,
+                y: centerY - 150,
+                radius: 25,
+                color: '#10B981',
+                icon: 'vr.png'
+            },
+            {
+                id: 12,
+                name: 'Error\nCollector',
+                x: centerX - 91,
+                y: centerY + 278,
+                radius: 35,
+                color: '#E53E3E',
+                icon: 'wiki.png'
+            },
+            {
+                id: 13,
+                name: 'GitHub',
+                x: centerX + 92,
+                y: centerY + 273,
+                radius: 35,
+                color: '#2D3748',
+                icon: 'it.png'
+            },
+
+            // New inside-container nodes (real deployed services)
+            {
+                id: 14,
+                name: 'FieldDay',
+                x: centerX - 98,
+                y: centerY - 24,
+                radius: 25,
+                color: '#059669',
+                icon: 'dashboard.png'
+            },
+            {
+                id: 15,
+                name: 'Sustainability\nReports',
+                x: centerX - 302,
+                y: centerY - 204,
+                radius: 25,
+                color: '#16A34A',
+                icon: 'writer.png'
+            },
+            {
+                id: 16,
+                name: 'Content\nCatalog',
+                x: centerX - 290,
+                y: centerY + 140,
+                radius: 25,
+                color: '#7C3AED',
+                icon: 'connector.png'
+            },
+            {
+                id: 17,
+                name: 'Revit Crash\nInvestigator',
+                x: centerX + 84,
+                y: centerY + 126,
+                radius: 25,
+                color: '#DC2626',
+                icon: 'it.png'
+            },
+            {
+                id: 18,
+                name: 'InDesign\nRepather',
+                x: centerX + 158,
+                y: centerY - 19,
+                radius: 25,
+                color: '#DB2777',
+                icon: 'connector.png'
+            },
+            {
+                id: 19,
+                name: 'InfraWatch',
+                x: centerX - 48,
+                y: centerY - 238,
+                radius: 25,
+                color: '#0891B2',
+                icon: 'it.png'
+            },
+
+            {
+                id: 22,
+                name: 'EnneadTab\nfor Marketing',
+                x: centerX + 300,
+                y: centerY + 50,
+                radius: 30,
+                color: '#D946EF',
+                icon: 'rendering.png'
+            },
+
+            // New outside-container nodes
+            {
+                id: 20,
+                name: 'EnneadTab\nDB',
+                x: centerX + 0,
+                y: centerY + 340,
+                radius: 30,
+                color: '#6366F1',
+                icon: 'dashboard.png'
+            },
+            {
+                id: 21,
+                name: 'BizHound',
+                x: centerX + 230,
+                y: centerY + 310,
+                radius: 30,
+                color: '#EA580C',
+                icon: 'writer.png'
+            }
+        ];
+
+        // Preload and process images
+        nodes.forEach(node => {
+            const tempImg = new Image();
+            tempImg.src = 'icons/' + node.icon;
+            tempImg.onload = () => {
+                // Process image: White on Black -> Color on Transparent
+                const hiddenCanvas = document.createElement('canvas');
+                hiddenCanvas.width = tempImg.width;
+                hiddenCanvas.height = tempImg.height;
+                const hiddenCtx = hiddenCanvas.getContext('2d');
+
+                // Draw original image
+                hiddenCtx.drawImage(tempImg, 0, 0);
+
+                // Get pixel data
+                const imgData = hiddenCtx.getImageData(0, 0, hiddenCanvas.width, hiddenCanvas.height);
+                const data = imgData.data;
+
+                // Convert hex color to RGB
+                const hex = node.color.replace('#', '');
+                const r = parseInt(hex.substring(0, 2), 16);
+                const g = parseInt(hex.substring(2, 4), 16);
+                const b = parseInt(hex.substring(4, 6), 16);
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
+
+                    if (brightness < 50) {
+                        // Black (background) -> Transparent
+                        data[i + 3] = 0;
+                    } else {
+                        // White (icon) -> Node Color
+                        data[i] = r;
+                        data[i + 1] = g;
+                        data[i + 2] = b;
+                        // Keep alpha (or smooth edges based on brightness if needed, but simple threshold is fine for high contrast)
+                        // Uses brightness as alpha for anti-aliasing equivalent
+                        data[i + 3] = brightness;
+                    }
+                }
+
+                hiddenCtx.putImageData(imgData, 0, 0);
+
+                // Create new image from canvas
+                const processedImg = new Image();
+                processedImg.src = hiddenCanvas.toDataURL();
+                node.img = processedImg;
+            };
+        });
+
+        // Generate connections (network topology)
+        const connections = [];
+
+        // Connect center nodes to each other
+        connections.push({ from: 1, to: 2 });
+
+        // Connect all peripheral nodes 3-11 to both center nodes 1-2
+        for (let i = 3; i <= 11; i++) {
+            // Exclude Node 3 (HR) and Node 8 (Writer) from connecting to Node 1 (Revit)
+            if (i !== 3 && i !== 8) {
+                connections.push({ from: 1, to: i });
+            }
+
+            // Connect to Node 2 (Rhino) - excluding specific nodes [3, 5, 7, 8, 11] as requested
+            if (![3, 5, 7, 8, 11].includes(i)) {
+                connections.push({ from: 2, to: i });
+            }
+        }
+
+        // Add some connections between peripheral nodes for network effect
+        // connections.push({ from: 3, to: 4 }); // Disconnected 3-4 as requested
+        connections.push({ from: 4, to: 5 });
+        connections.push({ from: 6, to: 7 });
+        connections.push({ from: 3, to: 6 });
+        connections.push({ from: 8, to: 6 }); // Connected 8-6 as requested
+        connections.push({ from: 5, to: 6 }); // Connected 5-6 as requested
+        connections.push({ from: 5, to: 11 }); // Connected 5-11 as requested
+
+        // New service connections
+        connections.push({ from: 1, to: 14 }); // Revit -> FieldDay (site inspection)
+        connections.push({ from: 5, to: 14 }); // BIM Dashboard -> FieldDay (project data)
+        connections.push({ from: 5, to: 15 }); // BIM Dashboard -> DPO (project metrics)
+        connections.push({ from: 6, to: 15 }); // Wiki -> DPO (documentation)
+        connections.push({ from: 1, to: 16 }); // Revit -> Content Catalog (Revit families)
+        connections.push({ from: 1, to: 17 }); // Revit -> Revit Crash
+        connections.push({ from: 1, to: 22 }); // Revit -> Marketing
+        connections.push({ from: 4, to: 19 }); // IT -> InfraWatch (infrastructure)
+        connections.push({ from: 18, to: 22 }); // InDesign Repather -> Marketing
+        connections.push({ from: 10, to: 22 }); // AI Rendering -> Marketing
+
+        // Create a Special Cycle: Container -> 12 -> 13 -> Container
+        // We'll use a virtual ID 0 for "The Container" in connection logic
+        const cycleConnections = [
+            { from: 0, to: 12, directional: true },
+            { from: 12, to: 20, directional: true },
+            { from: 20, to: 13, directional: true },
+            { from: 13, to: 0, directional: true },
+            { from: 0, to: 21, directional: true },
+            { from: 21, to: 0, directional: true }
+        ];
+
+        function getContainerBox() {
+            const padding = 50;
+            const groupNodes = nodes.filter(n => (n.id >= 1 && n.id <= 11) || (n.id >= 14 && n.id <= 19) || n.id === 22);
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            groupNodes.forEach(n => {
+                minX = Math.min(minX, n.x - n.radius);
+                minY = Math.min(minY, n.y - n.radius);
+                maxX = Math.max(maxX, n.x + n.radius);
+                maxY = Math.max(maxY, n.y + n.radius);
+            });
+            return {
+                x: minX - padding,
+                y: minY - padding,
+                w: (maxX - minX) + padding * 2,
+                h: (maxY - minY) + padding * 2,
+                radius: 20
+            };
+        }
+
+        function drawContainer() {
+            const box = getContainerBox();
+            ctx.beginPath();
+            ctx.setLineDash([10, 10]);
+            ctx.strokeStyle = '#94A3B8'; // More opaque blue-grey
+            ctx.lineWidth = 3;
+
+            const r = box.radius;
+            ctx.moveTo(box.x + r, box.y);
+            ctx.arcTo(box.x + box.w, box.y, box.x + box.w, box.y + box.h, r);
+            ctx.arcTo(box.x + box.w, box.y + box.h, box.x, box.y + box.h, r);
+            ctx.arcTo(box.x, box.y + box.h, box.x, box.y, r);
+            ctx.arcTo(box.x, box.y, box.x + box.w, box.y, r);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        function getContainerEdgePoint(targetX, targetY) {
+            const box = getContainerBox();
+
+            // Find the point on the box perimeter closest to the target
+            // This ensures the connection is perpendicular to the side it touches
+
+            const clampedX = Math.max(box.x, Math.min(box.x + box.w, targetX));
+            const clampedY = Math.max(box.y, Math.min(box.y + box.h, targetY));
+
+            const dLeft = Math.abs(targetX - box.x);
+            const dRight = Math.abs(targetX - (box.x + box.w));
+            const dTop = Math.abs(targetY - box.y);
+            const dBottom = Math.abs(targetY - (box.y + box.h));
+
+            const minDist = Math.min(dLeft, dRight, dTop, dBottom);
+
+            if (minDist === dLeft) return { x: box.x, y: clampedY, radius: 0 };
+            if (minDist === dRight) return { x: box.x + box.w, y: clampedY, radius: 0 };
+            if (minDist === dTop) return { x: clampedX, y: box.y, radius: 0 };
+            return { x: clampedX, y: box.y + box.h, radius: 0 }; // dBottom
+        }
+
+        // Data dots traveling along connections
+        const dataDots = [];
+
+        function createDataDot() {
+            // Merge regular and cycle connections for selection
+            const allPossible = [...connections, ...cycleConnections];
+            const connection = allPossible[Math.floor(Math.random() * allPossible.length)];
+
+            let fromNode, toNode;
+
+            // Resolve nodes (including virtual container 0)
+            const resolveNode = (id, otherNodePos) => {
+                if (id === 0) return getContainerEdgePoint(otherNodePos.x, otherNodePos.y);
+                return nodes.find(n => n.id === id);
+            };
+
+            // Temporary placeholders
+            let rawFrom = connection.from === 0 ? { x: centerX, y: centerY } : nodes.find(n => n.id === connection.from);
+            let rawTo = connection.to === 0 ? { x: centerX, y: centerY } : nodes.find(n => n.id === connection.to);
+
+            fromNode = resolveNode(connection.from, rawTo);
+            toNode = resolveNode(connection.to, rawFrom);
+
+            // Directional logic
+            if (!connection.directional) {
+                // Bi-directional flow for internal network: 50% chance to swap direction
+                if (Math.random() > 0.5) {
+                    [fromNode, toNode] = [toNode, fromNode];
+                }
+            }
+
+            // Types of data
+            const types = [
+                { name: 'bit', pixelsPerFrame: 2.5, size: 2, glow: 6 },
+                { name: 'packet', pixelsPerFrame: 1.5, size: 4, glow: 10 },
+                { name: 'block', pixelsPerFrame: 0.8, size: 7, glow: 15 }
+            ];
+
+            // Weighted selection (more snippets than blocks)
+            const r = Math.random();
+            const type = r < 0.5 ? types[0] : (r < 0.85 ? types[1] : types[2]);
+
+            // Interpolate color between from and to nodes
+            const color = fromNode.id === undefined ? '#A0AEC0' : fromNode.color;
+
+            dataDots.push({
+                fromNode,
+                toNode,
+                progress: 0,
+                pixelsPerFrame: type.pixelsPerFrame,
+                size: type.size,
+                glowSize: type.glow,
+                color: color,
+                // Add jitter for multiple paths
+                offset: (Math.random() - 0.5) * 4
+            });
+        }
+
+        // Create initial dots
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => createDataDot(), i * 200);
+        }
+
+        // Continuously create new dots
+        setInterval(() => {
+            if (dataDots.length < 30) {
+                createDataDot();
+            }
+        }, 500);
+
+        function drawNode(node) {
+            // Draw glow (subtle)
+            const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 1.5);
+            gradient.addColorStop(0, node.color + '10'); // Very transparent glow
+            gradient.addColorStop(1, node.color + '00');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(node.x - node.radius * 1.5, node.y - node.radius * 1.5, node.radius * 3, node.radius * 3);
+
+            // Draw circle outline
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+            ctx.strokeStyle = node.color;
+            ctx.lineWidth = 2; // Thin outline
+            ctx.stroke();
+
+            // Draw icon (Image)
+            if (node.img && node.img.complete) {
+                const size = node.radius * 1.0; // Icon size relative to circle
+                ctx.drawImage(node.img, node.x - size / 2, node.y - size / 2, size, size);
+            } else {
+                // Fallback while loading
+                ctx.strokeStyle = node.color;
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 5, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            // Draw ID Number Badge
+            const badgeRadius = 10;
+            const badgeX = node.x + node.radius * 0.707; // 45 degrees
+            const badgeY = node.y - node.radius * 0.707;
+
+            ctx.beginPath();
+            ctx.arc(badgeX, badgeY, badgeRadius, 0, Math.PI * 2);
+            ctx.fillStyle = node.color;
+            ctx.fill();
+
+            ctx.font = 'bold 10px Arial';
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(node.id, badgeX, badgeY);
+
+            // Draw label
+            ctx.font = '600 13px Inter, sans-serif';
+            ctx.fillStyle = '#2d3748';
+            ctx.shadowColor = 'rgba(255,255,255,0.8)';
+            ctx.shadowBlur = 3;
+
+            const lines = node.name.split('\n');
+            lines.forEach((line, i) => {
+                ctx.fillText(line, node.x, node.y + node.radius + 20 + (i * 16));
+            });
+
+            ctx.shadowBlur = 0;
+        }
+
+        function drawConnection(from, to, directional = false) {
+            const dx = to.x - from.x;
+            const dy = to.y - from.y;
+            const angle = Math.atan2(dy, dx);
+
+            const startX = from.x + Math.cos(angle) * from.radius;
+            const startY = from.y + Math.sin(angle) * from.radius;
+            const endX = to.x - Math.cos(angle) * to.radius;
+            const endY = to.y - Math.sin(angle) * to.radius;
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = directional ? '#4A5568' : 'rgba(100, 116, 139, 0.4)';
+            ctx.lineWidth = directional ? 3 : 2;
+            ctx.setLineDash(directional ? [] : [5, 5]);
+            ctx.stroke();
+
+            // Draw Arrowhead if directional
+            if (directional) {
+                const headlen = 15;
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
+                ctx.lineTo(endX - headlen * Math.cos(angle + Math.PI / 6), endY - headlen * Math.sin(angle + Math.PI / 6));
+                ctx.closePath();
+                ctx.fillStyle = ctx.strokeStyle;
+                ctx.fill();
+            }
+
+            ctx.setLineDash([]); // Reset
+        }
+
+        function drawDataDot(dot) {
+            const dx = dot.toNode.x - dot.fromNode.x;
+            const dy = dot.toNode.y - dot.fromNode.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx);
+
+            // Calculate visible path (border to border)
+            const startDist = dot.fromNode.radius;
+            const endDist = dist - dot.toNode.radius;
+            const pathLength = endDist - startDist;
+
+            // Map progress (0-1) to the visible path
+            const currentDist = startDist + (dot.progress * pathLength);
+
+            // Use offset to prevent dots from being perfectly collinear
+            const x = dot.fromNode.x + Math.cos(angle) * currentDist + Math.cos(angle + Math.PI / 2) * dot.offset;
+            const y = dot.fromNode.y + Math.sin(angle) * currentDist + Math.sin(angle + Math.PI / 2) * dot.offset;
+
+            // Draw glow
+            ctx.beginPath();
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, dot.glowSize);
+            gradient.addColorStop(0, dot.color + '88'); // 50% opacity
+            gradient.addColorStop(1, dot.color + '00');
+            ctx.fillStyle = gradient;
+            ctx.arc(x, y, dot.glowSize, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Draw dot
+            ctx.beginPath();
+            ctx.arc(x, y, dot.size, 0, Math.PI * 2);
+            ctx.fillStyle = dot.color;
+            ctx.fill();
+
+            // Add a small inner highlight for the "light" look
+            ctx.beginPath();
+            ctx.arc(x, y, dot.size * 0.4, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fill();
+        }
+
+        function animate() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw connections
+            connections.forEach(conn => {
+                const fromNode = nodes.find(n => n.id === conn.from);
+                const toNode = nodes.find(n => n.id === conn.to);
+                drawConnection(fromNode, toNode);
+            });
+
+            // Draw container for 1-11
+            drawContainer();
+
+            // Draw special cycle (using box edge intersection)
+            cycleConnections.forEach(conn => {
+                let fromNode, toNode;
+                if (conn.from === 0) {
+                    const to = nodes.find(n => n.id === conn.to);
+                    fromNode = getContainerEdgePoint(to.x, to.y);
+                    toNode = to;
+                } else if (conn.to === 0) {
+                    const from = nodes.find(n => n.id === conn.from);
+                    fromNode = from;
+                    toNode = getContainerEdgePoint(from.x, from.y);
+                } else {
+                    fromNode = nodes.find(n => n.id === conn.from);
+                    toNode = nodes.find(n => n.id === conn.to);
+                }
+                drawConnection(fromNode, toNode, true);
+            });
+
+            // Update and draw data dots
+            dataDots.forEach((dot, index) => {
+                // Calculate current path length to determine progress increment for constant speed
+                const dx = dot.toNode.x - dot.fromNode.x;
+                const dy = dot.toNode.y - dot.fromNode.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                const startDist = dot.fromNode.radius || 0;
+                const endDist = dist - (dot.toNode.radius || 0);
+                const pathLength = Math.max(1, endDist - startDist);
+
+                dot.progress += dot.pixelsPerFrame / pathLength;
+
+                if (dot.progress >= 1) {
+                    dataDots.splice(index, 1);
+                } else {
+                    drawDataDot(dot);
+                }
+            });
+
+            // Draw nodes
+            nodes.forEach(node => drawNode(node));
+
+            requestAnimationFrame(animate);
+        }
+
+        // Drag interaction
+        let isDragging = false;
+        let dragNode = null;
+        const coordDisplay = document.getElementById('coord-display');
+
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            // Check if clicked on a node
+            // Iterate in reverse to catch top-most nodes first if overlap
+            for (let i = nodes.length - 1; i >= 0; i--) {
+                const node = nodes[i];
+                const dx = mouseX - node.x;
+                const dy = mouseY - node.y;
+                if (dx * dx + dy * dy <= node.radius * node.radius) {
+                    isDragging = true;
+                    dragNode = node;
+                    // coordDisplay.style.display = 'block'; // Always visible
+                    updateCoordDisplay(node);
+                    break;
+                }
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging && dragNode) {
+                const rect = canvas.getBoundingClientRect();
+                dragNode.x = e.clientX - rect.left;
+                dragNode.y = e.clientY - rect.top;
+                updateCoordDisplay(dragNode);
+            } else {
+                // Hover effect (cursor) & Coordinate Display
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                let hovering = false;
+
+                for (let i = nodes.length - 1; i >= 0; i--) {
+                    const node = nodes[i];
+                    const dx = mouseX - node.x;
+                    const dy = mouseY - node.y;
+                    if (dx * dx + dy * dy <= node.radius * node.radius) {
+                        hovering = true;
+                        updateCoordDisplay(node);
+                        break;
+                    }
+                }
+                canvas.style.cursor = hovering ? 'pointer' : 'default';
+
+                if (!hovering) {
+                    const relX = Math.round(mouseX - centerX);
+                    const relY = Math.round(mouseY - centerY);
+                    coordDisplay.innerText = `Cursor\nRel X: ${relX > 0 ? '+' : ''}${relX}\nRel Y: ${relY > 0 ? '+' : ''}${relY}`;
+                }
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+            dragNode = null;
+            // coordDisplay.style.display = 'none'; // Keep visible
+        });
+
+        function updateCoordDisplay(node) {
+            // Calculate relative to center for easier copying
+            const relX = Math.round(node.x - centerX);
+            const relY = Math.round(node.y - centerY);
+            coordDisplay.innerText = `ID: ${node.id} (${node.name.split('\n')[0]})\nRel X: ${relX > 0 ? '+' : ''}${relX}\nRel Y: ${relY > 0 ? '+' : ''}${relY}`;
+
+            // Fixed position - do not update top/left
+            updateNodeTable(node.id);
+        }
+
+        function updateNodeTable(highlightId = null) {
+            const container = document.getElementById('node-table-container');
+            let html = '<table><thead><tr><th>ID</th><th>Name</th><th>Rel X</th><th>Rel Y</th></tr></thead><tbody>';
+
+            // Sort a copy to avoid in-place interference with drawing order if it matters
+            [...nodes].sort((a, b) => a.id - b.id).forEach(node => {
+                const relX = Math.round(node.x - centerX);
+                const relY = Math.round(node.y - centerY);
+                const isHighlighted = node.id === highlightId;
+                html += `<tr class="${isHighlighted ? 'highlight-row' : ''}">
+                    <td>${node.id}</td>
+                    <td>${node.name.split('\n')[0]}</td>
+                    <td>${relX > 0 ? '+' : ''}${relX}</td>
+                    <td>${relY > 0 ? '+' : ''}${relY}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        updateNodeTable();
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const oldWidth = canvas.width;
+            const oldHeight = canvas.height;
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const dx = (canvas.width - oldWidth) / 2;
+            const dy = (canvas.height - oldHeight) / 2;
+
+            centerX = canvas.width / 2;
+            centerY = canvas.height / 2;
+
+            nodes.forEach(node => {
+                node.x += dx;
+                node.y += dy;
+            });
+        });
+    </script>
+</body>
+
+</html>
