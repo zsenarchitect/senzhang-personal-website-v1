@@ -103,6 +103,13 @@ def make_request_handler(quiet_api_logs: bool):
                     query = "?" + self.path.split("?", 1)[1]
                 self.path = candidate + query
 
+        def do_HEAD(self) -> None:
+            if is_stub_api_path(self.path):
+                self.send_error(404)
+                return
+            self._maybe_clean_url_path()
+            return super().do_HEAD()
+
         def do_GET(self) -> None:
             if is_stub_api_path(self.path):
                 self.send_error(404)
