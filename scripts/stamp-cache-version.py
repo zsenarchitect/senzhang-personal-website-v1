@@ -103,12 +103,20 @@ def main() -> int:
 
     build_id = args.build_id or git_short_sha()
     stamped = 0
-    for html_path in sorted(snap.glob("*.html")):
-        html = html_path.read_text(encoding="utf-8", errors="replace")
+    for html_path in sorted(snap.rglob("*.html")):
+        try:
+            html = html_path.read_text(encoding="utf-8", errors="replace")
+        except OSError as exc:
+            print("skip read {}: {}".format(html_path.name, exc))
+            continue
         new_html = patch_html(html, build_id)
-        if new_html != html:
+        if new_html == html:
+            continue
+        try:
             html_path.write_text(new_html, encoding="utf-8")
             stamped += 1
+        except OSError as exc:
+            print("skip write {}: {}".format(html_path.name, exc))
 
     version_path = snap / "archive-version.json"
     version_path.write_text(

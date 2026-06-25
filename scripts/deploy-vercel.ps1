@@ -92,6 +92,10 @@ Write-Host "Ensuring code/ and speaking/ index pages..."
 & py -3 (Join-Path $PSScriptRoot "add-section-index-pages.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+Write-Host "Refreshing about-me resume body from registry..."
+& py -3 (Join-Path $PSScriptRoot "port-about-resume.py")
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 & py -3 (Join-Path $PSScriptRoot "fix-offline-nav.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
@@ -113,6 +117,8 @@ try {
     if ($Prod) { $buildArgs += "--prod" }
     vercel @buildArgs
     if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE; throw "vercel build failed" }
+    & py -3 (Join-Path $PSScriptRoot "fix-vercel-output-paths.py")
+    if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE; throw "fix-vercel-output-paths failed" }
     $deployArgs = @("deploy", "--prebuilt", "--yes") + $scopeFlag
     if ($Prod) { $deployArgs += "--prod" }
     vercel @deployArgs

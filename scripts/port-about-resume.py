@@ -9,6 +9,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from build_section_masonry import SECTIONS
+
 V0 = Path(r"C:\Users\szhang\github\Personal\senzhang-personal-website-v0-failed-attempt")
 V1 = Path(__file__).resolve().parents[1]
 SNAP = V1 / "snapshot" / "2026-06-05"
@@ -104,6 +106,44 @@ def render_experience(experience):
         head += render_highlights(exp.get("highlights"))
         chunks.append(head + "</div>")
     return section("Experience", "".join(chunks))
+
+
+def href_for_slug(slug: str, category: str) -> str:
+    cfg = SECTIONS.get(category)
+    if cfg:
+        return cfg.href_for_slug(slug)
+    return "/" + slug
+
+
+def load_registry():
+    path = V1 / "data" / "projects.json"
+    if not path.is_file():
+        return {"projects": {}}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def render_featured_portfolio(registry):
+    projects = registry.get("projects", {})
+    featured = [
+        p for p in projects.values()
+        if p.get("includeInResume") and p.get("visible", True)
+    ]
+    if not featured:
+        return ""
+    order = []
+    for key in ("academic", "professional", "code", "speaking"):
+        order.extend(SECTIONS[key].order)
+    featured.sort(key=lambda p: order.index(p["slug"]) if p["slug"] in order else 9999)
+    body = ""
+    for p in featured:
+        title = p.get("title") or p["slug"].replace("-", " ").title()
+        href = href_for_slug(p["slug"], p.get("category", "academic"))
+        body += (
+            '<p style="margin:0.35em 0">'
+            '<a href="' + esc(href) + '"><strong>' + esc(title) + "</strong></a>"
+            ' <span style="color:#666;font-size:0.9em">(' + esc(p.get("category", "")) + ")</span></p>"
+        )
+    return section("Featured Portfolio Work", body)
 
 
 def render_projects(projects, note):
@@ -218,7 +258,8 @@ def extract_headshot_col(page):
     return m.group(1)
 
 
-def patch_about(data):
+def patch_about(data, registry=None):
+    registry = registry or load_registry()
     page = ABOUT.read_text(encoding="utf-8")
     headshot = extract_headshot_col(page)
     hero_col = (
@@ -231,6 +272,7 @@ def patch_about(data):
     sections = (
         render_experience(data["experience"])
         + render_projects(data["projects"], data.get("confidentialityNote"))
+        + render_featured_portfolio(registry)
         + render_speaking(data["speaking"])
         + render_credentials(data["credentials"])
         + render_education(data["education"])
