@@ -1,4 +1,7 @@
-﻿> **FROZEN REFERENCE (2026-06-21).** Do **not** edit `snapshot/` or re-scrape live Squarespace. Reference-only for [senzhang-personal-website](https://github.com/zsenarchitect/senzhang-personal-website) migration — see `docs/plans/2026-06-21-recruiter-hiring-portfolio-plan.md` in that repo. **`snapshot.ps1` / live crawl:** emergency preservation only; routine work uses committed snapshot **2026-06-05** and https://legacy-personal-website.vercel.app. **GitHub repo archived** — unarchive briefly only for an explicit signed-off change (e.g. todo **#1680** Vercel cache Final after #1101 cutover).
+﻿> **ACTIVE senzhang.me line (v1).** Static HTML bootstrapped from legacy archive 2026-06-05 snapshot.
+> Preview: https://senzhang-personal-website-v1.vercel.app
+> Master plan: docs/plans/senzhang-me-master-plan.md | Keystone todo: #1683
+> **FROZEN REFERENCE (2026-06-21).** Do **not** edit `snapshot/` or re-scrape live Squarespace. Reference-only for [senzhang-personal-website](https://github.com/zsenarchitect/senzhang-personal-website) migration — see `docs/plans/2026-06-21-recruiter-hiring-portfolio-plan.md` in that repo. **`snapshot.ps1` / live crawl:** emergency preservation only; routine work uses committed snapshot **2026-06-05** and https://legacy-personal-website.vercel.app. **GitHub repo archived** — unarchive briefly only for an explicit signed-off change (e.g. todo **#1680** Vercel cache Final after #1101 cutover).
 
 # senzhang-legacy-website-archive
 
@@ -242,3 +245,4 @@ senzhang-legacy-website-archive/
 ## License / rights
 
 Content is Sen Zhang's personal portfolio. This repo is a private preservation copy, not a public re-hosting.
+
