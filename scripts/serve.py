@@ -22,6 +22,10 @@ def projects_json_path() -> Path:
     return repo_root() / "data" / "projects.json"
 
 
+def dashboard_html_path() -> Path:
+    return repo_root() / "dev" / "dashboard" / "index.html"
+
+
 def repo_root() -> Path:
     return Path(__file__).resolve().parent.parent
 
@@ -50,6 +54,8 @@ def is_stub_api_path(path: str) -> bool:
 
 
 def make_request_handler(quiet_api_logs: bool):
+    dashboard_path = dashboard_html_path()
+
     class SnapshotRequestHandler(http.server.SimpleHTTPRequestHandler):
         # HTTP/1.1 enables Range requests so MP4 seek/scrub works in the video player.
         protocol_version = "HTTP/1.1"
@@ -158,7 +164,31 @@ def make_request_handler(quiet_api_logs: bool):
                     query = "?" + self.path.split("?", 1)[1]
                 self.path = candidate + query
 
+        def _is_dashboard_path(self) -> bool:
+            bare = self.path.split("?", 1)[0].rstrip("/")
+            return bare in ("/dashboard", "/dashboard/index.html")
+
+        def _serve_dashboard(self) -> None:
+            if not dashboard_path.is_file():
+                self.send_error(404, "Dashboard is local-dev only (missing dev/dashboard/index.html)")
+                return
+            body = dashboard_path.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(body)
+
         def do_HEAD(self) -> None:
+            if self._is_dashboard_path():
+                if dashboard_path.is_file():
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.end_headers()
+                else:
+                    self.send_error(404)
+                return
             if is_stub_api_path(self.path):
                 self.send_error(404)
                 return
@@ -167,6 +197,9 @@ def make_request_handler(quiet_api_logs: bool):
 
         def do_GET(self) -> None:
             bare = self.path.split("?", 1)[0]
+            if self._is_dashboard_path():
+                self._serve_dashboard()
+                return
             if bare == PROJECTS_API:
                 self._handle_projects_get()
                 return
@@ -288,7 +321,7 @@ def main() -> int:
     print("  URL:  {}".format(url))
     print("  QA:   live https://senzhang.me/  |  deployed https://legacy-personal-website.vercel.app/index.html")
     print("  Edits under snapshot/ appear on browser refresh (Ctrl+Shift+R). No server restart.")
-    print("  Dashboard: http://{}:{}/dashboard".format(args.host, port))
+    print("  Dashboard (local only): http://{}:{}/dashboard".format(args.host, port))
     print("  Projects API: http://{}:{}/api/projects".format(args.host, port))
     print("  Stop: Ctrl+C")
     print("")

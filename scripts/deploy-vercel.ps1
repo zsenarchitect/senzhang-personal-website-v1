@@ -103,6 +103,12 @@ Write-Host "Stamping cache-bust build id on snapshot HTML..."
 & py -3 (Join-Path $PSScriptRoot "stamp-cache-version.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+$dashSnap = Join-Path $RepoRoot "snapshot\$Date\dashboard"
+if (Test-Path $dashSnap) {
+    Write-Host "Removing local-only dashboard from deploy bundle..."
+    Remove-Item $dashSnap -Recurse -Force
+}
+
 Write-Host "Vercel scope: $VercelScope"
 $scopeFlag = @("--scope", $VercelScope)
 
