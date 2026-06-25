@@ -5,12 +5,17 @@
 
 .NOTES
   Default scope: zsen-idea-house (personal). NOT ennead-projects.
+
+  PRODUCTION (-Prod): milestone-only. Pass -Milestone with a short label (e.g. S2.5, P2, DNS).
+  Day-to-day QA: py -3 scripts\serve.py (local). Do NOT prod-deploy every commit.
+
   Phase 2 (default -CacheMode QA): HTML no-cache; assets immutable with ?v=<git-sha> stamp.
   After sign-off: set-vercel-cache-mode.ps1 -Mode Final, commit vercel.json, then
-  .\scripts\deploy-vercel.ps1 -Prod -CacheMode Final for lowest ongoing CDN cost.
+  .\scripts\deploy-vercel.ps1 -Prod -Milestone DNS -CacheMode Final
 #>
 param(
     [switch]$Prod,
+    [string]$Milestone = "",
     [string]$Date = "2026-06-05",
     [ValidateSet("QA", "Final")]
     [string]$CacheMode = "QA",
@@ -30,7 +35,14 @@ if (-not (Get-Command py -ErrorAction SilentlyContinue)) {
 }
 
 if ($Prod) {
-    Write-Host "PROD deploy - uploads full snapshot (~1.7 GB). User must have requested this." -ForegroundColor Yellow
+    if (-not $Milestone.Trim()) {
+        throw @"
+Prod deploy is milestone-only. Pass -Milestone <label> (e.g. S2.5, P2, DNS).
+For day-to-day work use: py -3 scripts\serve.py
+Preview (non-prod): .\scripts\deploy-vercel.ps1
+"@
+    }
+    Write-Host "PROD deploy [milestone: $($Milestone.Trim())] - uploads full snapshot (~1.7 GB)." -ForegroundColor Yellow
 }
 
 $vercelJson = Join-Path $RepoRoot "vercel.json"

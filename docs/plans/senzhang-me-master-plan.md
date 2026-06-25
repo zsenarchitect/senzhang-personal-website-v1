@@ -5,26 +5,26 @@
 **Vercel team:** zsen-idea-house (personal; NOT ennead-projects)
 **Keystone todo:** #1683
 
-## P1 status (2026-06-25)
+## Deploy policy
 
-| Item | Status |
-|------|--------|
-| Resume PDF + about-me link | Done |
-| 4 PRO pages | Done |
-| 12 code + 4 speaking pages | Done |
-| menu.html nav + offline nav fix | Done |
-| /code and /speaking index pages | Done |
-| about-me body from resume.ts | Deferred |
+| When | How |
+|------|-----|
+| Day-to-day dev / S2.5 review | `py -3 scripts\serve.py` (local only) |
+| Preview deploy (rare) | `.\scripts\deploy-vercel.ps1` (no -Prod) |
+| **Milestone prod** | `.\scripts\deploy-vercel.ps1 -Prod -Milestone <label>` |
 
-Repeat port: `scripts/port-v0-content.py`
-Deploy: `.\scripts\deploy-vercel.ps1 -Prod` (scope zsen-idea-house)
+Prod milestones: `P1-port`, `S2.5`, `P2`, `DNS`, `cache-final` (#1680).
+
+Do not prod-deploy on every commit.
+
+## P1 status
+
+Resume, PRO, code, speaking, nav fix, /code + /speaking indexes: **done**.
+Deferred: about-me body from resume.ts.
 
 ## S2.5 sign-off (blocks P2)
 
-| Tab | URL |
-|-----|-----|
-| A Legacy | https://legacy-personal-website.vercel.app |
-| B v1 | https://senzhang-personal-website-v1.vercel.app |
-| C v0 ports | same v1 — Code/Speaking/PRO, resume on about-me |
+Tab A: https://legacy-personal-website.vercel.app
+Tab B/C: https://senzhang-personal-website-v1.vercel.app
 
-Sign off on senzhang-todo #1683 when ready for P2.
+Sign off on #1683. Then prod deploy: `-Milestone S2.5` if preview URL needs refresh.
