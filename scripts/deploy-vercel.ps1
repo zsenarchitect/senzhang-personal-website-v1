@@ -70,6 +70,17 @@ Write-Host "Patching offline video player (seek bar + custom controls)..."
 & py -3 (Join-Path $PSScriptRoot "fix-offline-video-player.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+Write-Host "Patching offline folder nav (dropdown toggle + root-relative hrefs)..."
+& py -3 (Join-Path $PSScriptRoot "fix-offline-nav.py") $Date
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+Write-Host "Ensuring code/ and speaking/ index pages..."
+& py -3 (Join-Path $PSScriptRoot "add-section-index-pages.py") $Date
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+& py -3 (Join-Path $PSScriptRoot "fix-offline-nav.py") $Date
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 Write-Host "Stamping cache-bust build id on snapshot HTML..."
 & py -3 (Join-Path $PSScriptRoot "stamp-cache-version.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

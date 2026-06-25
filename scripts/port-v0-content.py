@@ -157,13 +157,18 @@ def folder(title, items, mobile):
 
 def update_menu():
     p = SNAP / "menu.html"; t = p.read_text(encoding="utf-8")
-    pro = [("ftz-shanghai.html","FTZ Free Trade Zone"),("bilibili-hq.html","Bilibili HQ"),("bytedance-hq.html","ByteDance HQ"),("hudson-yards.html","40 Hudson Yards")]
-    code = [("code/ideafactory.html","ideaFactory"),("code/realm.html","REALM"),("code/fat2fit.html","Fat2Fit"),("code/toni.html","Toni"),("code/timebank.html","TimeBank"),("code/enneadtab-ecosystem.html","EnneadTab Ecosystem"),("code/enneadtab-revit.html","EnneadTab for Revit"),("code/enneadtab-rhino.html","EnneadTab for Rhino"),("code/enneadtabwiki.html","EnneadTab Wiki"),("code/renderpolisher.html","RenderPolisher"),("code/bimrunner.html","BimRunner"),("code/revit-games.html","Revit Games")]
-    spk = [("speaking/aec-hackathon-2025.html","Pull Request Control for Revit"),("speaking/autodesk-university-2024.html","Revit As A Game Engine"),("speaking/aec-hackathon-2023.html","Educational Tool for Built Environment Innovation"),("speaking/digital-built-week-2023.html","Promoting Computational Design to Non-Programmers")]
-    if "bilibili-hq.html" not in t:
+    pro = [("/ftz-shanghai","FTZ Free Trade Zone"),("/bilibili-hq","Bilibili HQ"),("/bytedance-hq","ByteDance HQ"),("/hudson-yards","40 Hudson Yards")]
+    code = [("/code","All Code Projects")]+[("/code/"+s, l) for s,l in [
+        ("ideafactory","ideaFactory"),("realm","REALM"),("fat2fit","Fat2Fit"),("toni","Toni"),("timebank","TimeBank"),
+        ("enneadtab-ecosystem","EnneadTab Ecosystem"),("enneadtab-revit","EnneadTab for Revit"),("enneadtab-rhino","EnneadTab for Rhino"),
+        ("enneadtabwiki","EnneadTab Wiki"),("renderpolisher","RenderPolisher"),("bimrunner","BimRunner"),("revit-games","Revit Games")]]
+    spk = [("/speaking","All Talks")]+[("/speaking/"+s, l) for s,l in [
+        ("aec-hackathon-2025","Pull Request Control for Revit"),("autodesk-university-2024","Revit As A Game Engine"),
+        ("aec-hackathon-2023","Educational Tool for Built Environment Innovation"),("digital-built-week-2023","Promoting Computational Design to Non-Programmers")]]
+    if "bilibili-hq" not in t and "/bilibili-hq" not in t:
         t = t.replace('                <a href="app-ghost-hunter.html">APP: Ghost Hunter</a>', '                <a href="app-ghost-hunter.html">APP: Ghost Hunter</a>\n              \n\n            \n\n            </li>\n\n          \n\n' + "".join(nav(h,l,True) for h,l in pro) + '            <li class="page-collection">\n\n              \n                ', 1)
         t = t.replace('                    <a href="app-ghost-hunter.html">APP: Ghost Hunter</a>\n                  </li>', '                    <a href="app-ghost-hunter.html">APP: Ghost Hunter</a>\n                  </li>\n                \n                \n              \n                \n' + "".join('                  <li class="page-collection">\n                    <a href="%s">%s</a>\n                  </li>\n\n                \n                \n              ' % (h, esc(l)) for h,l in pro), 1)
-    if 'href="code/ideafactory.html"' not in t:
+    if 'href="/code/ideafactory"' not in t and 'href="code/ideafactory.html"' not in t:
         t = t.replace('              <a href="about-me.html">About</a>', folder("Code", code, True) + folder("Speaking", spk, True) + '              <a href="about-me.html">About</a>', 1)
         t = t.replace('            <a href="about-me.html">About</a>', folder("Code", code, False) + folder("Speaking", spk, False) + '            <a href="about-me.html">About</a>', 1)
     p.write_text(t, encoding="utf-8")

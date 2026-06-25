@@ -832,6 +832,44 @@ html.offline-fs-lightbox-open body {
   }, 500);
 })();
 </script>
+
+<style id="offline-nav-fix">
+.main-nav.dropdown-click li.folder > a { cursor: pointer; }
+#mobileNav .mobile-folder:not(.active-folder) > ul { display: none; }
+#mobileNav .mobile-folder.active-folder > ul { display: block; }
+</style>
+<script id="offline-nav-fix">
+(function () {
+  function bindFolders(root, selector) {
+    if (!root) return;
+    root.addEventListener("click", function (e) {
+      var a = e.target.closest(selector);
+      if (!a || a.getAttribute("href")) return;
+      var li = a.parentElement;
+      if (!li) return;
+      e.preventDefault();
+      var wasOpen = li.classList.contains("active-folder");
+      var scope = li.parentElement;
+      if (scope) {
+        scope.querySelectorAll(".active-folder").forEach(function (el) {
+          if (el !== li) el.classList.remove("active-folder");
+        });
+      }
+      li.classList.toggle("active-folder", !wasOpen);
+    });
+  }
+  function init() {
+    bindFolders(document.getElementById("topNav"), "li.folder > a");
+    bindFolders(document.getElementById("mobileNav"), ".mobile-folder > a");
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+
 </head>
 <body class="sidebar-text-alignment-left sidebar-position-left sidebar-fixed mobile-site-title-style-auto blog-sidebar-right gallery-style-fit enable-gallery-thumbnails initial-gallery-view-slideshow homepage-gallery-view-inherit thumbnail-aspect-ratio-auto gallery-controls-simple social-icon-style-normal   show-category-navigation   event-show-past-events event-thumbnails event-thumbnail-size-32-standard event-date-label  event-list-show-cats event-list-date event-list-time event-list-address   event-icalgcal-links  event-excerpts  event-item-back-link    product-list-titles-under product-list-alignment-center product-item-size-23-standard-vertical product-image-auto-crop product-gallery-size-11-square product-gallery-auto-crop show-product-price show-product-item-nav product-social-sharing tweak-v1-related-products-image-aspect-ratio-11-square tweak-v1-related-products-details-alignment-center newsletter-style-dark hide-opentable-icons opentable-style-dark small-button-style-solid small-button-shape-square medium-button-style-solid medium-button-shape-square large-button-style-solid large-button-shape-square image-block-poster-text-alignment-center image-block-card-dynamic-font-sizing image-block-card-content-position-center image-block-card-text-alignment-left image-block-overlap-dynamic-font-sizing image-block-overlap-content-position-center image-block-overlap-text-alignment-left image-block-collage-dynamic-font-sizing image-block-collage-content-position-top image-block-collage-text-alignment-left image-block-stack-dynamic-font-sizing image-block-stack-text-alignment-left button-style-solid button-corner-style-square tweak-product-quick-view-button-style-floating tweak-product-quick-view-button-position-bottom tweak-product-quick-view-lightbox-excerpt-display-truncate tweak-product-quick-view-lightbox-show-arrows tweak-product-quick-view-lightbox-show-close-button tweak-product-quick-view-lightbox-controls-weight-light native-currency-code-usd collection-5de5befc1926db29b15712d2 collection-type-page collection-layout-default mobile-style-available" id="collection-5de5befc1926db29b15712d2">
 
@@ -847,7 +885,7 @@ html.offline-fs-lightbox-open body {
           <li class="page-collection active-link">
 
             
-              <a href="menu.html">Menu</a>
+              <a href="/menu">Menu</a>
             
 
             
@@ -863,14 +901,14 @@ html.offline-fs-lightbox-open body {
         
 
         <li class="mobile-folder">
-          <a href="works.html">Works</a>
+          <a href="/works">Works</a>
           <ul>
           
 
             <li class="page-collection">
 
               
-                <a href="museum-of-verbs.html">Museum of Verbs</a>
+                <a href="/museum-of-verbs">Museum of Verbs</a>
               
 
               
@@ -882,7 +920,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="forumfold.html">ForumFold</a>
+                <a href="/forumfold">ForumFold</a>
               
 
               
@@ -894,7 +932,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="gravity-rises.html">Gravity Rises</a>
+                <a href="/gravity-rises">Gravity Rises</a>
               
 
               
@@ -906,7 +944,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="negative-memory.html">Negative Memory</a>
+                <a href="/negative-memory">Negative Memory</a>
               
 
               
@@ -918,7 +956,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="bank-of-15mins-fame.html">Bank of 15mins Fame</a>
+                <a href="/bank-of-15mins-fame">Bank of 15mins Fame</a>
               
 
               
@@ -930,7 +968,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="tokyo-antilibrary.html">Tokyo Anti-Library</a>
+                <a href="/tokyo-antilibrary">Tokyo Anti-Library</a>
               
 
               
@@ -942,7 +980,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="liberty-museum.html">Liberty Museum</a>
+                <a href="/liberty-museum">Liberty Museum</a>
               
 
               
@@ -954,7 +992,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="new-museum-in-motion.html">New Museum in Motion</a>
+                <a href="/new-museum-in-motion">New Museum in Motion</a>
               
 
               
@@ -966,7 +1004,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="university-island.html">University Island</a>
+                <a href="/university-island">University Island</a>
               
 
               
@@ -978,7 +1016,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="seed-on-mars.html">Seed on Mars</a>
+                <a href="/seed-on-mars">Seed on Mars</a>
               
 
               
@@ -990,7 +1028,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="zen-house-1.html">Block Field</a>
+                <a href="/zen-house-1">Block Field</a>
               
 
               
@@ -1002,7 +1040,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="vertical-campus.html">Vertical Campus</a>
+                <a href="/vertical-campus">Vertical Campus</a>
               
 
               
@@ -1014,7 +1052,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="silence-of-the-mask.html">Silence of the Mask</a>
+                <a href="/silence-of-the-mask">Silence of the Mask</a>
               
 
               
@@ -1026,7 +1064,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="mushroom-chair.html">Mushroom Chair</a>
+                <a href="/mushroom-chair">Mushroom Chair</a>
               
 
               
@@ -1038,7 +1076,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="a-measurement-of-isolation.html">A Measurement of Isolation</a>
+                <a href="/a-measurement-of-isolation">A Measurement of Isolation</a>
               
 
               
@@ -1050,7 +1088,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="app-ghost-hunter-1.html">Beijing Untouched</a>
+                <a href="/app-ghost-hunter-1">Beijing Untouched</a>
               
 
               
@@ -1062,7 +1100,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="nyc-taxi-20.html">NYC Taxi 2.0</a>
+                <a href="/nyc-taxi-20">NYC Taxi 2.0</a>
               
 
               
@@ -1074,7 +1112,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="bmx-bike.html">BMX Bike</a>
+                <a href="/bmx-bike">BMX Bike</a>
               
 
               
@@ -1086,7 +1124,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="zen-house.html">Zen House</a>
+                <a href="/zen-house">Zen House</a>
               
 
               
@@ -1098,7 +1136,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="post-carbon-city.html">Post Carbon City</a>
+                <a href="/post-carbon-city">Post Carbon City</a>
               
 
               
@@ -1110,7 +1148,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="black-hole-horizon-1.html">Ticket Booth for Nose</a>
+                <a href="/black-hole-horizon-1">Ticket Booth for Nose</a>
               
 
               
@@ -1122,7 +1160,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="black-hole-horizon.html">Black Hole Horizon</a>
+                <a href="/black-hole-horizon">Black Hole Horizon</a>
               
 
               
@@ -1134,7 +1172,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="bubble-bar.html">Bubble Bar</a>
+                <a href="/bubble-bar">Bubble Bar</a>
               
 
               
@@ -1146,7 +1184,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="takenaka-pavillion.html">Takenaka Pavilion</a>
+                <a href="/takenaka-pavillion">Takenaka Pavilion</a>
               
 
               
@@ -1158,7 +1196,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="hashtag-brunch.html">Hashtag Brunch</a>
+                <a href="/hashtag-brunch">Hashtag Brunch</a>
               
 
               
@@ -1170,7 +1208,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="walk-on-the-edge.html">Walk on the Edge</a>
+                <a href="/walk-on-the-edge">Walk on the Edge</a>
               
 
               
@@ -1182,7 +1220,7 @@ html.offline-fs-lightbox-open body {
             <li class="page-collection">
 
               
-                <a href="app-ghost-hunter.html">APP: Ghost Hunter</a>
+                <a href="/app-ghost-hunter">APP: Ghost Hunter</a>
               
 
             
@@ -1192,16 +1230,16 @@ html.offline-fs-lightbox-open body {
           
 
             <li class="page-collection">
-              <a href="ftz-shanghai.html">FTZ Free Trade Zone</a>
+              <a href="/ftz-shanghai">FTZ Free Trade Zone</a>
             </li>
             <li class="page-collection">
-              <a href="bilibili-hq.html">Bilibili HQ</a>
+              <a href="/bilibili-hq">Bilibili HQ</a>
             </li>
             <li class="page-collection">
-              <a href="bytedance-hq.html">ByteDance HQ</a>
+              <a href="/bytedance-hq">ByteDance HQ</a>
             </li>
             <li class="page-collection">
-              <a href="hudson-yards.html">40 Hudson Yards</a>
+              <a href="/hudson-yards">40 Hudson Yards</a>
             </li>
 
           
@@ -1214,40 +1252,43 @@ html.offline-fs-lightbox-open body {
           <a>Code</a>
           <ul>
             <li class="page-collection">
-              <a href="code/ideafactory.html">ideaFactory</a>
+              <a href="/code">All Code Projects</a>
             </li>
             <li class="page-collection">
-              <a href="code/realm.html">REALM</a>
+              <a href="/code/ideafactory">ideaFactory</a>
             </li>
             <li class="page-collection">
-              <a href="code/fat2fit.html">Fat2Fit</a>
+              <a href="/code/realm">REALM</a>
             </li>
             <li class="page-collection">
-              <a href="code/toni.html">Toni</a>
+              <a href="/code/fat2fit">Fat2Fit</a>
             </li>
             <li class="page-collection">
-              <a href="code/timebank.html">TimeBank</a>
+              <a href="/code/toni">Toni</a>
             </li>
             <li class="page-collection">
-              <a href="code/enneadtab-ecosystem.html">EnneadTab Ecosystem</a>
+              <a href="/code/timebank">TimeBank</a>
             </li>
             <li class="page-collection">
-              <a href="code/enneadtab-revit.html">EnneadTab for Revit</a>
+              <a href="/code/enneadtab-ecosystem">EnneadTab Ecosystem</a>
             </li>
             <li class="page-collection">
-              <a href="code/enneadtab-rhino.html">EnneadTab for Rhino</a>
+              <a href="/code/enneadtab-revit">EnneadTab for Revit</a>
             </li>
             <li class="page-collection">
-              <a href="code/enneadtabwiki.html">EnneadTab Wiki</a>
+              <a href="/code/enneadtab-rhino">EnneadTab for Rhino</a>
             </li>
             <li class="page-collection">
-              <a href="code/renderpolisher.html">RenderPolisher</a>
+              <a href="/code/enneadtabwiki">EnneadTab Wiki</a>
             </li>
             <li class="page-collection">
-              <a href="code/bimrunner.html">BimRunner</a>
+              <a href="/code/renderpolisher">RenderPolisher</a>
             </li>
             <li class="page-collection">
-              <a href="code/revit-games.html">Revit Games</a>
+              <a href="/code/bimrunner">BimRunner</a>
+            </li>
+            <li class="page-collection">
+              <a href="/code/revit-games">Revit Games</a>
             </li>
           </ul>
         </li>
@@ -1255,16 +1296,19 @@ html.offline-fs-lightbox-open body {
           <a>Speaking</a>
           <ul>
             <li class="page-collection">
-              <a href="speaking/aec-hackathon-2025.html">Pull Request Control for Revit</a>
+              <a href="/speaking">All Talks</a>
             </li>
             <li class="page-collection">
-              <a href="speaking/autodesk-university-2024.html">Revit As A Game Engine</a>
+              <a href="/speaking/aec-hackathon-2025">Pull Request Control for Revit</a>
             </li>
             <li class="page-collection">
-              <a href="speaking/aec-hackathon-2023.html">Educational Tool for Built Environment Innovation</a>
+              <a href="/speaking/autodesk-university-2024">Revit As A Game Engine</a>
             </li>
             <li class="page-collection">
-              <a href="speaking/digital-built-week-2023.html">Promoting Computational Design to Non-Programmers</a>
+              <a href="/speaking/aec-hackathon-2023">Educational Tool for Built Environment Innovation</a>
+            </li>
+            <li class="page-collection">
+              <a href="/speaking/digital-built-week-2023">Promoting Computational Design to Non-Programmers</a>
             </li>
           </ul>
         </li>
@@ -1272,7 +1316,7 @@ html.offline-fs-lightbox-open body {
           <li class="page-collection">
 
             
-              <a href="about-me.html">About</a>
+              <a href="/about-me">About</a>
             
 
             
@@ -1324,7 +1368,7 @@ html.offline-fs-lightbox-open body {
         
 
           
-            <a href="menu.html">Menu</a>
+            <a href="/menu">Menu</a>
           
 
           
@@ -1346,214 +1390,214 @@ html.offline-fs-lightbox-open body {
               
                 
                   <li class="page-collection">
-                    <a href="museum-of-verbs.html">Museum of Verbs</a>
+                    <a href="/museum-of-verbs">Museum of Verbs</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="forumfold.html">ForumFold</a>
+                    <a href="/forumfold">ForumFold</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="gravity-rises.html">Gravity Rises</a>
+                    <a href="/gravity-rises">Gravity Rises</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="negative-memory.html">Negative Memory</a>
+                    <a href="/negative-memory">Negative Memory</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="bank-of-15mins-fame.html">Bank of 15mins Fame</a>
+                    <a href="/bank-of-15mins-fame">Bank of 15mins Fame</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="tokyo-antilibrary.html">Tokyo Anti-Library</a>
+                    <a href="/tokyo-antilibrary">Tokyo Anti-Library</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="liberty-museum.html">Liberty Museum</a>
+                    <a href="/liberty-museum">Liberty Museum</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="new-museum-in-motion.html">New Museum in Motion</a>
+                    <a href="/new-museum-in-motion">New Museum in Motion</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="university-island.html">University Island</a>
+                    <a href="/university-island">University Island</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="seed-on-mars.html">Seed on Mars</a>
+                    <a href="/seed-on-mars">Seed on Mars</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="zen-house-1.html">Block Field</a>
+                    <a href="/zen-house-1">Block Field</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="vertical-campus.html">Vertical Campus</a>
+                    <a href="/vertical-campus">Vertical Campus</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="silence-of-the-mask.html">Silence of the Mask</a>
+                    <a href="/silence-of-the-mask">Silence of the Mask</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="mushroom-chair.html">Mushroom Chair</a>
+                    <a href="/mushroom-chair">Mushroom Chair</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="a-measurement-of-isolation.html">A Measurement of Isolation</a>
+                    <a href="/a-measurement-of-isolation">A Measurement of Isolation</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="app-ghost-hunter-1.html">Beijing Untouched</a>
+                    <a href="/app-ghost-hunter-1">Beijing Untouched</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="nyc-taxi-20.html">NYC Taxi 2.0</a>
+                    <a href="/nyc-taxi-20">NYC Taxi 2.0</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="bmx-bike.html">BMX Bike</a>
+                    <a href="/bmx-bike">BMX Bike</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="zen-house.html">Zen House</a>
+                    <a href="/zen-house">Zen House</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="post-carbon-city.html">Post Carbon City</a>
+                    <a href="/post-carbon-city">Post Carbon City</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="black-hole-horizon-1.html">Ticket Booth for Nose</a>
+                    <a href="/black-hole-horizon-1">Ticket Booth for Nose</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="black-hole-horizon.html">Black Hole Horizon</a>
+                    <a href="/black-hole-horizon">Black Hole Horizon</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="bubble-bar.html">Bubble Bar</a>
+                    <a href="/bubble-bar">Bubble Bar</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="takenaka-pavillion.html">Takenaka Pavilion</a>
+                    <a href="/takenaka-pavillion">Takenaka Pavilion</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="hashtag-brunch.html">Hashtag Brunch</a>
+                    <a href="/hashtag-brunch">Hashtag Brunch</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="walk-on-the-edge.html">Walk on the Edge</a>
+                    <a href="/walk-on-the-edge">Walk on the Edge</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="app-ghost-hunter.html">APP: Ghost Hunter</a>
+                    <a href="/app-ghost-hunter">APP: Ghost Hunter</a>
                   </li>
                 
                 
               
                 
                   <li class="page-collection">
-                    <a href="ftz-shanghai.html">FTZ Free Trade Zone</a>
+                    <a href="/ftz-shanghai">FTZ Free Trade Zone</a>
                   </li>
 
                 
                 
                                 <li class="page-collection">
-                    <a href="bilibili-hq.html">Bilibili HQ</a>
+                    <a href="/bilibili-hq">Bilibili HQ</a>
                   </li>
 
                 
                 
                                 <li class="page-collection">
-                    <a href="bytedance-hq.html">ByteDance HQ</a>
+                    <a href="/bytedance-hq">ByteDance HQ</a>
                   </li>
 
                 
                 
                                 <li class="page-collection">
-                    <a href="hudson-yards.html">40 Hudson Yards</a>
+                    <a href="/hudson-yards">40 Hudson Yards</a>
                   </li>
 
                 
@@ -1585,18 +1629,19 @@ html.offline-fs-lightbox-open body {
           <a>Code</a>
           <div class="subnav">
             <ul>
-              <li class="page-collection"><a href="code/ideafactory.html">ideaFactory</a></li>
-              <li class="page-collection"><a href="code/realm.html">REALM</a></li>
-              <li class="page-collection"><a href="code/fat2fit.html">Fat2Fit</a></li>
-              <li class="page-collection"><a href="code/toni.html">Toni</a></li>
-              <li class="page-collection"><a href="code/timebank.html">TimeBank</a></li>
-              <li class="page-collection"><a href="code/enneadtab-ecosystem.html">EnneadTab Ecosystem</a></li>
-              <li class="page-collection"><a href="code/enneadtab-revit.html">EnneadTab for Revit</a></li>
-              <li class="page-collection"><a href="code/enneadtab-rhino.html">EnneadTab for Rhino</a></li>
-              <li class="page-collection"><a href="code/enneadtabwiki.html">EnneadTab Wiki</a></li>
-              <li class="page-collection"><a href="code/renderpolisher.html">RenderPolisher</a></li>
-              <li class="page-collection"><a href="code/bimrunner.html">BimRunner</a></li>
-              <li class="page-collection"><a href="code/revit-games.html">Revit Games</a></li>
+              <li class="page-collection"><a href="/code">All Code Projects</a></li>
+              <li class="page-collection"><a href="/code/ideafactory">ideaFactory</a></li>
+              <li class="page-collection"><a href="/code/realm">REALM</a></li>
+              <li class="page-collection"><a href="/code/fat2fit">Fat2Fit</a></li>
+              <li class="page-collection"><a href="/code/toni">Toni</a></li>
+              <li class="page-collection"><a href="/code/timebank">TimeBank</a></li>
+              <li class="page-collection"><a href="/code/enneadtab-ecosystem">EnneadTab Ecosystem</a></li>
+              <li class="page-collection"><a href="/code/enneadtab-revit">EnneadTab for Revit</a></li>
+              <li class="page-collection"><a href="/code/enneadtab-rhino">EnneadTab for Rhino</a></li>
+              <li class="page-collection"><a href="/code/enneadtabwiki">EnneadTab Wiki</a></li>
+              <li class="page-collection"><a href="/code/renderpolisher">RenderPolisher</a></li>
+              <li class="page-collection"><a href="/code/bimrunner">BimRunner</a></li>
+              <li class="page-collection"><a href="/code/revit-games">Revit Games</a></li>
             </ul>
           </div>
 
@@ -1611,6 +1656,7 @@ html.offline-fs-lightbox-open body {
           <a>Speaking</a>
           <div class="subnav">
             <ul>
+              <li class="page-collection"><a href="/speaking">All Talks</a></li>
               <li class="page-collection"><a href="speaking/aec-hackathon-2025.html">Pull Request Control for Revit</a></li>
               <li class="page-collection"><a href="speaking/autodesk-university-2024.html">Revit As A Game Engine</a></li>
               <li class="page-collection"><a href="speaking/aec-hackathon-2023.html">Educational Tool for Built Environment Innovation</a></li>
