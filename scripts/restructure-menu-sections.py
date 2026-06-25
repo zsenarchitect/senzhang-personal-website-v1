@@ -50,7 +50,7 @@ ACADEMIC = [
     ("/new-museum-in-motion", "New Museum in Motion"),
     ("/university-island", "University Island"),
     ("/seed-on-mars", "Seed on Mars"),
-    ("/zen-house-1", "Block Field"),
+    ("/block-field", "Block Field"),
     ("/vertical-campus", "Vertical Campus"),
     ("/silence-of-the-mask", "Silence of the Mask"),
     ("/mushroom-chair", "Mushroom Chair"),
@@ -79,13 +79,13 @@ CODE = [("/code", "All Code Projects")] + [
     ("/code/" + s, l) for s, l in [
         ("ideafactory", "ideaFactory"), ("realm", "REALM"), ("fat2fit", "Fat2Fit"), ("toni", "Toni"),
         ("timebank", "TimeBank"), ("enneadtab-ecosystem", "EnneadTab Ecosystem"),
-        ("enneadtab-revit", "EnneadTab for Revit"), ("enneadtab-rhino", "EnneadTab for Rhino"),
-        ("enneadtabwiki", "EnneadTab Wiki"), ("renderpolisher", "RenderPolisher"),
+        ("renderpolisher", "RenderPolisher"),
         ("bimrunner", "BimRunner"), ("revit-games", "Revit Games"),
     ]
 ]
 SPEAK = [("/speaking", "All Talks")] + [
     ("/speaking/" + s, l) for s, l in [
+        ("acd-austin-2026", "The Design of Design"),
         ("aec-hackathon-2025", "Pull Request Control for Revit"),
         ("autodesk-university-2024", "Revit As A Game Engine"),
         ("aec-hackathon-2023", "Educational Tool for Built Environment Innovation"),

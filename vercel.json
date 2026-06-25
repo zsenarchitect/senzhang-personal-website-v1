@@ -250,6 +250,21 @@
       "source": "/zen-house-1",
       "destination": "/block-field",
       "permanent": true
+    },
+    {
+      "source": "/code/enneadtab-revit",
+      "destination": "/code/enneadtab-ecosystem",
+      "permanent": true
+    },
+    {
+      "source": "/code/enneadtab-rhino",
+      "destination": "/code/enneadtab-ecosystem",
+      "permanent": true
+    },
+    {
+      "source": "/code/enneadtabwiki",
+      "destination": "/code/enneadtab-ecosystem",
+      "permanent": true
     }
   ]
 }

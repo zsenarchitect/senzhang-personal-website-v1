@@ -7,14 +7,14 @@
       "category": "academic",
       "visible": true,
       "highlight": true,
-      "includeInResume": true
+      "includeInResume": false
     },
     "gravity-rises": {
       "slug": "gravity-rises",
       "title": "Gravity Rises",
       "category": "academic",
       "visible": true,
-      "highlight": false,
+      "highlight": true,
       "includeInResume": false
     },
     "forumfold": {
@@ -22,7 +22,7 @@
       "title": "Forumfold",
       "category": "academic",
       "visible": true,
-      "highlight": false,
+      "highlight": true,
       "includeInResume": false
     },
     "bank-of-15mins-fame": {
@@ -30,7 +30,7 @@
       "title": "Bank Of 15Mins Fame",
       "category": "academic",
       "visible": true,
-      "highlight": false,
+      "highlight": true,
       "includeInResume": false
     },
     "hashtag-brunch": {
@@ -53,7 +53,7 @@
       "slug": "liberty-museum",
       "title": "Liberty Museum",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -61,7 +61,7 @@
       "slug": "mushroom-chair",
       "title": "Mushroom Chair",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -69,15 +69,7 @@
       "slug": "a-measurement-of-isolation",
       "title": "A Measurement Of Isolation",
       "category": "academic",
-      "visible": true,
-      "highlight": false,
-      "includeInResume": false
-    },
-    "zen-house-1": {
-      "slug": "zen-house-1",
-      "title": "Block Field",
-      "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -85,7 +77,7 @@
       "slug": "silence-of-the-mask",
       "title": "Silence Of The Mask",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -101,7 +93,7 @@
       "slug": "new-museum-in-motion",
       "title": "New Museum In Motion",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -109,7 +101,7 @@
       "slug": "vertical-campus",
       "title": "Vertical Campus",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -117,7 +109,7 @@
       "slug": "seed-on-mars",
       "title": "Seed On Mars",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -125,7 +117,7 @@
       "slug": "black-hole-horizon",
       "title": "Black Hole Horizon",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -133,7 +125,7 @@
       "slug": "walk-on-the-edge",
       "title": "Walk On The Edge",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -141,7 +133,7 @@
       "slug": "zen-house",
       "title": "Zen House",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -149,7 +141,7 @@
       "slug": "university-island",
       "title": "University Island",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -157,7 +149,7 @@
       "slug": "black-hole-horizon-1",
       "title": "Ticket Booth for Nose",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -165,7 +157,7 @@
       "slug": "takenaka-pavillion",
       "title": "Takenaka Pavilion",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -173,7 +165,7 @@
       "slug": "nyc-taxi-20",
       "title": "Nyc Taxi 20",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -181,15 +173,15 @@
       "slug": "bmx-bike",
       "title": "Bmx Bike",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
     "app-ghost-hunter": {
       "slug": "app-ghost-hunter",
       "title": "App Ghost Hunter",
-      "category": "academic",
-      "visible": true,
+      "category": "code",
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -197,7 +189,7 @@
       "slug": "app-ghost-hunter-1",
       "title": "Beijing Untouched",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -205,7 +197,7 @@
       "slug": "bubble-bar",
       "title": "Bubble Bar",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -213,7 +205,7 @@
       "slug": "post-carbon-city",
       "title": "Post Carbon City",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -223,7 +215,7 @@
       "category": "professional",
       "visible": true,
       "highlight": true,
-      "includeInResume": true
+      "includeInResume": false
     },
     "bytedance-hq": {
       "slug": "bytedance-hq",
@@ -253,7 +245,7 @@
       "slug": "ideafactory",
       "title": "Ideafactory",
       "category": "code",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -269,7 +261,7 @@
       "slug": "fat2fit",
       "title": "Fat2Fit",
       "category": "code",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -277,7 +269,7 @@
       "slug": "toni",
       "title": "Toni",
       "category": "code",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -285,41 +277,17 @@
       "slug": "timebank",
       "title": "Timebank",
       "category": "code",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
     "enneadtab-ecosystem": {
       "slug": "enneadtab-ecosystem",
-      "title": "Enneadtab Ecosystem",
+      "title": "EnneadTab Ecosystem",
       "category": "code",
       "visible": true,
       "highlight": true,
       "includeInResume": true
-    },
-    "enneadtab-revit": {
-      "slug": "enneadtab-revit",
-      "title": "Enneadtab Revit",
-      "category": "code",
-      "visible": true,
-      "highlight": false,
-      "includeInResume": false
-    },
-    "enneadtab-rhino": {
-      "slug": "enneadtab-rhino",
-      "title": "Enneadtab Rhino",
-      "category": "code",
-      "visible": true,
-      "highlight": false,
-      "includeInResume": false
-    },
-    "enneadtabwiki": {
-      "slug": "enneadtabwiki",
-      "title": "Enneadtabwiki",
-      "category": "code",
-      "visible": true,
-      "highlight": false,
-      "includeInResume": false
     },
     "renderpolisher": {
       "slug": "renderpolisher",
@@ -334,7 +302,7 @@
       "title": "Bimrunner",
       "category": "code",
       "visible": true,
-      "highlight": false,
+      "highlight": true,
       "includeInResume": true
     },
     "revit-games": {
@@ -349,7 +317,7 @@
       "slug": "aec-hackathon-2025",
       "title": "Aec Hackathon 2025",
       "category": "speaking",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -376,6 +344,77 @@
       "visible": true,
       "highlight": false,
       "includeInResume": false
+    },
+    "block-field": {
+      "slug": "block-field",
+      "title": "Block Field",
+      "category": "academic",
+      "visible": false,
+      "highlight": false,
+      "includeInResume": false
+    },
+    "acd-austin-2026": {
+      "slug": "acd-austin-2026",
+      "title": "The Design of Design",
+      "category": "speaking",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false
     }
+  },
+  "sectionOrder": {
+    "academic": [
+      "museum-of-verbs",
+      "gravity-rises",
+      "forumfold",
+      "bank-of-15mins-fame",
+      "hashtag-brunch",
+      "negative-memory",
+      "liberty-museum",
+      "mushroom-chair",
+      "a-measurement-of-isolation",
+      "block-field",
+      "silence-of-the-mask",
+      "tokyo-antilibrary",
+      "new-museum-in-motion",
+      "vertical-campus",
+      "seed-on-mars",
+      "black-hole-horizon",
+      "walk-on-the-edge",
+      "zen-house",
+      "university-island",
+      "black-hole-horizon-1",
+      "takenaka-pavillion",
+      "nyc-taxi-20",
+      "bmx-bike",
+      "app-ghost-hunter-1",
+      "bubble-bar",
+      "post-carbon-city"
+    ],
+    "professional": [
+      "bilibili-hq",
+      "bytedance-hq",
+      "ftz-shanghai",
+      "hudson-yards"
+    ],
+    "code": [
+      "ideafactory",
+      "realm",
+      "fat2fit",
+      "toni",
+      "timebank",
+      "enneadtab-ecosystem",
+      "renderpolisher",
+      "bimrunner",
+      "revit-games",
+      "app-ghost-hunter"
+    ],
+    "speaking": [
+      "acd-austin-2026",
+      "aec-hackathon-2025",
+      "autodesk-university-2024",
+      "aec-hackathon-2023",
+      "digital-built-week-2023"
+    ]
   }
 }

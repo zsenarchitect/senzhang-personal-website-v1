@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 from build_section_masonry import SECTIONS
+from project_registry import global_slug_order
 
 V0 = Path(r"C:\Users\szhang\github\Personal\senzhang-personal-website-v0-failed-attempt")
 V1 = Path(__file__).resolve().parents[1]
@@ -130,9 +131,7 @@ def render_featured_portfolio(registry):
     ]
     if not featured:
         return ""
-    order = []
-    for key in ("academic", "professional", "code", "speaking"):
-        order.extend(SECTIONS[key].order)
+    order = global_slug_order(registry)
     featured.sort(key=lambda p: order.index(p["slug"]) if p["slug"] in order else 9999)
     body = ""
     for p in featured:

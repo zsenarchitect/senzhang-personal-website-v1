@@ -9,8 +9,8 @@ SNAP = V1 / "snapshot" / "2026-06-05"
 TPL = SNAP / "liberty-museum.html"
 MEDIA = SNAP / "_media"
 PRO = ["bilibili-hq", "bytedance-hq", "ftz-shanghai", "hudson-yards"]
-CODE = ["ideafactory","realm","fat2fit","toni","timebank","enneadtab-ecosystem","enneadtab-revit","enneadtab-rhino","enneadtabwiki","renderpolisher","bimrunner","revit-games"]
-SPEAK = ["aec-hackathon-2025","autodesk-university-2024","aec-hackathon-2023","digital-built-week-2023"]
+CODE = ["ideafactory","realm","fat2fit","toni","timebank","enneadtab-ecosystem","renderpolisher","bimrunner","revit-games"]
+SPEAK = ["acd-austin-2026","aec-hackathon-2025","autodesk-university-2024","aec-hackathon-2023","digital-built-week-2023"]
 IMG = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 
@@ -168,10 +168,9 @@ def update_menu():
     pro = [("/ftz-shanghai","FTZ Free Trade Zone"),("/bilibili-hq","Bilibili HQ"),("/bytedance-hq","ByteDance HQ"),("/hudson-yards","40 Hudson Yards")]
     code = [("/code","All Code Projects")]+[("/code/"+s, l) for s,l in [
         ("ideafactory","ideaFactory"),("realm","REALM"),("fat2fit","Fat2Fit"),("toni","Toni"),("timebank","TimeBank"),
-        ("enneadtab-ecosystem","EnneadTab Ecosystem"),("enneadtab-revit","EnneadTab for Revit"),("enneadtab-rhino","EnneadTab for Rhino"),
-        ("enneadtabwiki","EnneadTab Wiki"),("renderpolisher","RenderPolisher"),("bimrunner","BimRunner"),("revit-games","Revit Games")]]
+        ("enneadtab-ecosystem","EnneadTab Ecosystem"),("renderpolisher","RenderPolisher"),("bimrunner","BimRunner"),("revit-games","Revit Games")]]
     spk = [("/speaking","All Talks")]+[("/speaking/"+s, l) for s,l in [
-        ("aec-hackathon-2025","Pull Request Control for Revit"),("autodesk-university-2024","Revit As A Game Engine"),
+        ("acd-austin-2026","The Design of Design"),("aec-hackathon-2025","Pull Request Control for Revit"),("autodesk-university-2024","Revit As A Game Engine"),
         ("aec-hackathon-2023","Educational Tool for Built Environment Innovation"),("digital-built-week-2023","Promoting Computational Design to Non-Programmers")]]
     if "bilibili-hq" not in t and "/bilibili-hq" not in t:
         t = t.replace('                <a href="app-ghost-hunter.html">APP: Ghost Hunter</a>', '                <a href="app-ghost-hunter.html">APP: Ghost Hunter</a>\n              \n\n            \n\n            </li>\n\n          \n\n' + "".join(nav(h,l,True) for h,l in pro) + '            <li class="page-collection">\n\n              \n                ', 1)

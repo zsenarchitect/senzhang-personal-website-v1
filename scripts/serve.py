@@ -8,6 +8,7 @@ import io
 import json
 import os
 import socket
+import subprocess
 import sys
 import webbrowser
 from pathlib import Path
@@ -16,6 +17,24 @@ from pathlib import Path
 # Stub these during offline preview so SimpleHTTPRequestHandler does not 501.
 STUB_API_PREFIXES = ("/api/", "/universal/")
 PROJECTS_API = "/api/projects"
+
+
+def rebuild_site_from_registry() -> list[str]:
+    """Rebuild section grids and resume after dashboard saves."""
+    root = repo_root()
+    scripts = root / "scripts"
+    ran: list[str] = []
+    for name in ("restructure-menu-sections.py", "port-about-resume.py"):
+        path = scripts / name
+        if not path.is_file():
+            continue
+        subprocess.run(
+            [sys.executable, str(path)],
+            cwd=str(root),
+            check=False,
+        )
+        ran.append(name)
+    return ran
 
 
 def projects_json_path() -> Path:
@@ -84,6 +103,12 @@ def make_request_handler(quiet_api_logs: bool):
 
                 merge_registry_on_disk()
             data = json.loads(path.read_text(encoding="utf-8"))
+            sys.path.insert(0, str(repo_root() / "scripts"))
+            from dashboard_api import enrich_registry_with_thumbnails
+            from project_registry import sync_section_order
+
+            sync_section_order(data)
+            data = enrich_registry_with_thumbnails(data)
             self._send_json(200, data)
 
         def _handle_projects_post(self, body: bytes) -> None:
@@ -95,10 +120,17 @@ def make_request_handler(quiet_api_logs: bool):
             if not isinstance(payload, dict) or "projects" not in payload:
                 self._send_json(400, {"error": "expected { projects: {...} }"})
                 return
+            sys.path.insert(0, str(repo_root() / "scripts"))
+            from dashboard_api import strip_dashboard_fields
+            from project_registry import sync_section_order
+
+            payload = strip_dashboard_fields(payload)
+            payload["sectionOrder"] = sync_section_order(payload)
             out = projects_json_path()
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-            self._send_json(200, {"ok": True, "path": str(out)})
+            rebuilt = rebuild_site_from_registry()
+            self._send_json(200, {"ok": True, "path": str(out), "rebuilt": rebuilt})
 
         def _send_stub_api(self) -> None:
             self._read_request_body()

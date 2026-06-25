@@ -29,6 +29,38 @@ def _default_title(config, slug: str) -> str:
     return config.labels.get(slug, slug.replace("-", " ").title())
 
 
+def default_section_order() -> dict[str, list[str]]:
+    return {key: list(config.order) for key, config in SECTIONS.items()}
+
+
+def section_order_from_registry(registry: dict, section_key: str) -> list[str]:
+    custom = registry.get("sectionOrder", {}).get(section_key)
+    if custom:
+        return list(custom)
+    return list(SECTIONS[section_key].order)
+
+
+def sync_section_order(registry: dict) -> dict[str, list[str]]:
+    """Ensure sectionOrder lists include every project slug per category."""
+    projects = registry.get("projects", {})
+    order = registry.setdefault("sectionOrder", default_section_order())
+    for key in SECTIONS:
+        slugs_in_cat = [slug for slug, meta in projects.items() if meta.get("category", key) == key]
+        current = list(order.get(key) or SECTIONS[key].order)
+        merged = [s for s in current if s in slugs_in_cat]
+        for slug in slugs_in_cat:
+            if slug not in merged:
+                merged.append(slug)
+        deduped = []
+        seen = set()
+        for slug in merged:
+            if slug not in seen:
+                deduped.append(slug)
+                seen.add(slug)
+        order[key] = deduped
+    return order
+
+
 def seed_registry() -> dict:
     projects = {}
     for key, config in SECTIONS.items():
@@ -41,7 +73,7 @@ def seed_registry() -> dict:
                 "highlight": slug in DEFAULT_HIGHLIGHTS,
                 "includeInResume": slug in RESUME_DEFAULTS,
             }
-    return {"version": 1, "projects": projects}
+    return {"version": 1, "sectionOrder": default_section_order(), "projects": projects}
 
 
 def load_registry() -> dict:
@@ -50,10 +82,14 @@ def load_registry() -> dict:
         save_registry(data)
         print("created", REGISTRY_PATH.relative_to(V1))
         return data
-    return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    data = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    if "sectionOrder" not in data:
+        data["sectionOrder"] = default_section_order()
+    return data
 
 
 def save_registry(data: dict) -> None:
+    data["sectionOrder"] = sync_section_order(data)
     REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
     REGISTRY_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
@@ -61,8 +97,9 @@ def save_registry(data: dict) -> None:
 def merge_registry_on_disk() -> dict:
     """Add any new slugs from SECTIONS without overwriting existing flags."""
     data = load_registry()
-    projects = data.setdefault("projects", {})
     changed = False
+    projects = data.setdefault("projects", {})
+
     for key, config in SECTIONS.items():
         for slug in config.order:
             if slug not in projects:
@@ -78,6 +115,10 @@ def merge_registry_on_disk() -> dict:
             elif not projects[slug].get("title"):
                 projects[slug]["title"] = _default_title(config, slug)
                 changed = True
+    synced = sync_section_order(data)
+    if synced != data.get("sectionOrder"):
+        data["sectionOrder"] = synced
+        changed = True
     if changed:
         save_registry(data)
     return data
@@ -90,12 +131,12 @@ def apply_registry_to_tiles(
 ) -> tuple[dict[str, dict], list[str]]:
     registry = registry or merge_registry_on_disk()
     projects = registry.get("projects", {})
-    config = SECTIONS[section_key]
+    slug_order = section_order_from_registry(registry, section_key)
 
     filtered: dict[str, dict] = {}
     order: list[str] = []
 
-    for slug in config.order:
+    for slug in slug_order:
         meta = projects.get(slug, {})
         if meta.get("category", section_key) != section_key:
             continue
@@ -129,7 +170,7 @@ def collect_tile_pool(
     code_tiles: dict[str, dict],
     speak_tiles: dict[str, dict],
 ) -> dict[str, dict]:
-    from build_section_masonry import build_from_page_html, parse_legacy_tiles, parse_masonry_tiles
+    from build_section_masonry import parse_legacy_tiles, parse_masonry_tiles
 
     pool: dict[str, dict] = {}
     pool.update(pro_tiles)
@@ -156,6 +197,14 @@ def tiles_for_section(
     }
     section_tiles = {s: tile_pool[s] for s in section_slugs if s in tile_pool}
     return apply_registry_to_tiles(section_tiles, section_key, registry)
+
+
+def global_slug_order(registry: dict | None = None) -> list[str]:
+    registry = registry or merge_registry_on_disk()
+    order: list[str] = []
+    for key in ("academic", "professional", "code", "speaking"):
+        order.extend(section_order_from_registry(registry, key))
+    return order
 
 
 if __name__ == "__main__":

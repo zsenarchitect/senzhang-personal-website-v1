@@ -126,7 +126,7 @@ class SectionConfig:
 ACADEMIC_SLUGS = {
     "museum-of-verbs", "forumfold", "gravity-rises", "negative-memory", "bank-of-15mins-fame",
     "tokyo-antilibrary", "liberty-museum", "new-museum-in-motion", "university-island", "seed-on-mars",
-    "zen-house-1", "vertical-campus", "silence-of-the-mask", "mushroom-chair", "a-measurement-of-isolation",
+    "block-field", "vertical-campus", "silence-of-the-mask", "mushroom-chair", "a-measurement-of-isolation",
     "app-ghost-hunter-1", "nyc-taxi-20", "bmx-bike", "zen-house", "post-carbon-city",
     "black-hole-horizon-1", "black-hole-horizon", "bubble-bar", "takenaka-pavillion", "hashtag-brunch",
     "walk-on-the-edge", "app-ghost-hunter",
@@ -135,14 +135,14 @@ ACADEMIC_SLUGS = {
 ACADEMIC_ORDER = [
     "museum-of-verbs", "gravity-rises", "forumfold", "bank-of-15mins-fame", "hashtag-brunch",
     "negative-memory", "liberty-museum", "mushroom-chair", "a-measurement-of-isolation",
-    "zen-house-1", "silence-of-the-mask", "tokyo-antilibrary", "new-museum-in-motion",
+    "block-field", "silence-of-the-mask", "tokyo-antilibrary", "new-museum-in-motion",
     "vertical-campus", "seed-on-mars", "black-hole-horizon", "walk-on-the-edge", "zen-house",
     "university-island", "black-hole-horizon-1", "takenaka-pavillion", "nyc-taxi-20", "bmx-bike",
     "app-ghost-hunter", "app-ghost-hunter-1", "bubble-bar", "post-carbon-city",
 ]
 
 ACADEMIC_LABELS = {
-    "zen-house-1": "Block Field",
+    "block-field": "Block Field",
     "app-ghost-hunter-1": "Beijing Untouched",
     "black-hole-horizon-1": "Ticket Booth for Nose",
     "takenaka-pavillion": "Takenaka Pavilion",
@@ -151,11 +151,20 @@ ACADEMIC_LABELS = {
 PRO_SLUGS = ["bilibili-hq", "bytedance-hq", "ftz-shanghai", "hudson-yards"]
 CODE_SLUGS = [
     "ideafactory", "realm", "fat2fit", "toni", "timebank", "enneadtab-ecosystem",
-    "enneadtab-revit", "enneadtab-rhino", "enneadtabwiki", "renderpolisher", "bimrunner", "revit-games",
+    "renderpolisher", "bimrunner", "revit-games",
 ]
+
+CODE_LABELS = {
+    "enneadtab-ecosystem": "EnneadTab Ecosystem",
+}
 SPEAK_SLUGS = [
+    "acd-austin-2026",
     "aec-hackathon-2025", "autodesk-university-2024", "aec-hackathon-2023", "digital-built-week-2023",
 ]
+
+SPEAK_LABELS = {
+    "acd-austin-2026": "The Design of Design",
+}
 
 SECTIONS: dict[str, SectionConfig] = {
     "academic": SectionConfig(
@@ -179,6 +188,7 @@ SECTIONS: dict[str, SectionConfig] = {
         order=CODE_SLUGS,
         heading="Code",
         marker="<!-- code-masonry-grid -->",
+        labels=CODE_LABELS,
         href_for_slug=lambda s: "/code/" + s,
     ),
     "speaking": SectionConfig(
@@ -194,6 +204,7 @@ SECTIONS: dict[str, SectionConfig] = {
 
 def esc(x):
     return html.escape(str(x), quote=True)
+
 
 
 def slug_from_href(href):
