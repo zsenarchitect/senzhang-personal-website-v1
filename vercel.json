@@ -51,5 +51,207 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/works",
+      "destination": "/menu.html",
+      "permanent": true
+    },
+    {
+      "source": "/works/:slug",
+      "destination": "/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/projects",
+      "destination": "/menu.html",
+      "permanent": true
+    },
+    {
+      "source": "/projects/:slug",
+      "destination": "/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/about-me",
+      "destination": "/about-me",
+      "permanent": true
+    },
+    {
+      "source": "/a-measurement-of-isolation",
+      "destination": "/a-measurement-of-isolation",
+      "permanent": true
+    },
+    {
+      "source": "/app-ghost-hunter",
+      "destination": "/app-ghost-hunter",
+      "permanent": true
+    },
+    {
+      "source": "/bank-of-15mins-fame",
+      "destination": "/bank-of-15mins-fame",
+      "permanent": true
+    },
+    {
+      "source": "/beijing-untouched",
+      "destination": "/beijing-untouched",
+      "permanent": true
+    },
+    {
+      "source": "/bilibili-hq",
+      "destination": "/bilibili-hq",
+      "permanent": true
+    },
+    {
+      "source": "/black-hole-horizon",
+      "destination": "/black-hole-horizon",
+      "permanent": true
+    },
+    {
+      "source": "/block-field",
+      "destination": "/block-field",
+      "permanent": true
+    },
+    {
+      "source": "/bmx-bike",
+      "destination": "/bmx-bike",
+      "permanent": true
+    },
+    {
+      "source": "/bubble-bar",
+      "destination": "/bubble-bar",
+      "permanent": true
+    },
+    {
+      "source": "/bytedance-hq",
+      "destination": "/bytedance-hq",
+      "permanent": true
+    },
+    {
+      "source": "/forumfold",
+      "destination": "/forumfold",
+      "permanent": true
+    },
+    {
+      "source": "/ftz-shanghai",
+      "destination": "/ftz-shanghai",
+      "permanent": true
+    },
+    {
+      "source": "/gravity-rises",
+      "destination": "/gravity-rises",
+      "permanent": true
+    },
+    {
+      "source": "/hashtag-brunch",
+      "destination": "/hashtag-brunch",
+      "permanent": true
+    },
+    {
+      "source": "/hudson-yards",
+      "destination": "/hudson-yards",
+      "permanent": true
+    },
+    {
+      "source": "/liberty-museum",
+      "destination": "/liberty-museum",
+      "permanent": true
+    },
+    {
+      "source": "/museum-of-verbs",
+      "destination": "/museum-of-verbs",
+      "permanent": true
+    },
+    {
+      "source": "/mushroom-chair",
+      "destination": "/mushroom-chair",
+      "permanent": true
+    },
+    {
+      "source": "/negative-memory",
+      "destination": "/negative-memory",
+      "permanent": true
+    },
+    {
+      "source": "/new-museum-in-motion",
+      "destination": "/new-museum-in-motion",
+      "permanent": true
+    },
+    {
+      "source": "/nyc-taxi-20",
+      "destination": "/nyc-taxi-20",
+      "permanent": true
+    },
+    {
+      "source": "/post-carbon-city",
+      "destination": "/post-carbon-city",
+      "permanent": true
+    },
+    {
+      "source": "/seed-on-mars",
+      "destination": "/seed-on-mars",
+      "permanent": true
+    },
+    {
+      "source": "/silence-of-the-mask",
+      "destination": "/silence-of-the-mask",
+      "permanent": true
+    },
+    {
+      "source": "/takenaka-pavilion",
+      "destination": "/takenaka-pavilion",
+      "permanent": true
+    },
+    {
+      "source": "/ticket-booth-for-nose",
+      "destination": "/ticket-booth-for-nose",
+      "permanent": true
+    },
+    {
+      "source": "/tokyo-antilibrary",
+      "destination": "/tokyo-antilibrary",
+      "permanent": true
+    },
+    {
+      "source": "/university-island",
+      "destination": "/university-island",
+      "permanent": true
+    },
+    {
+      "source": "/vertical-campus",
+      "destination": "/vertical-campus",
+      "permanent": true
+    },
+    {
+      "source": "/walk-on-the-edge",
+      "destination": "/walk-on-the-edge",
+      "permanent": true
+    },
+    {
+      "source": "/zen-house",
+      "destination": "/zen-house",
+      "permanent": true
+    },
+    {
+      "source": "/app-ghost-hunter-1",
+      "destination": "/beijing-untouched",
+      "permanent": true
+    },
+    {
+      "source": "/black-hole-horizon-1",
+      "destination": "/ticket-booth-for-nose",
+      "permanent": true
+    },
+    {
+      "source": "/takenaka-pavillion",
+      "destination": "/takenaka-pavilion",
+      "permanent": true
+    },
+    {
+      "source": "/zen-house-1",
+      "destination": "/block-field",
+      "permanent": true
+    }
   ]
 }
