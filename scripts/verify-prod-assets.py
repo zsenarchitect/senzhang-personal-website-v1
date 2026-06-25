@@ -37,6 +37,9 @@ PAGE_PROBES = (
     ("speaking-index", "/speaking"),
     ("speaking-aec-2025", "/speaking/aec-hackathon-2025"),
 )
+
+
+def check_binary(base: str, path: str, min_bytes: int) -> tuple[bool, str]:
     url = base.rstrip("/") + path
     try:
         req = urllib.request.Request(url, method="GET")
