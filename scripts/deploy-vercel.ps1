@@ -95,10 +95,6 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & py -3 (Join-Path $PSScriptRoot "fix-offline-nav.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-Write-Host "Applying diegetic CRT skin on /code pages (#1739)..."
-& py -3 (Join-Path $PSScriptRoot "apply-diegetic-code-sector.py") $Date
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
 Write-Host "Stamping cache-bust build id on snapshot HTML..."
 & py -3 (Join-Path $PSScriptRoot "stamp-cache-version.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
