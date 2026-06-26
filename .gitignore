@@ -12,3 +12,7 @@ __pycache__/
 
 # Local Drive import staging (large binaries; review before snapshot import)
 dev/job-hunt-staging/
+
+# InDesign export PDFs (regenerate from .indd; GitHub 100 MB limit)
+**/231014 Resume Booklet.pdf
+**/260626 Resume Booklet.pdf
