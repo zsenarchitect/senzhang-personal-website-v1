@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/env python3
-"""Deprecated: section grids are built by restructure-menu-sections.py."""
+"""Deprecated: use apply-portfolio-config.py."""
 from __future__ import annotations
 
 import subprocess
@@ -11,7 +11,7 @@ V1 = Path(__file__).resolve().parents[1]
 
 def main():
     subprocess.check_call(
-        [sys.executable, str(V1 / "scripts" / "restructure-menu-sections.py")],
+        [sys.executable, str(V1 / "scripts" / "apply-portfolio-config.py")],
         cwd=str(V1),
     )
     return 0

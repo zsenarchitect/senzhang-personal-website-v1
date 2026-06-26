@@ -88,12 +88,8 @@ Write-Host "Patching offline folder nav (dropdown toggle + root-relative hrefs).
 & py -3 (Join-Path $PSScriptRoot "fix-offline-nav.py") $Date
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-Write-Host "Ensuring code/ and speaking/ index pages..."
-& py -3 (Join-Path $PSScriptRoot "add-section-index-pages.py") $Date
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-Write-Host "Refreshing about-me resume body from registry..."
-& py -3 (Join-Path $PSScriptRoot "port-about-resume.py")
+Write-Host "Applying portfolio config from data/projects.json..."
+& py -3 (Join-Path $PSScriptRoot "apply-portfolio-config.py")
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 & py -3 (Join-Path $PSScriptRoot "fix-offline-nav.py") $Date

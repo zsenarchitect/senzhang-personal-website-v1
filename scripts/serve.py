@@ -22,19 +22,15 @@ PROJECTS_API = "/api/projects"
 def rebuild_site_from_registry() -> list[str]:
     """Rebuild section grids and resume after dashboard saves."""
     root = repo_root()
-    scripts = root / "scripts"
-    ran: list[str] = []
-    for name in ("restructure-menu-sections.py", "port-about-resume.py"):
-        path = scripts / name
-        if not path.is_file():
-            continue
-        subprocess.run(
-            [sys.executable, str(path)],
-            cwd=str(root),
-            check=False,
-        )
-        ran.append(name)
-    return ran
+    script = root / "scripts" / "apply-portfolio-config.py"
+    if not script.is_file():
+        return []
+    subprocess.run(
+        [sys.executable, str(script)],
+        cwd=str(root),
+        check=False,
+    )
+    return ["apply-portfolio-config.py"]
 
 
 def projects_json_path() -> Path:

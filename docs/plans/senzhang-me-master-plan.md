@@ -18,6 +18,23 @@ Prod milestones: `P1-port`, `S2.5`, `P2`, `DNS`, `cache-final` (#1680).
 
 Do not prod-deploy on every commit.
 
+## Portfolio config (tracked)
+
+**Source of truth:** `data/projects.json` (git-tracked long-term). See `data/README.md`.
+
+| File | Role |
+|------|------|
+| `data/projects.json` | Visibility, highlights, resume flags, section order |
+| `data/registry.defaults.json` | Defaults for newly discovered slugs only (hidden until curated) |
+
+Apply config to snapshot HTML:
+
+```powershell
+py -3 scripts\apply-portfolio-config.py
+```
+
+Dashboard saves → `projects.json` → auto-runs apply. **Commit `data/projects.json` + regenerated `snapshot/`** together after curation. Milestone deploy runs apply from committed config.
+
 ## P1 status (done)
 
 - Resume, PRO, code, speaking, nav fix, `/code` + `/speaking` indexes

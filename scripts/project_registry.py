@@ -9,19 +9,25 @@ from build_section_masonry import SECTIONS
 
 V1 = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = V1 / "data" / "projects.json"
+DEFAULTS_PATH = V1 / "data" / "registry.defaults.json"
 
-DEFAULT_HIGHLIGHTS = {
-    "gravity-rises",
-    "bilibili-hq",
-    "enneadtab-ecosystem",
-    "acd-austin-2026",
+_FALLBACK_NEW_PROJECT = {
+    "visible": False,
+    "highlight": False,
+    "includeInResume": False,
 }
 
-RESUME_DEFAULTS = {
-    "enneadtab-ecosystem",
-    "bilibili-hq",
-    "bimrunner",
-}
+
+def _load_new_project_defaults() -> dict:
+    if not DEFAULTS_PATH.is_file():
+        return dict(_FALLBACK_NEW_PROJECT)
+    data = json.loads(DEFAULTS_PATH.read_text(encoding="utf-8"))
+    base = data.get("newProject", {})
+    return {
+        "visible": bool(base.get("visible", False)),
+        "highlight": bool(base.get("highlight", False)),
+        "includeInResume": bool(base.get("includeInResume", False)),
+    }
 
 
 def _default_title(config, slug: str) -> str:
@@ -62,15 +68,16 @@ def sync_section_order(registry: dict) -> dict[str, list[str]]:
 
 def seed_registry() -> dict:
     projects = {}
+    defaults = _load_new_project_defaults()
     for key, config in SECTIONS.items():
         for slug in config.order:
             projects[slug] = {
                 "slug": slug,
                 "title": _default_title(config, slug),
                 "category": key,
-                "visible": True,
-                "highlight": slug in DEFAULT_HIGHLIGHTS,
-                "includeInResume": slug in RESUME_DEFAULTS,
+                "visible": defaults["visible"],
+                "highlight": defaults["highlight"],
+                "includeInResume": defaults["includeInResume"],
             }
     return {"version": 1, "sectionOrder": default_section_order(), "projects": projects}
 
@@ -106,9 +113,7 @@ def merge_registry_on_disk() -> dict:
                     "slug": slug,
                     "title": _default_title(config, slug),
                     "category": key,
-                    "visible": True,
-                    "highlight": slug in DEFAULT_HIGHLIGHTS,
-                    "includeInResume": slug in RESUME_DEFAULTS,
+                    **_load_new_project_defaults(),
                 }
                 changed = True
             elif not projects[slug].get("title"):
