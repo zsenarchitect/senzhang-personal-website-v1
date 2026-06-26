@@ -4,8 +4,9 @@
 
 - Local dashboard: http://127.0.0.1:8765/dashboard (auto-saves here)
 - Direct edit + `py -3 scripts/apply-portfolio-config.py`
+- Merge v0 MDX metadata: `py -3 scripts/sync-project-meta-from-v0.py`
 
-## Schema (`version: 1`)
+## Schema (`version: 2`)
 
 | Field | Scope | Purpose |
 |-------|--------|---------|
@@ -13,7 +14,16 @@
 | `projects.<slug>.highlight` | per project | Two-column stagger pin in grid |
 | `projects.<slug>.includeInResume` | per project | Featured portfolio block on `/about-me` |
 | `projects.<slug>.category` | per project | `academic` \| `professional` \| `code` \| `speaking` |
+| `projects.<slug>.subtitle` | per project | One-line description / meta line |
+| `projects.<slug>.cover` | per project | e.g. `projects/bilibili-hq/cover.jpg` |
+| `projects.<slug>.abstract` | per project | Optional hero abstract |
+| `projects.<slug>.date`, `role`, `location`, `event` | per project | Category-specific meta line |
+| `projects.<slug>.stack`, `embed` | per project | Code projects only |
 | `sectionOrder.<category>` | per section | Masonry order (dashboard drag-sort) |
+
+JSON Schema: `project.schema.json`. New-project checklist: `projects/_template.md`.
+
+**Page layout:** all MDX-ported pages use `scripts/project_page.py` (marker, title, meta, abstract, cover, body, embed).
 
 New slugs discovered from section scripts are merged in with defaults from `registry.defaults.json` (conservative: hidden until curated).
 
@@ -22,10 +32,10 @@ Academic masonry thumbnails and tiles are parsed from `snapshot/<date>/works.htm
 ## Apply config → snapshot
 
 ```powershell
-py -3 scripts\apply-portfolio-config.py
+py -3 scripts\sync-project-meta-from-v0.py   # optional: pull MDX frontmatter
+py -3 scripts\port-v0-content.py             # rebuild pro/code/speaking HTML from MDX
+py -3 scripts\apply-portfolio-config.py      # rebuild grids + about-me from registry
 ```
-
-Rebuilds section index pages, menu hub, and about-me featured portfolio from this file.
 
 **Commit workflow:** after curation, commit `data/projects.json` **and** regenerated `snapshot/` HTML together.
 

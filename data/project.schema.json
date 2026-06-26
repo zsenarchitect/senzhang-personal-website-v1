@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sen Zhang portfolio project (registry v2)",
+  "description": "Canonical metadata in data/projects.json. Body content lives in MDX/HTML until migrated.",
+  "type": "object",
+  "properties": {
+    "version": { "type": "integer", "const": 2 },
+    "projects": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/project" }
+    },
+    "sectionOrder": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    }
+  },
+  "required": ["version", "projects"],
+  "$defs": {
+    "project": {
+      "type": "object",
+      "required": ["slug", "title", "category"],
+      "properties": {
+        "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "title": { "type": "string" },
+        "category": {
+          "enum": ["academic", "professional", "code", "speaking"]
+        },
+        "subtitle": { "type": "string" },
+        "cover": {
+          "type": "string",
+          "description": "Relative media path, e.g. projects/bilibili-hq/cover.jpg"
+        },
+        "visible": { "type": "boolean", "default": false },
+        "highlight": { "type": "boolean", "default": false },
+        "includeInResume": { "type": "boolean", "default": false },
+        "date": { "type": "string" },
+        "role": { "type": "string" },
+        "location": { "type": "string" },
+        "event": { "type": "string" },
+        "studio": { "type": "string" },
+        "partner": { "type": "string" },
+        "stack": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "embed": { "type": "string" },
+        "abstract": { "type": "string" },
+        "repo": { "type": "string" },
+        "liveUrl": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

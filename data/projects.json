@@ -1,13 +1,19 @@
 {
-  "version": 1,
+  "version": 2,
   "projects": {
     "museum-of-verbs": {
       "slug": "museum-of-verbs",
-      "title": "Museum Of Verbs",
+      "title": "Museum of Verbs",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "A Performing Art Center in the Power of Ten",
+      "cover": "/projects/museum-of-verbs/161209+areial+render--FW8N5O1TGX.jpg",
+      "date": "2016",
+      "location": "New York, NY",
+      "abstract": "<FigureImage src=\"/projects/museum-of-verbs/161209+areial+render--FW8N5O1TGX.jpg\" alt=\"Internior view of the action distionary\" debugId=\"museum-of-verbs/image-internior-view-of-the-action-distionary\" legacyBlockId=\"block-15b0afd0f4a0f822cd24\" />",
+      "studio": "Mariana Ibanez, GSAPP Columbia"
     },
     "gravity-rises": {
       "slug": "gravity-rises",
@@ -15,23 +21,42 @@
       "category": "academic",
       "visible": true,
       "highlight": true,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "BMX Bike Factory",
+      "cover": "/projects/gravity-rises/161209-areial-render.jpg",
+      "date": "2016",
+      "location": "New York, NY",
+      "abstract": "<FigureImage src=\"/projects/gravity-rises/161209-areial-render.jpg\" alt=\"Night View from Above\" debugId=\"gravity-rises/image-night-view-from-above\" legacyBlockId=\"block-e11b9d4aa1d49fdec619\" />",
+      "studio": "Lise Anne Couture, GSAPP Columbia",
+      "partner": "Ruizhi Wang"
     },
     "forumfold": {
       "slug": "forumfold",
-      "title": "Forumfold",
+      "title": "ForumFold",
       "category": "academic",
       "visible": true,
       "highlight": true,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "Cultural Center Groningen, Netherlands",
+      "cover": "/projects/forumfold/150401-interior-1.png",
+      "date": "2015",
+      "location": "Groningen, Netherlands",
+      "abstract": "<LegacyText debugId=\"forumfold/text-page-title\" legacyBlockId=\"block-a87e30632b0306bf82db\">",
+      "studio": "Mark Mistur and Eric Churchill, RPI",
+      "partner": "Kun Zhang"
     },
     "bank-of-15mins-fame": {
       "slug": "bank-of-15mins-fame",
-      "title": "Bank Of 15Mins Fame",
+      "title": "Bank of 15mins Fame",
       "category": "academic",
       "visible": true,
       "highlight": true,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "And a slaughterhouse in the other 11 months",
+      "cover": "/projects/bank-of-15mins-fame/cover.jpg",
+      "date": "2017",
+      "location": "Beijing, China",
+      "abstract": "<LegacyText debugId=\"bank-of-15mins-fame/text-page-title\" legacyBlockId=\"block-9ef07915aec73a0c56ab\">"
     },
     "hashtag-brunch": {
       "slug": "hashtag-brunch",
@@ -39,7 +64,10 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/hashtag-brunch/image-asset.png",
+      "date": "2017",
+      "abstract": "<LegacyText debugId=\"hashtag-brunch/text-page-title\" legacyBlockId=\"block-b1d0e2ea29232e83992f\">"
     },
     "negative-memory": {
       "slug": "negative-memory",
@@ -47,7 +75,12 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "Cast Urban Interior As Library of Refugee Diary",
+      "cover": "/projects/negative-memory/160203-cover-page.jpg",
+      "date": "2016",
+      "location": "Berlin, Germany",
+      "abstract": "<LegacyText debugId=\"negative-memory/text-page-title\" legacyBlockId=\"block-c465d71c49262a97561b\">"
     },
     "liberty-museum": {
       "slug": "liberty-museum",
@@ -55,7 +88,12 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "Archasm Int'l Competition Top 50",
+      "cover": "/projects/liberty-museum/A.png",
+      "date": "2016",
+      "location": "New York, NY",
+      "abstract": "<LegacyText debugId=\"liberty-museum/text-page-title\" legacyBlockId=\"block-d04b5f3214f313ca04fd\">"
     },
     "mushroom-chair": {
       "slug": "mushroom-chair",
@@ -63,39 +101,58 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "NYCxDesign week with TerreformONE",
+      "cover": "/projects/mushroom-chair/mushroom-chair.png",
+      "date": "2014",
+      "location": "New York, NY",
+      "abstract": "<LegacyText debugId=\"mushroom-chair/text-page-title\" legacyBlockId=\"block-9ef57b92ae7af8887c5d\">"
     },
     "a-measurement-of-isolation": {
       "slug": "a-measurement-of-isolation",
-      "title": "A Measurement Of Isolation",
+      "title": "A Measurement of Isolation",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/a-measurement-of-isolation/image-asset.jpeg",
+      "date": "2018",
+      "abstract": "<LegacyText debugId=\"a-measurement-of-isolation/text-page-title\" legacyBlockId=\"block-e5e474d8427e74f7fdab\">"
     },
     "silence-of-the-mask": {
       "slug": "silence-of-the-mask",
-      "title": "Silence Of The Mask",
+      "title": "Silence of the Mask",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/silence-of-the-mask/image-asset.jpeg",
+      "date": "2014",
+      "abstract": "<LegacyText debugId=\"silence-of-the-mask/text-page-title\" legacyBlockId=\"block-1d5cc3b28ab023158050\">"
     },
     "tokyo-antilibrary": {
       "slug": "tokyo-antilibrary",
-      "title": "Tokyo Antilibrary",
+      "title": "Tokyo Anti-Library",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/tokyo-antilibrary/180730-cam-03.jpg",
+      "date": "2018",
+      "abstract": "<LegacyText debugId=\"tokyo-antilibrary/text-page-title\" legacyBlockId=\"block-58085bb720002ce5929e\">"
     },
     "new-museum-in-motion": {
       "slug": "new-museum-in-motion",
-      "title": "New Museum In Motion",
+      "title": "New Museum in Motion",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "GSAPP Tech Series",
+      "cover": "/projects/new-museum-in-motion/A.png",
+      "date": "2016",
+      "location": "New York, NY",
+      "abstract": "<LegacyText debugId=\"new-museum-in-motion/text-page-title\" legacyBlockId=\"block-a3c84131495bcd530415\">"
     },
     "vertical-campus": {
       "slug": "vertical-campus",
@@ -103,15 +160,23 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "500 Students Housing",
+      "cover": "/projects/vertical-campus/A.png",
+      "date": "2014",
+      "location": "Troy, NY",
+      "abstract": "<LegacyText debugId=\"vertical-campus/text-page-title\" legacyBlockId=\"block-2310237ea4152546185b\">"
     },
     "seed-on-mars": {
       "slug": "seed-on-mars",
-      "title": "Seed On Mars",
+      "title": "Seed on Mars",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/seed-on-mars/image-asset.jpeg",
+      "date": "2017",
+      "abstract": "<LegacyText debugId=\"seed-on-mars/text-page-title\" legacyBlockId=\"block-2f085eb5820162edf28d\">"
     },
     "black-hole-horizon": {
       "slug": "black-hole-horizon",
@@ -119,15 +184,21 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/black-hole-horizon/IMG_4685.png",
+      "date": "2012",
+      "abstract": "<LegacyText debugId=\"black-hole-horizon/text-page-title\" legacyBlockId=\"block-fd1ed3c63cb8a16acf47\">"
     },
     "walk-on-the-edge": {
       "slug": "walk-on-the-edge",
-      "title": "Walk On The Edge",
+      "title": "Walk on the Edge",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "A selection of photography",
+      "date": "2017",
+      "abstract": "A selection of photography, Spring 2017."
     },
     "zen-house": {
       "slug": "zen-house",
@@ -135,7 +206,10 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/zen-house/Zhang_Sen_Exterior-4.png",
+      "date": "2015",
+      "abstract": "<LegacyText debugId=\"zen-house/text-page-title\" legacyBlockId=\"block-02a6acb5d1e9c6fd5cca\">"
     },
     "university-island": {
       "slug": "university-island",
@@ -143,7 +217,12 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "A Venetian Clock",
+      "cover": "/projects/university-island/A.png",
+      "date": "2015",
+      "location": "Venice, Italy",
+      "abstract": "<LegacyText debugId=\"university-island/text-page-title\" legacyBlockId=\"block-6ef6faeac5ec93b67c48\">"
     },
     "black-hole-horizon-1": {
       "slug": "black-hole-horizon-1",
@@ -151,7 +230,12 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "Tourist infrastructure in Bali",
+      "cover": "/projects/ticket-booth-for-nose/rice-field-aerial.png",
+      "date": "2013",
+      "location": "Bali, Indonesia",
+      "abstract": "<LegacyText debugId=\"ticket-booth-for-nose/text-page-title\" legacyBlockId=\"block-b5a7ef0e45dc7f00c98e\">"
     },
     "takenaka-pavillion": {
       "slug": "takenaka-pavillion",
@@ -159,23 +243,33 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/takenaka-pavilion/image-asset.jpeg",
+      "date": "2015",
+      "abstract": "<LegacyText debugId=\"takenaka-pavilion/text-page-title\" legacyBlockId=\"block-44cbf0dadcdb2650b878\">"
     },
     "nyc-taxi-20": {
       "slug": "nyc-taxi-20",
-      "title": "Nyc Taxi 20",
+      "title": "NYC Taxi 2.0",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/nyc-taxi-20/front-compose.png",
+      "date": "2015",
+      "location": "New York, NY",
+      "abstract": "<LegacyText debugId=\"nyc-taxi-20/text-page-title\" legacyBlockId=\"block-5aeeaeb4351f9044a33e\">"
     },
     "bmx-bike": {
       "slug": "bmx-bike",
-      "title": "Bmx Bike",
+      "title": "BMX Bike",
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/bmx-bike/image-asset.png",
+      "date": "2016",
+      "abstract": "<LegacyText debugId=\"bmx-bike/text-page-title\" legacyBlockId=\"block-2f374c43ec873aa42be6\">"
     },
     "app-ghost-hunter": {
       "slug": "app-ghost-hunter",
@@ -191,7 +285,10 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/beijing-untouched/image-asset.jpeg",
+      "date": "2016",
+      "abstract": "<LegacyText debugId=\"beijing-untouched/text-page-title\" legacyBlockId=\"block-694d9f13360ca31a0cce\">"
     },
     "bubble-bar": {
       "slug": "bubble-bar",
@@ -199,7 +296,10 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/bubble-bar/image-asset.jpeg",
+      "date": "2016",
+      "abstract": "<LegacyText debugId=\"bubble-bar/text-page-title\" legacyBlockId=\"block-14685eb47fdf51809652\">"
     },
     "post-carbon-city": {
       "slug": "post-carbon-city",
@@ -207,55 +307,108 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "TerreformONE",
+      "cover": "/projects/post-carbon-city/Post_Carb_goodweb.jpg",
+      "date": "2017",
+      "location": "New York, NY",
+      "abstract": "<FigureImage src=\"/projects/post-carbon-city/Post_Carb_goodweb.jpg\" alt=\"The Post Carbon City Wall\" debugId=\"post-carbon-city/image-hero\" layout=\"full\" />"
     },
     "bilibili-hq": {
       "slug": "bilibili-hq",
-      "title": "Bilibili Hq",
+      "title": "Bilibili HQ",
       "category": "professional",
       "visible": true,
       "highlight": true,
-      "includeInResume": true
+      "includeInResume": true,
+      "subtitle": "359k sqm Office, Residential, and Cultural Complex",
+      "cover": "/projects/bilibili-hq/cover.jpg",
+      "date": "2022",
+      "role": "Designer, BIM Manager",
+      "location": "Shanghai",
+      "abstract": "16 buildings of office, residential and cultural complex. Customized project scripts to semi and fully automate modeling, data management and other workflows. Complex geometry rationalization and optimization. Project specific automations refactored to office collection at end of project cycle."
     },
     "bytedance-hq": {
       "slug": "bytedance-hq",
-      "title": "Bytedance Hq",
+      "title": "ByteDance HQ",
       "category": "professional",
       "visible": true,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "62k sqm High-rise Office Tower",
+      "cover": "/projects/bytedance-hq/cover.jpg",
+      "date": "2021",
+      "role": "BIM Specialist",
+      "location": "Shenzhen",
+      "abstract": "Rule-based facade patterning parametric study over stepping massing. Rhino interoperability before Rhino.Inside with direct utilization of API in both applications."
     },
     "ftz-shanghai": {
       "slug": "ftz-shanghai",
-      "title": "Ftz Shanghai",
+      "title": "FTZ Free Trade Zone",
       "category": "professional",
       "visible": true,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "Commercial, Office Complex",
+      "cover": "/projects/ftz-shanghai/cover.jpg",
+      "date": "2021",
+      "role": "Designer, BIM Specialist",
+      "location": "Shanghai",
+      "abstract": "Worked with the team to design and document complex office towers across multiple plots. The project used extensive adaptive families to resolve non-conventional panel layouts."
     },
     "hudson-yards": {
       "slug": "hudson-yards",
-      "title": "Hudson Yards",
+      "title": "40 Hudson Yards",
       "category": "professional",
       "visible": true,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "2.3M sqft High-rise Office Tower, Hudson Yards Phase II",
+      "cover": "/projects/hudson-yards/cover.jpg",
+      "date": "2019",
+      "role": "Designer, BIM Specialist",
+      "location": "New York, NY",
+      "abstract": "Python, Dynamo, and Excel drive panel sizing optimization and validation over non-orthogonal projection. Added non-existing functionality to older Revit versions."
     },
     "ideafactory": {
       "slug": "ideafactory",
-      "title": "Ideafactory",
+      "title": "ideaFactory",
       "category": "code",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "16 AI agents producing graphic novels & videos",
+      "cover": "/projects/ideafactory/cover.jpg",
+      "date": "2025",
+      "stack": [
+        "Next.js",
+        "Python",
+        "Claude Code",
+        "ComfyUI",
+        "YouTube API"
+      ],
+      "abstract": "Autonomous content creation platform. 16 AI agents with distinct MBTI personalities discover trends, script stories, generate AI art, create TTS voiceovers, assemble videos, and publish to YouTube/TikTok."
     },
     "realm": {
       "slug": "realm",
-      "title": "Realm",
+      "title": "REALM",
       "category": "code",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "NYC design exhibition submission portal",
+      "cover": "/projects/realm/cover.jpg",
+      "date": "2025",
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Drizzle ORM",
+        "NextAuth v5",
+        "Stripe",
+        "Vercel Blob"
+      ],
+      "abstract": "Multi-event design exhibition portal with curated admin dashboard, magic link auth, file upload to Vercel Blob, and Stripe payments. Dark navy + gold design theme.",
+      "liveUrl": "https://realmnomadgroup.com"
     },
     "fat2fit": {
       "slug": "fat2fit",
@@ -263,7 +416,18 @@
       "category": "code",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "AI fitness tracker with real-time pose detection",
+      "cover": "/projects/fat2fit/cover.jpg",
+      "date": "2025",
+      "stack": [
+        "Next.js",
+        "TensorFlow.js",
+        "Supabase",
+        "PWA"
+      ],
+      "abstract": "Mobile-first fitness tracker using TensorFlow.js for client-side pose detection. Offline-capable Progressive Web App.",
+      "liveUrl": "https://fat2fit-one.vercel.app"
     },
     "toni": {
       "slug": "toni",
@@ -271,15 +435,35 @@
       "category": "code",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "Hair styling AI platform",
+      "cover": "/projects/toni/cover.jpg",
+      "date": "2025",
+      "stack": [
+        "Next.js",
+        "Supabase",
+        "Google Generative AI",
+        "Framer Motion"
+      ],
+      "abstract": "AI-powered hair styling platform with bilingual interface and fully agentic business operations."
     },
     "timebank": {
       "slug": "timebank",
-      "title": "Timebank",
+      "title": "TimeBank",
       "category": "code",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "Gamified timesheet SaaS",
+      "cover": "/projects/timebank/cover.jpg",
+      "date": "2025",
+      "stack": [
+        "Next.js",
+        "Prisma",
+        "Stripe",
+        "NextAuth"
+      ],
+      "abstract": "Gamified timesheet tracking for team billing with autonomous business ops powered by 16 MBTI agent team."
     },
     "enneadtab-ecosystem": {
       "slug": "enneadtab-ecosystem",
@@ -287,23 +471,56 @@
       "category": "code",
       "visible": true,
       "highlight": true,
-      "includeInResume": true
+      "includeInResume": true,
+      "subtitle": "The full EnneadTab tool network, mapped",
+      "cover": "/projects/enneadtab-ecosystem/cover.png",
+      "date": "2026",
+      "stack": [
+        "Python",
+        "Revit API",
+        "RhinoCommon",
+        "Next.js",
+        "FastAPI"
+      ],
+      "embed": "/ecosystem/ecosystem-network-diagram.html",
+      "abstract": "EnneadTab grew from a single Revit plugin into a connected ecosystem of in-house tools for Ennead Architects. It spans desktop plugins for Revit and Rhino, web dashboards, an AI rendering pipeline, site-inspection apps, and back-office services for HR and IT. Built and maintained solo, the pieces share data and infrastructure rather than standing alone."
     },
     "renderpolisher": {
       "slug": "renderpolisher",
-      "title": "Renderpolisher",
+      "title": "RenderPolisher",
       "category": "code",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "AI render post-processing for architectural delivery",
+      "cover": "/projects/renderpolisher/cover.jpg",
+      "date": "2025",
+      "stack": [
+        "Python",
+        "ComfyUI",
+        "Next.js",
+        "Revit API"
+      ],
+      "abstract": "AI-driven render post-processing pipeline tailored to architects' language and delivery workflow. Cleans and uplifts architectural visualizations through a configurable model chain and integrates into the Ennead delivery workflow via the EnneadTab toolbar."
     },
     "bimrunner": {
       "slug": "bimrunner",
-      "title": "Bimrunner",
+      "title": "BimRunner",
       "category": "code",
       "visible": true,
       "highlight": true,
-      "includeInResume": true
+      "includeInResume": true,
+      "subtitle": "Live BIM analytics and project pin-up wall",
+      "cover": "/projects/bimrunner/cover.jpg",
+      "date": "2026",
+      "stack": [
+        "Python",
+        "Next.js",
+        "PostgreSQL",
+        "Revit API",
+        "FastAPI"
+      ],
+      "abstract": "Production analytics platform that closes the feedback loop between live BIM data and project authoring. A local harvester ingests hundreds of models weekly; the web dashboard surfaces historical scoring, trending data, a project pin-up wall, scheduled reports, and an AI agent that generates custom analysis scripts on demand for cross-project queries."
     },
     "revit-games": {
       "slug": "revit-games",
@@ -311,39 +528,69 @@
       "category": "code",
       "visible": true,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "subtitle": "Games built inside Revit - Monopoly & Battleship",
+      "cover": "/projects/revit-games/cover.png",
+      "date": "2024",
+      "stack": [
+        "Python",
+        "Revit API",
+        "WPF",
+        "Custom Animation Module"
+      ],
+      "abstract": "Two games built entirely within Revit using Python and custom animation modules. Monopoly: 2v2 with animated movement and transactions. Battleship Hex: hex grid with ship placement validation. Presented at Autodesk University 2024."
     },
     "aec-hackathon-2025": {
       "slug": "aec-hackathon-2025",
-      "title": "Aec Hackathon 2025",
+      "title": "Pull Request Control for Revit",
       "category": "speaking",
       "visible": true,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/speaking/aec-hackathon-2025/cover.jpg",
+      "date": "2025",
+      "location": "New York, NY",
+      "event": "AEC Hackathon",
+      "abstract": "Proposed and prototyped a pull-request-style review workflow for Revit models, bringing version-control concepts from software engineering into BIM collaboration. The system enables architects and engineers to branch, diff, and merge Revit model changes with a structured review process - similar to GitHub pull requests - so teams can catch clashes, track who changed what, and approve modifications before they land in the central model. Built during the 2025 AEC Hackathon, the proof-of-concept leverages the Revit API and a lightweight web dashboard to visualize model deltas and manage review threads across disciplines."
     },
     "autodesk-university-2024": {
       "slug": "autodesk-university-2024",
-      "title": "Autodesk University 2024",
+      "title": "Revit As A Game Engine",
       "category": "speaking",
       "visible": true,
       "highlight": true,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/speaking/autodesk-university-2024/cover.jpg",
+      "date": "2024",
+      "location": "San Diego, CA",
+      "event": "Autodesk University",
+      "abstract": "Delivered a presentation showcasing two personal digital projects developed in the architectural field, incorporating strategies from game design theory to enhance user guidance and support."
     },
     "aec-hackathon-2023": {
       "slug": "aec-hackathon-2023",
-      "title": "Aec Hackathon 2023",
+      "title": "Educational Tool for Built Environment Innovation",
       "category": "speaking",
       "visible": true,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/speaking/aec-hackathon-2023/cover.jpg",
+      "date": "2023",
+      "location": "New York, NY",
+      "event": "AEC Hackathon",
+      "abstract": "Team Honorable Mention. Built an educational tool designed to connect junior and senior students, enabling the free exchange of skills, knowledge, and resources."
     },
     "digital-built-week-2023": {
       "slug": "digital-built-week-2023",
-      "title": "Digital Built Week 2023",
+      "title": "Promoting Computational Design to Non-Programmers",
       "category": "speaking",
       "visible": true,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/speaking/digital-built-week-2023/cover.jpg",
+      "date": "2023",
+      "location": "Dallas, TX",
+      "event": "Digital Built Week Americas",
+      "abstract": "Panel speaker sharing experiences with fellow AEC programmers on promoting computational design to non-programmers. Topics: finding office workflow bottlenecks, deploying user-experience-oriented solutions, and gamifying work to keep people engaged."
     },
     "block-field": {
       "slug": "block-field",
@@ -351,15 +598,23 @@
       "category": "academic",
       "visible": false,
       "highlight": false,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/projects/block-field/A.png",
+      "date": "2015",
+      "abstract": "<LegacyText debugId=\"block-field/text-page-title\" legacyBlockId=\"block-5e6301003b669220a164\">"
     },
     "acd-austin-2026": {
       "slug": "acd-austin-2026",
-      "title": "The Design of Design",
+      "title": "The Design of Design - Enabling Agile Introduction of New Tools to Scale Design Efficiency",
       "category": "speaking",
       "visible": true,
       "highlight": true,
-      "includeInResume": false
+      "includeInResume": false,
+      "cover": "/speaking/acd-austin-2026/cover.jpg",
+      "date": "January 2026",
+      "location": "Austin, TX",
+      "event": "Advancing Computational Design Conference",
+      "abstract": "Speaker session on enabling agile introduction of new design tools to scale firm-wide efficiency. Presented strategies for rolling out computational workflows without disrupting production teams, including autonomous self-healing tooling around the EnneadTab ecosystem and on-prem AI assistants that keep client data inside the firm network."
     }
   },
   "sectionOrder": {

@@ -80,7 +80,7 @@ def seed_registry() -> dict:
                 "highlight": defaults["highlight"],
                 "includeInResume": defaults["includeInResume"],
             }
-    return {"version": 1, "sectionOrder": default_section_order(), "projects": projects}
+    return {"version": 2, "sectionOrder": default_section_order(), "projects": projects}
 
 
 def load_registry() -> dict:
