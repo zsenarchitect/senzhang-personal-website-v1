@@ -17,6 +17,8 @@
 
 New slugs discovered from section scripts are merged in with defaults from `registry.defaults.json` (conservative: hidden until curated).
 
+Academic masonry thumbnails and tiles are parsed from `snapshot/<date>/works.html` (full legacy grid), **not** from the derived `/academic` masonry page.
+
 ## Apply config → snapshot
 
 ```powershell

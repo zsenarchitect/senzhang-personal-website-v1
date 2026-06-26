@@ -93,7 +93,8 @@ Sign-off date also recorded in `docs/plans/recruiter-content-floor-matrix.md`.
 | Item | Detail |
 |------|--------|
 | Masonry stagger | `36ab9d5` — highlighted pins span two grid columns (`pin-highlight-left` / `pin-highlight-right`) |
-| Registry curation | `data/projects.json` — P2 hide candidates hidden; resume/highlight flags tuned; P0/P1 academic re-show deferred (needs tile pool from `works.html`) |
+| Registry curation | `data/projects.json` — P2 hide candidates hidden; resume/highlight flags tuned |
+| Academic tile pool | `works.html` → masonry (not self-referential `/academic` output) |
 | `acd-austin-2026` cover | Typographic cover via `scripts/gen-speaking-cover.py` (was AU 2024 placeholder) |
 | Script fix | `restructure-menu-sections.py` highlight count no longer double-counts stagger classes |
 | **Not in P2** | `vercel.final.json` / DNS cutover (#1680) — separate milestone |

@@ -21,16 +21,6 @@ def _load_restructure_module():
     return mod
 
 
-def _academic_html_source() -> str | None:
-    academic = SNAP / "academic" / "index.html"
-    if academic.is_file():
-        return academic.read_text(encoding="utf-8")
-    backup = SNAP / "academic" / "_legacy-grid.fragment.html"
-    if backup.is_file():
-        return backup.read_text(encoding="utf-8")
-    return None
-
-
 def build_thumbnail_pool() -> dict[str, str]:
     scripts = str(V1 / "scripts")
     if scripts not in sys.path:
@@ -39,10 +29,10 @@ def build_thumbnail_pool() -> dict[str, str]:
 
     rms = _load_restructure_module()
     pool = collect_tile_pool(
-        _academic_html_source(),
         rms.build_pro_tile_data(),
         rms.build_code_tile_data(),
         rms.build_speak_tile_data(),
+        SNAP,
     )
     return {slug: tile["src"] for slug, tile in pool.items() if tile.get("src")}
 

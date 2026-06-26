@@ -564,7 +564,7 @@ def patch_all():
     pro_tiles = build_pro_tile_data()
     code_tiles = build_code_tile_data()
     speak_tiles = build_speak_tile_data()
-    tile_pool = collect_tile_pool(academic_source, pro_tiles, code_tiles, speak_tiles)
+    tile_pool = collect_tile_pool(pro_tiles, code_tiles, speak_tiles, SNAP)
 
     write_masonry_section(
         academic_path,

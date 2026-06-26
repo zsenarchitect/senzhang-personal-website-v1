@@ -10,6 +10,7 @@ from build_section_masonry import SECTIONS
 V1 = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = V1 / "data" / "projects.json"
 DEFAULTS_PATH = V1 / "data" / "registry.defaults.json"
+DEFAULT_SNAPSHOT = V1 / "snapshot" / "2026-06-05"
 
 _FALLBACK_NEW_PROJECT = {
     "visible": False,
@@ -168,24 +169,39 @@ def apply_registry_to_tiles(
     return filtered, order
 
 
+def load_academic_tile_html(snap_dir: Path | None = None) -> str | None:
+    """Full academic figure grid from works.html (not the derived masonry page)."""
+    snap = snap_dir or DEFAULT_SNAPSHOT
+    works = snap / "works.html"
+    if works.is_file():
+        return works.read_text(encoding="utf-8")
+    backup = snap / "academic" / "_legacy-grid.fragment.html"
+    if backup.is_file():
+        return backup.read_text(encoding="utf-8")
+    academic = snap / "academic" / "index.html"
+    if not academic.is_file():
+        return None
+    html = academic.read_text(encoding="utf-8")
+    if SECTIONS["academic"].marker in html:
+        return None
+    return html
+
+
 def collect_tile_pool(
-    academic_html: str | None,
     pro_tiles: dict[str, dict],
     code_tiles: dict[str, dict],
     speak_tiles: dict[str, dict],
+    snap_dir: Path | None = None,
 ) -> dict[str, dict]:
-    from build_section_masonry import parse_legacy_tiles, parse_masonry_tiles
+    from build_section_masonry import parse_legacy_tiles
 
     pool: dict[str, dict] = {}
     pool.update(pro_tiles)
     pool.update(code_tiles)
     pool.update(speak_tiles)
+    academic_html = load_academic_tile_html(snap_dir)
     if academic_html:
-        cfg = SECTIONS["academic"]
-        if cfg.marker in academic_html:
-            pool.update(parse_masonry_tiles(academic_html, cfg))
-        else:
-            pool.update(parse_legacy_tiles(academic_html, cfg))
+        pool.update(parse_legacy_tiles(academic_html, SECTIONS["academic"]))
     return pool
 
 
