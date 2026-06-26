@@ -1,0 +1,417 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-26T22:37:49Z",
+  "bookletFolder": "\u201c231014 Resume Booklet\u201d\u6587\u4ef6\u5939",
+  "idmlPath": "\u201c231014 Resume Booklet\u201d\u6587\u4ef6\u5939/231014 Resume Booklet.idml",
+  "linksCoverage": {
+    "total": 22,
+    "mapped": 22
+  },
+  "idmlContentBlockCount": 112,
+  "idmlContentBlocks": [
+    "WPF window UI make user easier to follow instruction.",
+    "BIM WORK",
+    "Work with the team to design and document complex office tower across multiple plots. The project use extensive amount adaptive family to resolve non-conventional panel layout.",
+    "50+ buttons and commands in Rhino UI using python and Rhino Commons.",
+    "Work seamlessly with the EnneadTab for Revit on more integrated solution, without requirement on user end to know grasshopper or Rhino.Inside.",
+    "A large portion of the collection works also dedicated to the Rhino workflows specifically over a variety of common pain points in modeling and management.",
+    "Using Eto modeless forms and DisplayPipeline, the instruction is given to the users on a narrative way to reduce front-load training time.",
+    "For better control on the complex family, internal formulas are designed to function like small program that can work with the external script for the max efficiency.",
+    "DEVELOPER WORK",
+    "EnneadTab for Rhino",
+    "Rhino API plugin using python",
+    "Author, Script Development",
+    "DEVELOPER WORK",
+    "BIM WORK",
+    "DEVELOPER WORK",
+    "Managing 16 buildings in a new office, residential and cultural complex. Due to the complexity of the geometry and limited team member skill set, many customized python scripts was developed to run manually or automatically to assist modeling, data management and other workflows. The project specific automations were later restructured to the office collection.",
+    "Help team to explore mutiple non-stacking-grid module strategies in Dynamo. The script layout and apply detailed revit family over complex curtain wall relationship. The rule-reading-logic is designed with ease of reading in mind so all designer can utilize it.",
+    "Preview result in Revit",
+    "Python to process data and generate result",
+    "2",
+    "3",
+    "1",
+    "Text to define rule",
+    "BIM WORK",
+    "BIM WORK",
+    "BIM WORK",
+    "BIM WORK",
+    "Bilibili HQ, Shanghai",
+    "359k m",
+    "2",
+    "Office, Commercial, Culture Complex",
+    "Designer, BIM Lead",
+    "5",
+    "Push to revit after confirmation",
+    "4",
+    "Set evaluation target",
+    "3",
+    "Extract GFA &amp; south facing area",
+    "2",
+    "Generate base shapes",
+    "1",
+    "All parametric inputs",
+    "Feedback Loop",
+    "Apply curtain panels with EnneadTab",
+    "Push result to the Revit document",
+    "Panel Family",
+    "Shortlist desired results",
+    "Generate large set of design options",
+    "by optimization and cross breeding",
+    "Calibrate the parameter ranges for the inputs",
+    "Establish rules for the target performance",
+    "Utilize Revit\u2019s machine learning toolset in Generative Design to find the best fit options among a large set of possibilities.",
+    "Revit Generative Design",
+    "Dynamo + python",
+    "Script Development",
+    "Sample Programmable Family",
+    "Ready to receive external conditional input from users or from scripts.",
+    "As a BIM support, I often look for solutions when existing functions cannot satisfy the project need. Below were two scenarios when unique solutions were created for unique question.",
+    "100+ python scripts  run manually and automatically on Revit UI using pyRevit as platform.",
+    "XAML format WPF modeless window integrated to the majority workflow to enhance the readability and easy of use.",
+    "The intuitive instruction on screen can offload extensive training for the office.",
+    "Enhance experience in modeling, QAQC, documentation, interoperability, syncing, exporting and content transferring.",
+    "The EnneadTab for Revit collection was featured at panelist topic at National Digital Built Week 2023.",
+    "Fire Rescue Window spacing coordination with the fire safety bureau.",
+    "Development Demo Footage",
+    "Development Demo Footage",
+    "Classic dice based 2-Vs-2 players monopoly board game. Animated money transaction and player movement.",
+    "Classic two players battleship game on hex grid boards. Players take turns and fly cannon balls to the other board till all ships are sunken.Transitional pages are added to prevent peeking.",
+    "Use WPF UI window to control the target piece. Support ship layout entirely control from the UI panel to prevent manual cheating placement before the game starts. The game will also check illegal placement before comfirmation.",
+    "Battleship Hex",
+    "Python Game In Revit",
+    "WPF Window In Visual Studio",
+    "Animation Using Self Developed Module",
+    "Revit Monopoly",
+    "Python Game In Revit",
+    "Animation Using Self Developed Module",
+    "Research",
+    "Gaming Development",
+    "Independent Work",
+    "Scenario #1:",
+    "Utilizing Revit API to bring complex Rhino shape to Revit environment as fully recognized revit element, ease the tagging, material assignment and graphical control along the way.",
+    "Later the scipt was formalized to the EnneadTab for more generic usage in other projects.",
+    "Using python and Dynamo to complete large amount of data processing where older revit version does not have certain function needed.",
+    "EnneadTab for Revit",
+    "Revit API plugin using python",
+    "Author, Script Development",
+    "Free Trade Zone, Shanghai",
+    "Commercial, Office Complex",
+    "Designer, BIM support, Script Development",
+    "Managing 17 highrise and lowrise buildings in a large new office campus. Joining the team halfway at the project to resolve existing issue as well as finding solutions to new problems.",
+    "Taopu 603 SmartCity, Shanghai",
+    "423k m",
+    "2",
+    "Commercial, Office and Cultural mixuse urban renewal",
+    "Designer, BIM support, Script Development",
+    "ByteDance HQ, Shenzhen",
+    "62k m",
+    "2",
+    "High-rise Office Tower at downtwon ShenZhen",
+    "BIM support, DYNAMO Script Development",
+    "40 Hudson Yard, New York",
+    "2.3m ft",
+    "2",
+    "High-rise Office Tower at Hudson Yard Phase II",
+    "Designer, BIM support, Script Development",
+    "Sen Zhang |",
+    "zsenarchitect@gmail.com",
+    "Sen Zhang |",
+    "zsenarchitect@gmail.com",
+    "Enlarged Elev. and Sec.",
+    "showing leaning curtain panels meeting terrace.",
+    "Sample tolerance map for one of the panel type."
+  ],
+  "qrDecodes": [],
+  "links": [
+    {
+      "sourceName": "231014 resume.indd",
+      "md5": "965486efc173bcf98ec5861098894e70",
+      "size": 1572864,
+      "dimensions": null,
+      "targetSlug": "_booklet",
+      "role": "source_indd",
+      "destName": "231014-resume.indd",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "3.jpg",
+      "md5": "e8af08837b4144d75b69bc22896cecea",
+      "size": 11732005,
+      "dimensions": {
+        "width": 5000,
+        "height": 3904
+      },
+      "targetSlug": "taopu-603-smartcity",
+      "role": "gallery",
+      "destName": "03.jpg",
+      "status": "proposed",
+      "reviewNote": "default pending review",
+      "existingDuplicate": {
+        "slug": "ftz-shanghai",
+        "path": "ftz-shanghai/15.jpg"
+      }
+    },
+    {
+      "sourceName": "[1]_006_G-N3-002 - N3 - MATERIAL INDEX.pdf",
+      "md5": "1cec5f707344a445f77886e362d8e1cb",
+      "size": 7983077,
+      "dimensions": null,
+      "targetSlug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "destName": "source/1-006-g-n3-002-n3-material-index.pdf",
+      "status": "proposed",
+      "existingDuplicate": {
+        "slug": "ftz-shanghai",
+        "path": "ftz-shanghai/_source/1-006-g-n3-002-n3-material-index.pdf"
+      }
+    },
+    {
+      "sourceName": "[1]_056_A-N3-302 - N3- CW-1 SYSTEM DRAWINGS.pdf",
+      "md5": "2d4e905bb97cd54f59413ddccdadee56",
+      "size": 1119368,
+      "dimensions": null,
+      "targetSlug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "destName": "source/1-056-a-n3-302-n3-cw-1-system-drawings.pdf",
+      "status": "proposed",
+      "existingDuplicate": {
+        "slug": "ftz-shanghai",
+        "path": "ftz-shanghai/_source/1-056-a-n3-302-n3-cw-1-system-drawings.pdf"
+      }
+    },
+    {
+      "sourceName": "A - 002 - SYSTEM DESCRIPTION.pdf",
+      "md5": "7522671ab2613f5a478a41abac7cb4e7",
+      "size": 5489258,
+      "dimensions": null,
+      "targetSlug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "destName": "source/a-002-system-description.pdf",
+      "status": "proposed",
+      "existingDuplicate": {
+        "slug": "ftz-shanghai",
+        "path": "ftz-shanghai/_source/a-002-system-description.pdf"
+      }
+    },
+    {
+      "sourceName": "A-000A - COLORED OVERALL SITE PLAN.pdf",
+      "md5": "3a9a510e1a735b09f62dbe144d29c79e",
+      "size": 10355222,
+      "dimensions": null,
+      "targetSlug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "destName": "source/a-000a-colored-overall-site-plan.pdf",
+      "status": "proposed",
+      "existingDuplicate": {
+        "slug": "ftz-shanghai",
+        "path": "ftz-shanghai/_source/a-000a-colored-overall-site-plan.pdf"
+      }
+    },
+    {
+      "sourceName": "A-002 - SYSTEM DESCRIPTION.pdf",
+      "md5": "6d4f702211bfc6ac6984afd05c5e102f",
+      "size": 5411049,
+      "dimensions": null,
+      "targetSlug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "destName": "source/a-002-system-description.pdf",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "A-301 - TOWER CW (CW-1).PDF",
+      "md5": "1e6a9eabeebe379e307411433e0acaba",
+      "size": 652693,
+      "dimensions": null,
+      "targetSlug": "bilibili-hq",
+      "role": "source_pdf",
+      "destName": "source/a-301-tower-cw-cw-1.pdf",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "A-348 - T4 CW-4 SYSTEM.PDF",
+      "md5": "99c02da8c4a3c19ec18c08afe095ca9b",
+      "size": 556482,
+      "dimensions": null,
+      "targetSlug": "bilibili-hq",
+      "role": "source_pdf",
+      "destName": "source/a-348-t4-cw-4-system.pdf",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "Battleship hex game play3.png",
+      "md5": "1d69ad72f7e04693c826c97e1d98e15b",
+      "size": 603760,
+      "dimensions": {
+        "width": 2552,
+        "height": 1390
+      },
+      "targetSlug": "revit-games",
+      "role": "gallery",
+      "destName": "02.png",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "Battleship hex UI.png",
+      "md5": "d9e1d18adc5e18b9effd998ee89ac282",
+      "size": 17881,
+      "dimensions": {
+        "width": 663,
+        "height": 433
+      },
+      "targetSlug": "revit-games",
+      "role": "gallery",
+      "destName": "02.png",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "battleship layout UI.png",
+      "md5": "b07282eab43a7bdb6cfb20e1704473ad",
+      "size": 145189,
+      "dimensions": {
+        "width": 1348,
+        "height": 930
+      },
+      "targetSlug": "revit-games",
+      "role": "gallery",
+      "destName": "02.png",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "bytedance layout script_flip.png",
+      "md5": "4182571d2f4f5bb036ea4a46e020385d",
+      "size": 1273457,
+      "dimensions": {
+        "width": 1887,
+        "height": 977
+      },
+      "targetSlug": "bytedance-hq",
+      "role": "gallery",
+      "destName": "13.png",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "c01.jpg",
+      "md5": "03ce18ce580fafa452aa9504706329f1",
+      "size": 26007898,
+      "dimensions": {
+        "width": 6000,
+        "height": 3996
+      },
+      "targetSlug": "bilibili-hq",
+      "role": "cover",
+      "destName": "cover.jpg",
+      "status": "proposed",
+      "existingDuplicate": {
+        "slug": "bilibili-hq",
+        "path": "bilibili-hq/06.jpg"
+      }
+    },
+    {
+      "sourceName": "c02.jpg",
+      "md5": "0fe75889300cf6725ef6adec93db391d",
+      "size": 16849989,
+      "dimensions": {
+        "width": 7000,
+        "height": 5250
+      },
+      "targetSlug": "bytedance-hq",
+      "role": "gallery",
+      "destName": "13.jpg",
+      "status": "proposed",
+      "existingDuplicate": {
+        "slug": "bytedance-hq",
+        "path": "bytedance-hq/05.jpg"
+      }
+    },
+    {
+      "sourceName": "C07 EA.jpg",
+      "md5": "70666fc9e3dda92e5f3931819e6c85e5",
+      "size": 11268023,
+      "dimensions": {
+        "width": 4000,
+        "height": 2444
+      },
+      "targetSlug": "enneadtab-ecosystem",
+      "role": "gallery",
+      "destName": "02.jpg",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "Generative Study DYN layout.png",
+      "md5": "b5de67301b57bddf4a50ab0b2b72b617",
+      "size": 1903031,
+      "dimensions": {
+        "width": 9956,
+        "height": 3358
+      },
+      "targetSlug": "bilibili-hq",
+      "role": "gallery",
+      "destName": "26.png",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "Generative Study.png",
+      "md5": "6f24a19a2e370f8653e1a1fbfe6bc7cf",
+      "size": 329769,
+      "dimensions": {
+        "width": 1114,
+        "height": 780
+      },
+      "targetSlug": "bilibili-hq",
+      "role": "gallery",
+      "destName": "26.png",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "monopoly game play.png",
+      "md5": "49cd5b8823ad187a0238bc6a9a9a2048",
+      "size": 2550406,
+      "dimensions": {
+        "width": 2554,
+        "height": 1426
+      },
+      "targetSlug": "revit-games",
+      "role": "gallery",
+      "destName": "02.png",
+      "status": "proposed",
+      "existingDuplicate": {
+        "slug": "revit-games",
+        "path": "revit-games/cover.png"
+      }
+    },
+    {
+      "sourceName": "panel type 4 elev._quick diagram.ai",
+      "md5": "e0d1235d0a1e3c9d4e73909f41d63fc3",
+      "size": 6407209,
+      "dimensions": null,
+      "targetSlug": "ftz-shanghai",
+      "role": "source_ai",
+      "destName": "source/panel-type-4-elev-quick-diagram.ai",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "programmable family.png",
+      "md5": "8ce9d6d0a6f3b789621d9087c6e0b89c",
+      "size": 70997,
+      "dimensions": {
+        "width": 789,
+        "height": 617
+      },
+      "targetSlug": "bilibili-hq",
+      "role": "gallery",
+      "destName": "26.png",
+      "status": "proposed"
+    },
+    {
+      "sourceName": "sample curtain panel.psd",
+      "md5": "95935a711105ce67df87517cabc5b035",
+      "size": 1060942,
+      "dimensions": null,
+      "targetSlug": "bilibili-hq",
+      "role": "source_psd",
+      "destName": "source/sample-curtain-panel.psd",
+      "status": "proposed"
+    }
+  ]
+}

@@ -328,7 +328,60 @@
       "date": "2022",
       "role": "Designer, BIM Manager",
       "location": "Shanghai",
-      "abstract": "16 buildings of office, residential and cultural complex. Customized project scripts to semi and fully automate modeling, data management and other workflows. Complex geometry rationalization and optimization. Project specific automations refactored to office collection at end of project cycle."
+      "abstract": "16 buildings of office, residential and cultural complex. Customized project scripts to semi and fully automate modeling, data management and other workflows. Complex geometry rationalization and optimization. Project specific automations refactored to office collection at end of project cycle.",
+      "mediaSlots": [
+        {
+          "role": "gallery",
+          "file": "26.jpg",
+          "label": "A-301 - TOWER CW (CW-1).PDF",
+          "sourceLink": "A-301 - TOWER CW (CW-1).PDF"
+        },
+        {
+          "role": "source_pdf",
+          "file": "_source/a-301-tower-cw-cw-1.pdf",
+          "label": "A-301 - TOWER CW (CW-1).PDF"
+        },
+        {
+          "role": "gallery",
+          "file": "27.jpg",
+          "label": "A-348 - T4 CW-4 SYSTEM.PDF",
+          "sourceLink": "A-348 - T4 CW-4 SYSTEM.PDF"
+        },
+        {
+          "role": "source_pdf",
+          "file": "_source/a-348-t4-cw-4-system.pdf",
+          "label": "A-348 - T4 CW-4 SYSTEM.PDF"
+        },
+        {
+          "role": "gallery",
+          "file": "28.jpg",
+          "label": "Generative Study DYN layout.png",
+          "sourceLink": "Generative Study DYN layout.png"
+        },
+        {
+          "role": "gallery",
+          "file": "29.jpg",
+          "label": "Generative Study.png",
+          "sourceLink": "Generative Study.png"
+        },
+        {
+          "role": "gallery",
+          "file": "30.jpg",
+          "label": "programmable family.png",
+          "sourceLink": "programmable family.png"
+        },
+        {
+          "role": "gallery",
+          "file": "31.jpg",
+          "label": "sample curtain panel.psd",
+          "sourceLink": "sample curtain panel.psd"
+        },
+        {
+          "role": "source_psd",
+          "file": "_source/sample curtain panel.psd",
+          "label": "sample curtain panel.psd"
+        }
+      ]
     },
     "bytedance-hq": {
       "slug": "bytedance-hq",
@@ -342,7 +395,21 @@
       "date": "2021",
       "role": "BIM Specialist",
       "location": "Shenzhen",
-      "abstract": "Rule-based facade patterning parametric study over stepping massing. Rhino interoperability before Rhino.Inside with direct utilization of API in both applications."
+      "abstract": "Rule-based facade patterning parametric study over stepping massing. Rhino interoperability before Rhino.Inside with direct utilization of API in both applications.",
+      "mediaSlots": [
+        {
+          "role": "gallery",
+          "file": "13.jpg",
+          "label": "bytedance layout script_flip.png",
+          "sourceLink": "bytedance layout script_flip.png"
+        },
+        {
+          "role": "gallery",
+          "file": "cover.jpg",
+          "label": "c02.jpg",
+          "sourceLink": "c02.jpg"
+        }
+      ]
     },
     "ftz-shanghai": {
       "slug": "ftz-shanghai",
@@ -351,12 +418,119 @@
       "visible": true,
       "highlight": false,
       "includeInResume": false,
-      "subtitle": "Commercial, Office Complex",
+      "subtitle": "Commercial, Office Complex — 17 buildings",
       "cover": "/projects/ftz-shanghai/cover.jpg",
       "date": "2021",
       "role": "Designer, BIM Specialist",
       "location": "Shanghai",
-      "abstract": "Worked with the team to design and document complex office towers across multiple plots. The project used extensive adaptive families to resolve non-conventional panel layouts."
+      "abstract": "Joined mid-project on a 17-building commercial office complex. Led panel tolerance mapping and curtain-wall documentation across multiple plots using adaptive families for non-conventional panel layouts.",
+      "mediaSlots": [
+        {
+          "role": "gallery",
+          "file": "25.jpg",
+          "label": "[1]_006_G-N3-002 - N3 - MATERIAL INDEX.pdf",
+          "sourceLink": "[1]_006_G-N3-002 - N3 - MATERIAL INDEX.pdf"
+        },
+        {
+          "role": "source_pdf",
+          "file": "_source/1-006-g-n3-002-n3-material-index.pdf",
+          "label": "[1]_006_G-N3-002 - N3 - MATERIAL INDEX.pdf"
+        },
+        {
+          "role": "gallery",
+          "file": "26.jpg",
+          "label": "[1]_056_A-N3-302 - N3- CW-1 SYSTEM DRAWINGS.pdf",
+          "sourceLink": "[1]_056_A-N3-302 - N3- CW-1 SYSTEM DRAWINGS.pdf"
+        },
+        {
+          "role": "source_pdf",
+          "file": "_source/1-056-a-n3-302-n3-cw-1-system-drawings.pdf",
+          "label": "[1]_056_A-N3-302 - N3- CW-1 SYSTEM DRAWINGS.pdf"
+        },
+        {
+          "role": "gallery",
+          "file": "27.jpg",
+          "label": "A - 002 - SYSTEM DESCRIPTION.pdf",
+          "sourceLink": "A - 002 - SYSTEM DESCRIPTION.pdf"
+        },
+        {
+          "role": "source_pdf",
+          "file": "_source/a-002-system-description.pdf",
+          "label": "A - 002 - SYSTEM DESCRIPTION.pdf"
+        },
+        {
+          "role": "gallery",
+          "file": "28.jpg",
+          "label": "A-000A - COLORED OVERALL SITE PLAN.pdf",
+          "sourceLink": "A-000A - COLORED OVERALL SITE PLAN.pdf"
+        },
+        {
+          "role": "source_pdf",
+          "file": "_source/a-000a-colored-overall-site-plan.pdf",
+          "label": "A-000A - COLORED OVERALL SITE PLAN.pdf"
+        },
+        {
+          "role": "gallery",
+          "file": "29.jpg",
+          "label": "A-002 - SYSTEM DESCRIPTION.pdf",
+          "sourceLink": "A-002 - SYSTEM DESCRIPTION.pdf"
+        },
+        {
+          "role": "source_pdf",
+          "file": "_source/a-002-system-description.pdf",
+          "label": "A-002 - SYSTEM DESCRIPTION.pdf"
+        },
+        {
+          "role": "source_ai",
+          "file": "_source/panel type 4 elev._quick diagram.ai",
+          "label": "panel type 4 elev._quick diagram.ai"
+        },
+        {
+          "role": "source_pdf",
+          "file": "_source/panel type 4 elev._quick diagram.pdf",
+          "label": "Panel type 4 elevation (editable PDF)"
+        },
+        {
+          "role": "gallery",
+          "file": "30.jpg",
+          "label": "Panel type 4 elevation diagram",
+          "sourceLink": "panel type 4 elev._quick diagram-02.jpg"
+        },
+        {
+          "role": "gallery",
+          "file": "31.jpg",
+          "label": "Panel type legend and counts",
+          "sourceLink": "panel type 4 elev._quick diagram-01.jpg"
+        },
+        {
+          "role": "gallery",
+          "file": "32.jpg",
+          "label": "Panel width tolerance map",
+          "sourceLink": "panel type 4 elev._quick diagram-03.jpg"
+        }
+      ]
+    },
+    "taopu-603-smartcity": {
+      "slug": "taopu-603-smartcity",
+      "title": "Taopu 603 SmartCity",
+      "category": "professional",
+      "visible": true,
+      "highlight": false,
+      "includeInResume": false,
+      "subtitle": "423k m2 commercial, office, and cultural mixed-use",
+      "cover": "/projects/taopu-603-smartcity/cover.jpg",
+      "date": "2021",
+      "role": "Designer, BIM Specialist",
+      "location": "Shanghai",
+      "abstract": "Large-scale SmartCity mixed-use development in Shanghai Taopu. Contributed to facade and BIM documentation for commercial, office, and cultural program across the master-planned district.",
+      "mediaSlots": [
+        {
+          "role": "gallery",
+          "file": "02.jpg",
+          "label": "3.jpg",
+          "sourceLink": "3.jpg"
+        }
+      ]
     },
     "hudson-yards": {
       "slug": "hudson-yards",
@@ -486,7 +660,15 @@
         "FastAPI"
       ],
       "embed": "/ecosystem/ecosystem-network-diagram.html",
-      "abstract": "EnneadTab grew from a single Revit plugin into a connected ecosystem of in-house tools for Ennead Architects. It spans desktop plugins for Revit and Rhino, web dashboards, an AI rendering pipeline, site-inspection apps, and back-office services for HR and IT. Built and maintained solo, the pieces share data and infrastructure rather than standing alone."
+      "abstract": "EnneadTab grew from a single Revit plugin into a connected ecosystem of in-house tools for Ennead Architects. It spans desktop plugins for Revit and Rhino, web dashboards, an AI rendering pipeline, site-inspection apps, and back-office services for HR and IT. Built and maintained solo, the pieces share data and infrastructure rather than standing alone.",
+      "mediaSlots": [
+        {
+          "role": "gallery",
+          "file": "02.jpg",
+          "label": "C07 EA.jpg",
+          "sourceLink": "C07 EA.jpg"
+        }
+      ]
     },
     "renderpolisher": {
       "slug": "renderpolisher",
@@ -541,7 +723,47 @@
         "WPF",
         "Custom Animation Module"
       ],
-      "abstract": "Two games built entirely within Revit using Python and custom animation modules. Monopoly: 2v2 with animated movement and transactions. Battleship Hex: hex grid with ship placement validation. Presented at Autodesk University 2024."
+      "abstract": "Two games built entirely within Revit using Python and custom animation modules. Monopoly: 2v2 with animated movement and transactions. Battleship Hex: hex grid with ship placement validation. Presented at Autodesk University 2024.",
+      "demoVideos": [
+        {
+          "label": "Monopoly demo",
+          "youtubeId": "ftEUXgbA7f4",
+          "source": "https://www.youtube.com/watch?v=ftEUXgbA7f4",
+          "local": "projects/revit-games/ftEUXgbA7f4.mp4"
+        },
+        {
+          "label": "Battleship Hex demo",
+          "youtubeId": "FUOS0MiStMM",
+          "source": "https://www.youtube.com/watch?v=FUOS0MiStMM",
+          "local": "projects/revit-games/FUOS0MiStMM.mp4"
+        }
+      ],
+      "mediaSlots": [
+        {
+          "role": "gallery",
+          "file": "02.jpg",
+          "label": "Battleship hex game play3.png",
+          "sourceLink": "Battleship hex game play3.png"
+        },
+        {
+          "role": "gallery",
+          "file": "03.jpg",
+          "label": "Battleship hex UI.png",
+          "sourceLink": "Battleship hex UI.png"
+        },
+        {
+          "role": "gallery",
+          "file": "04.jpg",
+          "label": "battleship layout UI.png",
+          "sourceLink": "battleship layout UI.png"
+        },
+        {
+          "role": "gallery",
+          "file": "05.jpg",
+          "label": "monopoly game play.png",
+          "sourceLink": "monopoly game play.png"
+        }
+      ]
     },
     "aec-hackathon-2025": {
       "slug": "aec-hackathon-2025",
@@ -654,6 +876,7 @@
       "bilibili-hq",
       "bytedance-hq",
       "ftz-shanghai",
+      "taopu-603-smartcity",
       "hudson-yards"
     ],
     "code": [

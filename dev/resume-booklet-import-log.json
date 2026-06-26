@@ -1,0 +1,337 @@
+{
+  "importedAt": "2026-06-26T22:38:14.304371+00:00",
+  "entries": [
+    {
+      "source": "231014 resume.indd",
+      "dest": "_media\\_booklet\\_source\\231014-resume.indd",
+      "status": "ok"
+    },
+    {
+      "source": "3.jpg",
+      "slug": "taopu-603-smartcity",
+      "role": "gallery",
+      "dest": "projects\\taopu-603-smartcity\\02.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "[1]_006_G-N3-002 - N3 - MATERIAL INDEX.pdf",
+      "slug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "galleryThumb": "25.jpg",
+      "dest": "projects\\ftz-shanghai\\_source\\1-006-g-n3-002-n3-material-index.pdf",
+      "status": "ok"
+    },
+    {
+      "source": "[1]_056_A-N3-302 - N3- CW-1 SYSTEM DRAWINGS.pdf",
+      "slug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "galleryThumb": "26.jpg",
+      "dest": "projects\\ftz-shanghai\\_source\\1-056-a-n3-302-n3-cw-1-system-drawings.pdf",
+      "status": "ok"
+    },
+    {
+      "source": "A - 002 - SYSTEM DESCRIPTION.pdf",
+      "slug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "galleryThumb": "27.jpg",
+      "dest": "projects\\ftz-shanghai\\_source\\a-002-system-description.pdf",
+      "status": "ok"
+    },
+    {
+      "source": "A-000A - COLORED OVERALL SITE PLAN.pdf",
+      "slug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "galleryThumb": "28.jpg",
+      "dest": "projects\\ftz-shanghai\\_source\\a-000a-colored-overall-site-plan.pdf",
+      "status": "ok"
+    },
+    {
+      "source": "A-002 - SYSTEM DESCRIPTION.pdf",
+      "slug": "ftz-shanghai",
+      "role": "source_pdf+gallery_thumb",
+      "galleryThumb": "29.jpg",
+      "dest": "projects\\ftz-shanghai\\_source\\a-002-system-description.pdf",
+      "status": "ok"
+    },
+    {
+      "source": "A-301 - TOWER CW (CW-1).PDF",
+      "slug": "bilibili-hq",
+      "role": "source_pdf",
+      "galleryThumb": "26.jpg",
+      "dest": "projects\\bilibili-hq\\_source\\a-301-tower-cw-cw-1.pdf",
+      "status": "ok"
+    },
+    {
+      "source": "A-348 - T4 CW-4 SYSTEM.PDF",
+      "slug": "bilibili-hq",
+      "role": "source_pdf",
+      "galleryThumb": "27.jpg",
+      "dest": "projects\\bilibili-hq\\_source\\a-348-t4-cw-4-system.pdf",
+      "status": "ok"
+    },
+    {
+      "source": "Battleship hex game play3.png",
+      "slug": "revit-games",
+      "role": "gallery",
+      "dest": "projects\\revit-games\\02.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "Battleship hex UI.png",
+      "slug": "revit-games",
+      "role": "gallery",
+      "dest": "projects\\revit-games\\03.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "battleship layout UI.png",
+      "slug": "revit-games",
+      "role": "gallery",
+      "dest": "projects\\revit-games\\04.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "bytedance layout script_flip.png",
+      "slug": "bytedance-hq",
+      "role": "gallery",
+      "dest": "projects\\bytedance-hq\\13.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "c01.jpg",
+      "slug": "bilibili-hq",
+      "role": "cover"
+    },
+    {
+      "source": "c02.jpg",
+      "slug": "bytedance-hq",
+      "role": "gallery",
+      "dest": "projects\\bytedance-hq\\cover.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "C07 EA.jpg",
+      "slug": "enneadtab-ecosystem",
+      "role": "gallery",
+      "dest": "projects\\enneadtab-ecosystem\\02.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "Generative Study DYN layout.png",
+      "slug": "bilibili-hq",
+      "role": "gallery",
+      "dest": "projects\\bilibili-hq\\28.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "Generative Study.png",
+      "slug": "bilibili-hq",
+      "role": "gallery",
+      "dest": "projects\\bilibili-hq\\29.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "monopoly game play.png",
+      "slug": "revit-games",
+      "role": "gallery",
+      "dest": "projects\\revit-games\\05.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "panel type 4 elev._quick diagram.ai",
+      "slug": "ftz-shanghai",
+      "role": "source_ai",
+      "convertError": "ai_export_failed",
+      "dest": "projects\\ftz-shanghai\\_source\\panel type 4 elev._quick diagram.ai",
+      "status": "convert_failed"
+    },
+    {
+      "source": "programmable family.png",
+      "slug": "bilibili-hq",
+      "role": "gallery",
+      "dest": "projects\\bilibili-hq\\30.jpg",
+      "status": "ok"
+    },
+    {
+      "source": "sample curtain panel.psd",
+      "slug": "bilibili-hq",
+      "role": "source_psd",
+      "dest": "projects\\bilibili-hq\\_source\\sample curtain panel.psd",
+      "status": "ok"
+    }
+  ],
+  "slotsBySlug": {
+    "taopu-603-smartcity": [
+      {
+        "role": "gallery",
+        "file": "02.jpg",
+        "label": "3.jpg",
+        "sourceLink": "3.jpg"
+      }
+    ],
+    "ftz-shanghai": [
+      {
+        "role": "gallery",
+        "file": "25.jpg",
+        "label": "[1]_006_G-N3-002 - N3 - MATERIAL INDEX.pdf",
+        "sourceLink": "[1]_006_G-N3-002 - N3 - MATERIAL INDEX.pdf"
+      },
+      {
+        "role": "source_pdf",
+        "file": "_source/1-006-g-n3-002-n3-material-index.pdf",
+        "label": "[1]_006_G-N3-002 - N3 - MATERIAL INDEX.pdf"
+      },
+      {
+        "role": "gallery",
+        "file": "26.jpg",
+        "label": "[1]_056_A-N3-302 - N3- CW-1 SYSTEM DRAWINGS.pdf",
+        "sourceLink": "[1]_056_A-N3-302 - N3- CW-1 SYSTEM DRAWINGS.pdf"
+      },
+      {
+        "role": "source_pdf",
+        "file": "_source/1-056-a-n3-302-n3-cw-1-system-drawings.pdf",
+        "label": "[1]_056_A-N3-302 - N3- CW-1 SYSTEM DRAWINGS.pdf"
+      },
+      {
+        "role": "gallery",
+        "file": "27.jpg",
+        "label": "A - 002 - SYSTEM DESCRIPTION.pdf",
+        "sourceLink": "A - 002 - SYSTEM DESCRIPTION.pdf"
+      },
+      {
+        "role": "source_pdf",
+        "file": "_source/a-002-system-description.pdf",
+        "label": "A - 002 - SYSTEM DESCRIPTION.pdf"
+      },
+      {
+        "role": "gallery",
+        "file": "28.jpg",
+        "label": "A-000A - COLORED OVERALL SITE PLAN.pdf",
+        "sourceLink": "A-000A - COLORED OVERALL SITE PLAN.pdf"
+      },
+      {
+        "role": "source_pdf",
+        "file": "_source/a-000a-colored-overall-site-plan.pdf",
+        "label": "A-000A - COLORED OVERALL SITE PLAN.pdf"
+      },
+      {
+        "role": "gallery",
+        "file": "29.jpg",
+        "label": "A-002 - SYSTEM DESCRIPTION.pdf",
+        "sourceLink": "A-002 - SYSTEM DESCRIPTION.pdf"
+      },
+      {
+        "role": "source_pdf",
+        "file": "_source/a-002-system-description.pdf",
+        "label": "A-002 - SYSTEM DESCRIPTION.pdf"
+      },
+      {
+        "role": "source_ai",
+        "file": "_source/panel type 4 elev._quick diagram.ai",
+        "label": "panel type 4 elev._quick diagram.ai"
+      }
+    ],
+    "bilibili-hq": [
+      {
+        "role": "gallery",
+        "file": "26.jpg",
+        "label": "A-301 - TOWER CW (CW-1).PDF",
+        "sourceLink": "A-301 - TOWER CW (CW-1).PDF"
+      },
+      {
+        "role": "source_pdf",
+        "file": "_source/a-301-tower-cw-cw-1.pdf",
+        "label": "A-301 - TOWER CW (CW-1).PDF"
+      },
+      {
+        "role": "gallery",
+        "file": "27.jpg",
+        "label": "A-348 - T4 CW-4 SYSTEM.PDF",
+        "sourceLink": "A-348 - T4 CW-4 SYSTEM.PDF"
+      },
+      {
+        "role": "source_pdf",
+        "file": "_source/a-348-t4-cw-4-system.pdf",
+        "label": "A-348 - T4 CW-4 SYSTEM.PDF"
+      },
+      {
+        "role": "gallery",
+        "file": "28.jpg",
+        "label": "Generative Study DYN layout.png",
+        "sourceLink": "Generative Study DYN layout.png"
+      },
+      {
+        "role": "gallery",
+        "file": "29.jpg",
+        "label": "Generative Study.png",
+        "sourceLink": "Generative Study.png"
+      },
+      {
+        "role": "gallery",
+        "file": "30.jpg",
+        "label": "programmable family.png",
+        "sourceLink": "programmable family.png"
+      },
+      {
+        "role": "gallery",
+        "file": "31.jpg",
+        "label": "sample curtain panel.psd",
+        "sourceLink": "sample curtain panel.psd"
+      },
+      {
+        "role": "source_psd",
+        "file": "_source/sample curtain panel.psd",
+        "label": "sample curtain panel.psd"
+      }
+    ],
+    "revit-games": [
+      {
+        "role": "gallery",
+        "file": "02.jpg",
+        "label": "Battleship hex game play3.png",
+        "sourceLink": "Battleship hex game play3.png"
+      },
+      {
+        "role": "gallery",
+        "file": "03.jpg",
+        "label": "Battleship hex UI.png",
+        "sourceLink": "Battleship hex UI.png"
+      },
+      {
+        "role": "gallery",
+        "file": "04.jpg",
+        "label": "battleship layout UI.png",
+        "sourceLink": "battleship layout UI.png"
+      },
+      {
+        "role": "gallery",
+        "file": "05.jpg",
+        "label": "monopoly game play.png",
+        "sourceLink": "monopoly game play.png"
+      }
+    ],
+    "bytedance-hq": [
+      {
+        "role": "gallery",
+        "file": "13.jpg",
+        "label": "bytedance layout script_flip.png",
+        "sourceLink": "bytedance layout script_flip.png"
+      },
+      {
+        "role": "gallery",
+        "file": "cover.jpg",
+        "label": "c02.jpg",
+        "sourceLink": "c02.jpg"
+      }
+    ],
+    "enneadtab-ecosystem": [
+      {
+        "role": "gallery",
+        "file": "02.jpg",
+        "label": "C07 EA.jpg",
+        "sourceLink": "C07 EA.jpg"
+      }
+    ]
+  },
+  "bookletFonts": "_media\\_booklet\\fonts"
+}

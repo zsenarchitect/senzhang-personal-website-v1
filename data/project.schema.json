@@ -54,7 +54,32 @@
         "embed": { "type": "string" },
         "abstract": { "type": "string" },
         "repo": { "type": "string" },
-        "liveUrl": { "type": "string" }
+        "liveUrl": { "type": "string" },
+        "demoVideos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "youtubeId": { "type": "string" },
+              "source": { "type": "string" },
+              "local": { "type": "string" }
+            }
+          }
+        },
+        "mediaSlots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "file": { "type": "string" },
+              "label": { "type": "string" },
+              "sourceLink": { "type": "string" },
+              "galleryThumb": { "type": "string" }
+            }
+          }
+        }
       },
       "additionalProperties": false
     }

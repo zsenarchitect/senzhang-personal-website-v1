@@ -14,6 +14,42 @@ TEMPLATE_HTML = SNAP / "liberty-museum.html"
 PAGE_MARKER = "<!-- project-page-v1"
 GALLERY_NUM = re.compile(r"^(\d+)\.(jpg|jpeg|png|webp)$", re.I)
 
+PLACEHOLDER_STYLE = """
+<style id="asset-placeholder-style">
+.asset-placeholder { margin: 0 0 1.5em; }
+.asset-placeholder__box {
+  width: 100%; aspect-ratio: 16 / 10; min-height: 160px;
+  background: #d8d8d8; position: relative;
+}
+.asset-placeholder__box--video { aspect-ratio: 16 / 9; min-height: 200px; }
+.asset-placeholder__box--embed { aspect-ratio: auto; min-height: 320px; }
+.asset-placeholder__box::before,
+.asset-placeholder__box::after {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  width: 70%; height: 2px; background: #999;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.asset-placeholder__box::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.asset-placeholder__caption {
+  font-size: 12px; color: #666; margin-top: 0.5em; text-align: center;
+}
+.asset-placeholder__caption span { display: block; font-family: monospace; font-size: 11px; }
+.project-demo-video { margin: 0 0 1.5em; }
+.project-demo-video h3 { font-size: 14px; text-align: center; margin: 0 0 0.5em; }
+.offline-embed-video-shell video.offline-embed-video {
+  width: 100%; display: block; background: #000;
+}
+</style>
+"""
+
+OFFLINE_EMBED_STYLE_SNIPPET = """
+<style id="offline-embed-video-style">
+.embed-block-wrapper .offline-embed-video-shell video.offline-embed-video {
+  width: 100%; display: block; background: #000;
+}
+</style>
+"""
+
 ROW = (
     '<div class="row sqs-row"><div class="col sqs-col-12 span-12">'
     '<div class="sqs-block html-block sqs-block-html" data-block-type="2">'
@@ -116,6 +152,197 @@ def normalize_cover(cover: str | None, slug: str, category: str) -> str | None:
     return "_media/projects/{0}/cover.jpg".format(slug)
 
 
+def media_path_on_disk(rel: str) -> Path:
+    """Resolve _media-relative or projects/... path to snapshot file."""
+    r = str(rel).strip().lstrip("/")
+    if r.startswith("_media/"):
+        r = r[len("_media/") :]
+    return SNAP / "_media" / r
+
+
+def asset_exists(rel: str) -> bool:
+    p = media_path_on_disk(rel)
+    return p.is_file() and p.stat().st_size > 0
+
+
+def placeholder_row(label: str, expected_path: str, box_class: str = "") -> str:
+    rel = expected_path
+    if rel.startswith("_media/"):
+        rel = rel[len("_media/") :]
+    data_attr = esc(rel)
+    extra = " asset-placeholder__box--{0}".format(box_class) if box_class else ""
+    inner = (
+        '<figure class="asset-placeholder" data-missing-asset="'
+        + data_attr
+        + '" role="img" aria-label="Missing: '
+        + esc(label)
+        + '">'
+        '<div class="asset-placeholder__box'
+        + extra
+        + '" aria-hidden="true"></div>'
+        '<figcaption class="asset-placeholder__caption">'
+        "<strong>Missing: "
+        + esc(label)
+        + "</strong>"
+        "<span>"
+        + esc(expected_path if expected_path.startswith("_media/") else "_media/" + rel)
+        + "</span>"
+        "</figcaption></figure>"
+    )
+    return (
+        '<div class="row sqs-row"><div class="col sqs-col-12 span-12">'
+        '<div class="sqs-block image-block sqs-block-image" data-block-type="5">'
+        '<div class="sqs-block-content">'
+        + inner
+        + "</div></div></div></div>"
+    )
+
+
+def cover_row(meta: dict, slug: str, title: str) -> str:
+    cover = normalize_cover(meta.get("cover"), slug, meta.get("category", "academic"))
+    if not cover:
+        return ""
+    rel = cover[len("_media/") :] if cover.startswith("_media/") else cover
+    if asset_exists(rel):
+        return image_row(cover, title)
+    return placeholder_row("Cover", cover)
+
+
+def demo_videos_rows(meta: dict) -> str:
+    demos = meta.get("demoVideos") or []
+    if not demos:
+        return ""
+    parts = []
+    for demo in demos:
+        label = demo.get("label") or "Demo video"
+        local = demo.get("local") or ""
+        youtube_id = demo.get("youtubeId") or ""
+        source = demo.get("source") or (
+            "https://www.youtube.com/watch?v={0}".format(youtube_id) if youtube_id else ""
+        )
+        rel = local.lstrip("/")
+        if not rel.startswith("projects/"):
+            rel = local
+        media_rel = rel if rel.startswith("projects/") else local
+        src = "_media/" + media_rel.lstrip("/")
+        block = '<div class="project-demo-video"><h3>' + esc(label) + "</h3>"
+        if media_rel and asset_exists(media_rel):
+            block += (
+                '<div class="embed-block-wrapper">'
+                '<div class="offline-embed-video-shell">'
+                '<video class="offline-embed-video" controls playsinline preload="metadata" src="'
+                + esc(src)
+                + '"></video></div></div>'
+            )
+        else:
+            block += placeholder_row(label, src, "video")
+        if source:
+            block += (
+                '<p class="text-align-center" style="font-size:12px;margin-top:0.5em">'
+                '<a href="'
+                + esc(source)
+                + '" target="_blank" rel="noopener">Watch on YouTube</a></p>'
+            )
+        block += "</div>"
+        parts.append(
+            '<div class="row sqs-row"><div class="col sqs-col-12 span-12">'
+            '<div class="sqs-block html-block sqs-block-html" data-block-type="2">'
+            '<div class="sqs-block-content"><div class="sqs-html-content">'
+            + block
+            + "</div></div></div></div></div>"
+        )
+    return "".join(parts)
+
+
+def embed_row(meta: dict, title: str) -> str:
+    embed = meta.get("embed")
+    if not embed:
+        return ""
+    e = embed if str(embed).startswith("_media/") else "_media/" + str(embed).lstrip("/")
+    rel = e[len("_media/") :]
+    if asset_exists(rel):
+        return text_row(
+            '<iframe src="'
+            + esc(e)
+            + '" title="'
+            + esc(title)
+            + '" style="width:100%;min-height:640px;border:1px solid #ddd" loading="lazy"></iframe>'
+        )
+    return placeholder_row("Embed", e, "embed")
+
+
+def slot_image_row(slug: str, slot: dict) -> str:
+    role = slot.get("role", "gallery")
+    file_name = slot.get("file") or ""
+    label = slot.get("label") or file_name or role
+    if role == "cover":
+        rel_path = "projects/{0}/{1}".format(slug, file_name)
+    else:
+        rel_path = "projects/{0}/{1}".format(slug, file_name)
+    src = "_media/" + rel_path
+    if asset_exists(rel_path):
+        return image_row(src, label)
+    return placeholder_row(label, src)
+
+
+def gallery_body_from_slots(meta: dict) -> tuple[str, int]:
+    slug = meta.get("slug", "")
+    slots = meta.get("mediaSlots") or []
+    missing = 0
+    rows = []
+    gallery_slots = [s for s in slots if s.get("role") in ("gallery", "cover", "converted_gallery")]
+    if gallery_slots:
+        for slot in gallery_slots:
+            row = slot_image_row(slug, slot)
+            if "data-missing-asset" in row:
+                missing += 1
+            rows.append(row)
+        listed = {s.get("file") for s in gallery_slots}
+        for f in list_numbered_gallery_files(slug):
+            if f.name not in listed:
+                src = "_media/projects/{0}/{1}".format(slug, f.name)
+                rows.append(image_row(src, f.stem))
+    else:
+        for f in list_numbered_gallery_files(slug):
+            m = GALLERY_NUM.match(f.name)
+            n = int(m.group(1)) if m else 0
+            src = "_media/projects/{0}/{1}".format(slug, f.name)
+            alt = "View {0}".format(n) if n >= 2 else f.stem
+            rows.append(image_row(src, alt))
+    return "".join(rows), missing
+
+
+def source_downloads_row(meta: dict) -> str:
+    slots = meta.get("mediaSlots") or []
+    sources = [s for s in slots if str(s.get("role", "")).startswith("source_")]
+    if not sources:
+        return ""
+    items = []
+    slug = meta.get("slug", "")
+    for slot in sources:
+        file_name = slot.get("file") or ""
+        label = slot.get("label") or file_name
+        rel_path = "projects/{0}/{1}".format(slug, file_name)
+        if asset_exists(rel_path):
+            href = "_media/" + rel_path
+            items.append(
+                '<li><a href="'
+                + esc(href)
+                + '" download>'
+                + esc(label)
+                + "</a></li>"
+            )
+        else:
+            items.append(
+                "<li>"
+                + placeholder_row(label, "_media/" + rel_path)
+                + "</li>"
+            )
+    if not items:
+        return ""
+    return text_row("<h3>Source files</h3><ul>" + "".join(items) + "</ul>")
+
+
 def marker_row(slug: str, category: str) -> str:
     return (
         '<div class="row sqs-row" style="display:none" aria-hidden="true">'
@@ -154,23 +381,23 @@ def render_project_inner(meta: dict, body_html: str) -> str:
             text_row("<h3>abstract:</h3><p>" + esc(abstract) + "</p>")
         )
 
-    cover = normalize_cover(meta.get("cover"), slug, category)
-    if cover:
-        blocks.append(image_row(cover, title))
+    blocks.append(demo_videos_rows(meta))
+    blocks.append(cover_row(meta, slug, title))
 
-    blocks.append(body_html or "")
+    gallery_html, missing_count = gallery_body_from_slots(meta)
+    if body_html and not gallery_html:
+        blocks.append(body_html)
+    elif gallery_html:
+        blocks.append(gallery_html)
+    elif body_html:
+        blocks.append(body_html)
 
-    embed = meta.get("embed")
-    if embed:
-        e = embed if str(embed).startswith("_media/") else "_media/" + str(embed).lstrip("/")
+    blocks.append(source_downloads_row(meta))
+    blocks.append(embed_row(meta, title))
+
+    if missing_count:
         blocks.append(
-            text_row(
-                '<iframe src="'
-                + esc(e)
-                + '" title="'
-                + esc(title)
-                + '" style="width:100%;min-height:640px;border:1px solid #ddd" loading="lazy"></iframe>'
-            )
+            "<!-- project-missing-assets: {0} -->".format(missing_count)
         )
     return "".join(blocks)
 
@@ -202,6 +429,15 @@ def set_page_head(shell: str, title: str, canonical: str) -> str:
     return shell
 
 
+def inject_page_styles(shell: str) -> str:
+    styles = PLACEHOLDER_STYLE
+    if 'id="offline-embed-video-style"' not in shell:
+        styles += OFFLINE_EMBED_STYLE_SNIPPET
+    if 'id="asset-placeholder-style"' not in shell:
+        shell = shell.replace("</head>", styles + "\n</head>", 1)
+    return shell
+
+
 def write_project_page(meta: dict, body_html: str) -> Path:
     slug = meta["slug"]
     category = meta.get("category", "academic")
@@ -210,7 +446,9 @@ def write_project_page(meta: dict, body_html: str) -> Path:
     canonical = canonical_for(category, slug)
     pre, suf = _template_parts()
     inner = render_project_inner(meta, body_html)
-    path.write_text(set_page_head(pre, title, canonical) + inner + suf, encoding="utf-8")
+    html_out = set_page_head(pre, title, canonical) + inner + suf
+    html_out = inject_page_styles(html_out)
+    path.write_text(html_out, encoding="utf-8")
     return path
 
 
@@ -252,10 +490,9 @@ def load_project_meta(slug: str, registry: dict | None = None) -> dict:
 
 
 def sync_project_gallery(slug: str, registry: dict | None = None) -> Path:
-    """Rebuild a project page body from numbered gallery files on disk."""
+    """Rebuild a project page from registry mediaSlots and on-disk gallery files."""
     meta = load_project_meta(slug, registry)
-    body = gallery_body_from_disk(slug)
-    return write_project_page(meta, body)
+    return write_project_page(meta, "")
 
 
 def sync_all_project_galleries(registry: dict | None = None) -> list[str]:
@@ -272,7 +509,8 @@ def sync_all_project_galleries(registry: dict | None = None) -> list[str]:
         slug = folder.name
         if slug not in registry.get("projects", {}):
             continue
-        if not list_numbered_gallery_files(slug):
+        has_slots = bool(registry.get("projects", {}).get(slug, {}).get("mediaSlots"))
+        if not list_numbered_gallery_files(slug) and not has_slots:
             continue
         sync_project_gallery(slug, registry)
         synced.append(slug)

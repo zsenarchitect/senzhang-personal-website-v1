@@ -9,10 +9,16 @@
       "Sen-Zhang-Resume.pdf"
     ],
     "root_dirs": [
+      "_booklet",
       "ecosystem"
     ],
-    "ecosystem_file_count": 1,
+    "ecosystem_file_count": 6,
     "ecosystem_files_sample": [
+      "_booklet/fonts/AdobeFnt25.lst",
+      "_booklet/fonts/GillSans.ttc",
+      "_booklet/fonts/Helvetica.ttc",
+      "_booklet/_source/231014-resume-booklet.idml",
+      "_booklet/_source/231014-resume.indd",
       "ecosystem/ecosystem-network-diagram.html"
     ],
     "other_orphans": [],
@@ -31,6 +37,7 @@
       "realm",
       "renderpolisher",
       "revit-games",
+      "taopu-603-smartcity",
       "timebank",
       "toni"
     ],
@@ -77,34 +84,42 @@
       "zen-house"
     ],
     "registry_empty_folder": [],
-    "registry_slug_count": 45,
-    "disk_project_folder_count": 16,
+    "registry_slug_count": 46,
+    "disk_project_folder_count": 17,
     "disk_speaking_folder_count": 5
   },
   "cdn": {
-    "html_files_scanned": 61,
-    "pages_with_cdn_images": 57,
+    "html_files_scanned": 62,
+    "pages_with_cdn_images": 58,
     "unique_cdn_image_urls": 2081,
-    "total_cdn_image_refs": 2315,
+    "total_cdn_image_refs": 2321,
     "top_cdn_images": [
       [
         "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
-        57
+        58
       ],
       [
         "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
-        57
+        58
       ],
       [
         "_cdn/images.squarespace-cdn.com/aed6f33c10cccaffe417.gif",
-        55
+        56
       ],
       [
         "_cdn/images.squarespace-cdn.com/0b33b659ba91cf911837.jpg",
         3
       ],
       [
+        "_cdn/images.squarespace-cdn.com/882a6c125a52da8f68f1.jpg",
+        2
+      ],
+      [
         "_cdn/images.squarespace-cdn.com/89ce3cf5c2860cb9a181.jpeg",
+        2
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/98fa690114b17933fb04.jpg",
         2
       ],
       [
@@ -112,58 +127,50 @@
         2
       ],
       [
+        "_cdn/images.squarespace-cdn.com/c7476fdd35492ec48e90.jpg",
+        2
+      ],
+      [
         "_cdn/images.squarespace-cdn.com/0976f39d39daea010902.jpeg",
-        2
-      ],
-      [
-        "_cdn/images.squarespace-cdn.com/0bcbb255ff8ff0718fd1.jpeg",
-        2
-      ],
-      [
-        "_cdn/images.squarespace-cdn.com/116d5212b95c283b7068.jpeg",
-        2
-      ],
-      [
-        "_cdn/images.squarespace-cdn.com/19a48cf47951829a26e4.png",
         2
       ]
     ],
     "hub_pages_with_cdn_images": [
       [
-        "speaking/index.html",
-        3
+        "index.html",
+        2
       ],
       [
         "about-me.html",
         11
       ],
       [
+        "academic/index.html",
+        9
+      ],
+      [
         "menu.html",
         68
       ],
       [
-        "cover-page.html",
-        2
-      ],
-      [
-        "academic/index.html",
-        6
-      ],
-      [
-        "works.html",
-        331
+        "professional/index.html",
+        3
       ],
       [
         "code/index.html",
         3
       ],
       [
-        "index.html",
-        2
+        "speaking/index.html",
+        3
       ],
       [
-        "professional/index.html",
-        3
+        "works.html",
+        331
+      ],
+      [
+        "cover-page.html",
+        2
       ]
     ],
     "project_pages_with_cdn_content": [
@@ -269,7 +276,7 @@
   "hubs": {
     "hub_pages_checked": 9,
     "pages_with_cdn_hub_images": 9,
-    "total_hub_cdn_refs": 538,
+    "total_hub_cdn_refs": 541,
     "total_hub_non_slug_refs": 12,
     "by_page": {
       "about-me.html": {
@@ -285,7 +292,7 @@
       },
       "academic/index.html": {
         "media_project_refs": 0,
-        "cdn_image_refs": 7,
+        "cdn_image_refs": 10,
         "non_slug_media_refs": 0,
         "cdn_sample": [
           "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
@@ -295,7 +302,7 @@
         "non_slug_sample": []
       },
       "code/index.html": {
-        "media_project_refs": 3,
+        "media_project_refs": 5,
         "cdn_image_refs": 4,
         "non_slug_media_refs": 0,
         "cdn_sample": [

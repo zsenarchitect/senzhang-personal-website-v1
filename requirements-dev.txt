@@ -1,2 +1,6 @@
-# Local dev tools (import picker PDF conversion)
+# Local dev tools (import picker PDF conversion + resume booklet import)
 pymupdf>=1.24.0
+Pillow>=10.0.0
+pyzbar>=0.1.9
+psd-tools>=1.9.0
+yt-dlp>=2024.0.0

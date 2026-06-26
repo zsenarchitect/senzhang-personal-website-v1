@@ -20,6 +20,7 @@ PROJECTS_API = "/api/projects"
 IMPORT_API = "/api/import"
 ASSET_CORNER_SCRIPT = "/__dev__/asset-corner.js"
 ASSET_CORNER_TAG = '<script src="/__dev__/asset-corner.js" defer></script>'
+ASSET_INFO_API = "/__dev__/asset-info"
 
 
 def rebuild_site_from_registry() -> list[str]:
@@ -75,6 +76,8 @@ def latest_snapshot(snapshot_root: Path) -> Path:
 def is_stub_api_path(path: str) -> bool:
     bare = path.split("?", 1)[0]
     if bare == PROJECTS_API or bare.startswith(IMPORT_API):
+        return False
+    if bare == ASSET_INFO_API:
         return False
     return bare.startswith(STUB_API_PREFIXES)
 
@@ -140,6 +143,38 @@ def make_request_handler(quiet_api_logs: bool):
             out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             rebuilt = rebuild_site_from_registry()
             self._send_json(200, {"ok": True, "path": str(out), "rebuilt": rebuilt})
+
+        def _handle_asset_info_get(self, query: str) -> None:
+            from urllib.parse import parse_qs, unquote
+
+            params = parse_qs(query)
+            rel = unquote((params.get("path") or [""])[0]).strip().replace("\\", "/").lstrip("/")
+            if not rel.startswith("_media/") and not rel.startswith("_cdn/"):
+                self._send_json(400, {"error": "path must be under _media/ or _cdn/"})
+                return
+            if ".." in rel.split("/"):
+                self._send_json(400, {"error": "invalid path"})
+                return
+            disk = (Path(os.getcwd()) / rel).resolve()
+            root = Path(os.getcwd()).resolve()
+            try:
+                disk.relative_to(root)
+            except ValueError:
+                self._send_json(400, {"error": "invalid path"})
+                return
+            if not disk.is_file():
+                self._send_json(404, {"error": "not found", "path": rel})
+                return
+            st = disk.stat()
+            self._send_json(
+                200,
+                {
+                    "path": rel,
+                    "name": disk.name,
+                    "size": st.st_size,
+                    "mtime": int(st.st_mtime),
+                },
+            )
 
         def _import_api_module(self):
             sys.path.insert(0, str(repo_root() / "scripts"))
@@ -555,6 +590,9 @@ def make_request_handler(quiet_api_logs: bool):
                 return
             if bare.startswith(IMPORT_API):
                 self._handle_import_get(bare, query)
+                return
+            if bare == ASSET_INFO_API:
+                self._handle_asset_info_get(query)
                 return
             if is_stub_api_path(self.path):
                 self.send_error(404)
