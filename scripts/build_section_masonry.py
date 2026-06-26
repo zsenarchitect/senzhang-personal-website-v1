@@ -19,34 +19,43 @@ MASONRY_CSS = """
   padding: 0 12px 48px;
 }
 .section-masonry {
-  columns: 3;
-  column-gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  grid-auto-flow: dense;
+  align-items: start;
 }
 @media (max-width: 960px) {
-  .section-masonry { columns: 2; }
+  .section-masonry { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 560px) {
-  .section-masonry { columns: 1; }
+  .section-masonry { grid-template-columns: 1fr; }
   .section-masonry-wrap { padding: 0 8px 40px; }
 }
 .section-pin {
-  break-inside: avoid;
-  margin-bottom: 12px;
-  display: inline-block;
-  width: 100%;
+  grid-column: span 1;
+  min-width: 0;
 }
 .section-pin.pin-highlight {
-  column-span: all;
-  display: block;
+  grid-column: span 2;
 }
-.section-pin.pin-highlight .section-pin-link {
-  width: calc(66.666% - 4px);
-  margin-left: auto;
-  margin-right: auto;
+.section-pin.pin-highlight-left {
+  grid-column: 1 / span 2;
+}
+.section-pin.pin-highlight-right {
+  grid-column: 2 / span 2;
 }
 @media (max-width: 960px) {
-  .section-pin.pin-highlight .section-pin-link {
-    width: 100%;
+  .section-pin.pin-highlight-left,
+  .section-pin.pin-highlight-right {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 560px) {
+  .section-pin.pin-highlight { grid-column: span 1; }
+  .section-pin.pin-highlight-left,
+  .section-pin.pin-highlight-right {
+    grid-column: span 1;
   }
 }
 .section-pin-link {
@@ -319,10 +328,15 @@ def render_masonry_inner(config: SectionConfig, tiles_by_slug: dict[str, dict], 
         raise ValueError("no tiles for section {}".format(config.key))
 
     pins = []
+    highlight_i = 0
     for i, t in enumerate(ordered):
         classes = [pin_class(i)]
         if t.get("highlight"):
             classes.append("pin-highlight")
+            classes.append(
+                "pin-highlight-left" if highlight_i % 2 == 0 else "pin-highlight-right"
+            )
+            highlight_i += 1
         meta = ('<div class="section-pin-meta"><strong>' + esc(t["title"]) + "</strong></div>") if t["title"] else ""
         if t.get("subtitle") and t["subtitle"] != t["title"]:
             meta = (
@@ -348,7 +362,13 @@ def render_masonry_inner(config: SectionConfig, tiles_by_slug: dict[str, dict], 
 
 def inject_masonry_style(page_html: str) -> str:
     if STYLE_CHECK in page_html:
-        return page_html
+        return re.sub(
+            r'<style id="section-masonry">.*?</style>',
+            MASONRY_CSS.strip(),
+            page_html,
+            count=1,
+            flags=re.DOTALL,
+        )
     return page_html.replace("</head>", MASONRY_CSS + "\n</head>", 1)
 
 
