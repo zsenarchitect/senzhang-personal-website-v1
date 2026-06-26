@@ -5,8 +5,8 @@
       "slug": "museum-of-verbs",
       "title": "Museum Of Verbs",
       "category": "academic",
-      "visible": true,
-      "highlight": true,
+      "visible": false,
+      "highlight": false,
       "includeInResume": false
     },
     "gravity-rises": {
@@ -37,7 +37,7 @@
       "slug": "hashtag-brunch",
       "title": "Hashtag Brunch",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -45,7 +45,7 @@
       "slug": "negative-memory",
       "title": "Negative Memory",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -85,7 +85,7 @@
       "slug": "tokyo-antilibrary",
       "title": "Tokyo Antilibrary",
       "category": "academic",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -215,7 +215,7 @@
       "category": "professional",
       "visible": true,
       "highlight": true,
-      "includeInResume": false
+      "includeInResume": true
     },
     "bytedance-hq": {
       "slug": "bytedance-hq",
@@ -253,7 +253,7 @@
       "slug": "realm",
       "title": "Realm",
       "category": "code",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -293,7 +293,7 @@
       "slug": "renderpolisher",
       "title": "Renderpolisher",
       "category": "code",
-      "visible": true,
+      "visible": false,
       "highlight": false,
       "includeInResume": false
     },
@@ -317,7 +317,7 @@
       "slug": "aec-hackathon-2025",
       "title": "Aec Hackathon 2025",
       "category": "speaking",
-      "visible": false,
+      "visible": true,
       "highlight": false,
       "includeInResume": false
     },
@@ -358,7 +358,7 @@
       "title": "The Design of Design",
       "category": "speaking",
       "visible": true,
-      "highlight": false,
+      "highlight": true,
       "includeInResume": false
     }
   },

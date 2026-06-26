@@ -537,7 +537,7 @@ def write_masonry_section(path, shell, title, canonical, section_key, tile_pool,
     page = inject_masonry_style(page)
     path.write_text(page, encoding="utf-8")
     pin_n = inner.count('<article class="section-pin')
-    hi_n = inner.count("pin-highlight")
+    hi_n = inner.count("pin-highlight-left") + inner.count("pin-highlight-right")
     print("wrote", path.relative_to(V1), "(masonry, {} pins, {} highlights)".format(pin_n, hi_n))
 
 

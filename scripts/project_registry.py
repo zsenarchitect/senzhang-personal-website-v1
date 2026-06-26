@@ -11,17 +11,16 @@ V1 = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = V1 / "data" / "projects.json"
 
 DEFAULT_HIGHLIGHTS = {
-    "museum-of-verbs",
+    "gravity-rises",
     "bilibili-hq",
     "enneadtab-ecosystem",
-    "autodesk-university-2024",
+    "acd-austin-2026",
 }
 
 RESUME_DEFAULTS = {
     "enneadtab-ecosystem",
     "bilibili-hq",
     "bimrunner",
-    "museum-of-verbs",
 }
 
 
