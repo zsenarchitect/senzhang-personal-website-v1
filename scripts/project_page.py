@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 from pathlib import Path
 
 V1 = Path(__file__).resolve().parents[1]
 SNAP = V1 / "snapshot" / "2026-06-05"
+REGISTRY_PATH = V1 / "data" / "projects.json"
 TEMPLATE_HTML = SNAP / "liberty-museum.html"
 PAGE_MARKER = "<!-- project-page-v1"
+GALLERY_NUM = re.compile(r"^(\d+)\.(jpg|jpeg|png|webp)$", re.I)
 
 ROW = (
     '<div class="row sqs-row"><div class="col sqs-col-12 span-12">'
@@ -39,6 +42,8 @@ def image_row(src: str, alt: str = "") -> str:
         '<div class="sqs-block image-block sqs-block-image" data-block-type="5">'
         '<div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic">'
         '<img src="'
+        + esc(src)
+        + '" data-asset-id="'
         + esc(src)
         + '" alt="'
         + esc(alt)
@@ -207,6 +212,71 @@ def write_project_page(meta: dict, body_html: str) -> Path:
     inner = render_project_inner(meta, body_html)
     path.write_text(set_page_head(pre, title, canonical) + inner + suf, encoding="utf-8")
     return path
+
+
+def list_numbered_gallery_files(slug: str) -> list[Path]:
+    folder = SNAP / "_media" / "projects" / slug
+    if not folder.is_dir():
+        return []
+    numbered = []
+    for f in folder.iterdir():
+        if not f.is_file():
+            continue
+        m = GALLERY_NUM.match(f.name)
+        if m:
+            numbered.append((int(m.group(1)), f))
+    numbered.sort(key=lambda x: x[0])
+    return [f for _, f in numbered]
+
+
+def gallery_body_from_disk(slug: str) -> str:
+    rows = []
+    for f in list_numbered_gallery_files(slug):
+        m = GALLERY_NUM.match(f.name)
+        n = int(m.group(1)) if m else 0
+        src = "_media/projects/{0}/{1}".format(slug, f.name)
+        alt = "View {0}".format(n) if n >= 2 else f.stem
+        rows.append(image_row(src, alt))
+    return "".join(rows)
+
+
+def load_project_meta(slug: str, registry: dict | None = None) -> dict:
+    if registry is None:
+        registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    project = registry.get("projects", {}).get(slug)
+    if not project:
+        raise KeyError("unknown project slug: " + slug)
+    meta = dict(project)
+    meta["slug"] = slug
+    return meta
+
+
+def sync_project_gallery(slug: str, registry: dict | None = None) -> Path:
+    """Rebuild a project page body from numbered gallery files on disk."""
+    meta = load_project_meta(slug, registry)
+    body = gallery_body_from_disk(slug)
+    return write_project_page(meta, body)
+
+
+def sync_all_project_galleries(registry: dict | None = None) -> list[str]:
+    """Sync every slug that has a numbered gallery folder under _media/projects."""
+    if registry is None:
+        registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    projects_root = SNAP / "_media" / "projects"
+    synced = []
+    if not projects_root.is_dir():
+        return synced
+    for folder in sorted(projects_root.iterdir()):
+        if not folder.is_dir():
+            continue
+        slug = folder.name
+        if slug not in registry.get("projects", {}):
+            continue
+        if not list_numbered_gallery_files(slug):
+            continue
+        sync_project_gallery(slug, registry)
+        synced.append(slug)
+    return synced
 
 
 # --- Markdown body helpers (shared with port-v0-content) ---

@@ -1,0 +1,390 @@
+{
+  "media": {
+    "root_files": [
+      "3pFCHJNHKEU.mp4",
+      "4sQc0d3HRck.mp4",
+      "cover-background.mp4",
+      "fAl5EJuQpUM.mp4",
+      "mYPQl6m7kMY.mp4",
+      "Sen-Zhang-Resume.pdf"
+    ],
+    "root_dirs": [
+      "ecosystem"
+    ],
+    "ecosystem_file_count": 1,
+    "ecosystem_files_sample": [
+      "ecosystem/ecosystem-network-diagram.html"
+    ],
+    "other_orphans": [],
+    "disk_project_slugs": [
+      "bilibili-hq",
+      "bimrunner",
+      "bytedance-hq",
+      "enneadtab-ecosystem",
+      "enneadtab-revit",
+      "enneadtab-rhino",
+      "enneadtabwiki",
+      "fat2fit",
+      "ftz-shanghai",
+      "hudson-yards",
+      "ideafactory",
+      "realm",
+      "renderpolisher",
+      "revit-games",
+      "timebank",
+      "toni"
+    ],
+    "disk_speaking_slugs": [
+      "acd-austin-2026",
+      "aec-hackathon-2023",
+      "aec-hackathon-2025",
+      "autodesk-university-2024",
+      "digital-built-week-2023"
+    ],
+    "orphan_project_folders": [
+      "enneadtab-revit",
+      "enneadtab-rhino",
+      "enneadtabwiki"
+    ],
+    "orphan_speaking_folders": [],
+    "registry_no_media_folder": [
+      "a-measurement-of-isolation",
+      "app-ghost-hunter",
+      "app-ghost-hunter-1",
+      "bank-of-15mins-fame",
+      "black-hole-horizon",
+      "black-hole-horizon-1",
+      "block-field",
+      "bmx-bike",
+      "bubble-bar",
+      "forumfold",
+      "gravity-rises",
+      "hashtag-brunch",
+      "liberty-museum",
+      "museum-of-verbs",
+      "mushroom-chair",
+      "negative-memory",
+      "new-museum-in-motion",
+      "nyc-taxi-20",
+      "post-carbon-city",
+      "seed-on-mars",
+      "silence-of-the-mask",
+      "takenaka-pavillion",
+      "tokyo-antilibrary",
+      "university-island",
+      "vertical-campus",
+      "walk-on-the-edge",
+      "zen-house"
+    ],
+    "registry_empty_folder": [],
+    "registry_slug_count": 45,
+    "disk_project_folder_count": 16,
+    "disk_speaking_folder_count": 5
+  },
+  "cdn": {
+    "html_files_scanned": 61,
+    "pages_with_cdn_images": 57,
+    "unique_cdn_image_urls": 2081,
+    "total_cdn_image_refs": 2315,
+    "top_cdn_images": [
+      [
+        "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+        57
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+        57
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/aed6f33c10cccaffe417.gif",
+        55
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/0b33b659ba91cf911837.jpg",
+        3
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/89ce3cf5c2860cb9a181.jpeg",
+        2
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/acaf06c1588a1514899d.jpeg",
+        2
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/0976f39d39daea010902.jpeg",
+        2
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/0bcbb255ff8ff0718fd1.jpeg",
+        2
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/116d5212b95c283b7068.jpeg",
+        2
+      ],
+      [
+        "_cdn/images.squarespace-cdn.com/19a48cf47951829a26e4.png",
+        2
+      ]
+    ],
+    "hub_pages_with_cdn_images": [
+      [
+        "speaking/index.html",
+        3
+      ],
+      [
+        "about-me.html",
+        11
+      ],
+      [
+        "menu.html",
+        68
+      ],
+      [
+        "cover-page.html",
+        2
+      ],
+      [
+        "academic/index.html",
+        6
+      ],
+      [
+        "works.html",
+        331
+      ],
+      [
+        "code/index.html",
+        3
+      ],
+      [
+        "index.html",
+        2
+      ],
+      [
+        "professional/index.html",
+        3
+      ]
+    ],
+    "project_pages_with_cdn_content": [
+      [
+        "negative-memory.html",
+        166
+      ],
+      [
+        "bank-of-15mins-fame.html",
+        155
+      ],
+      [
+        "forumfold.html",
+        150
+      ],
+      [
+        "museum-of-verbs.html",
+        132
+      ],
+      [
+        "gravity-rises.html",
+        123
+      ],
+      [
+        "silence-of-the-mask.html",
+        116
+      ],
+      [
+        "vertical-campus.html",
+        116
+      ],
+      [
+        "bubble-bar.html",
+        79
+      ],
+      [
+        "seed-on-mars.html",
+        73
+      ],
+      [
+        "black-hole-horizon-1.html",
+        61
+      ],
+      [
+        "takenaka-pavillion.html",
+        60
+      ],
+      [
+        "university-island.html",
+        54
+      ],
+      [
+        "block-field.html",
+        51
+      ],
+      [
+        "hashtag-brunch.html",
+        48
+      ],
+      [
+        "app-ghost-hunter-1.html",
+        47
+      ],
+      [
+        "tokyo-antilibrary.html",
+        45
+      ],
+      [
+        "zen-house.html",
+        45
+      ],
+      [
+        "black-hole-horizon.html",
+        43
+      ],
+      [
+        "bmx-bike.html",
+        39
+      ],
+      [
+        "nyc-taxi-20.html",
+        39
+      ]
+    ]
+  },
+  "imports": {
+    "updated_at": "2026-06-26T20:39:03Z",
+    "total_decisions": 47,
+    "by_status": {
+      "imported": 47
+    },
+    "imported_count": 47,
+    "imported_on_disk": 47,
+    "imported_missing_on_disk": 0,
+    "missing_dest_sample": [],
+    "unknown_slug_imports": [],
+    "imported_by_slug": {
+      "bilibili-hq": 20,
+      "ftz-shanghai": 19,
+      "bytedance-hq": 8
+    }
+  },
+  "hubs": {
+    "hub_pages_checked": 9,
+    "pages_with_cdn_hub_images": 9,
+    "total_hub_cdn_refs": 538,
+    "total_hub_non_slug_refs": 12,
+    "by_page": {
+      "about-me.html": {
+        "media_project_refs": 0,
+        "cdn_image_refs": 14,
+        "non_slug_media_refs": 0,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": []
+      },
+      "academic/index.html": {
+        "media_project_refs": 0,
+        "cdn_image_refs": 7,
+        "non_slug_media_refs": 0,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": []
+      },
+      "code/index.html": {
+        "media_project_refs": 3,
+        "cdn_image_refs": 4,
+        "non_slug_media_refs": 0,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": []
+      },
+      "cover-page.html": {
+        "media_project_refs": 0,
+        "cdn_image_refs": 3,
+        "non_slug_media_refs": 2,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": [
+          "_media/cover-background.mp4",
+          "_media/cover-background.mp4"
+        ]
+      },
+      "index.html": {
+        "media_project_refs": 0,
+        "cdn_image_refs": 3,
+        "non_slug_media_refs": 2,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": [
+          "_media/cover-background.mp4",
+          "_media/cover-background.mp4"
+        ]
+      },
+      "menu.html": {
+        "media_project_refs": 3,
+        "cdn_image_refs": 85,
+        "non_slug_media_refs": 4,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": [
+          "_media/fAl5EJuQpUM.mp4",
+          "_media/fAl5EJuQpUM.mp4",
+          "_media/mYPQl6m7kMY.mp4"
+        ]
+      },
+      "professional/index.html": {
+        "media_project_refs": 4,
+        "cdn_image_refs": 4,
+        "non_slug_media_refs": 0,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": []
+      },
+      "speaking/index.html": {
+        "media_project_refs": 5,
+        "cdn_image_refs": 4,
+        "non_slug_media_refs": 0,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": []
+      },
+      "works.html": {
+        "media_project_refs": 0,
+        "cdn_image_refs": 414,
+        "non_slug_media_refs": 4,
+        "cdn_sample": [
+          "_cdn/images.squarespace-cdn.com/d722b2d5795370cc21c7.ico",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif",
+          "_cdn/images.squarespace-cdn.com/1a9d74801c13c5e2f2cf.gif"
+        ],
+        "non_slug_sample": [
+          "_media/fAl5EJuQpUM.mp4",
+          "_media/fAl5EJuQpUM.mp4",
+          "_media/mYPQl6m7kMY.mp4"
+        ]
+      }
+    }
+  }
+}

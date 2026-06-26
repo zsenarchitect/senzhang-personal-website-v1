@@ -93,12 +93,12 @@
   }
 }
 @media (max-width: 767px) {
-  #page-593e0796c534a5c8d10121cb .sqs-image-shape-container-element.has-aspect-ratio {
+  #page-593e0796c534a5c8d10121cb .sqs-image-shape-container-element.has-aspect-ratio:not(.menu-hub-aspect) {
     padding-bottom: 0 !important;
     height: auto !important;
     overflow: visible !important;
   }
-  #page-593e0796c534a5c8d10121cb .sqs-image-shape-container-element img {
+  #page-593e0796c534a5c8d10121cb .sqs-image-shape-container-element:not(.menu-hub-aspect) img {
     position: static !important;
     width: 100% !important;
     height: auto !important;
@@ -106,6 +106,70 @@
   }
 }
 </style>
+
+<style id="menu-hub-layout">
+#page-593e0796c534a5c8d10121cb .menu-hub-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-row > .menu-hub-col {
+  float: none !important;
+  display: flex;
+  flex-direction: column;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-col .sqs-block-image-figure {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-col .sqs-block-image-link {
+  display: block;
+  flex: 1 1 auto;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-aspect {
+  position: relative !important;
+  width: 100% !important;
+  padding-bottom: 56.25% !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-aspect img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-col .image-caption-wrapper {
+  margin-top: 0.75em;
+  flex-shrink: 0;
+}
+@media (max-width: 767px) {
+  #page-593e0796c534a5c8d10121cb .menu-hub-row {
+    display: block;
+  }
+  #page-593e0796c534a5c8d10121cb .menu-hub-row > .menu-hub-col {
+    display: block;
+    width: 100% !important;
+    margin-bottom: 1.25em;
+  }
+  #page-593e0796c534a5c8d10121cb .menu-hub-aspect {
+    padding-bottom: 56.25% !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  #page-593e0796c534a5c8d10121cb .menu-hub-aspect img {
+    position: absolute !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+</style>
+
 
 
 <style id="offline-lightbox-fix">
@@ -895,6 +959,11 @@ html.offline-fs-lightbox-open body {
 .main-nav.dropdown-click li.folder > a { cursor: pointer; }
 #mobileNav .mobile-folder:not(.active-folder) > ul { display: none; }
 #mobileNav .mobile-folder.active-folder > ul { display: block; }
+#topNav #secondaryNavigation { display: none !important; }
+.sidebar-position-left #topNav #mainNavigation > ul > li {
+  margin: 0 0 0.45em 0;
+  padding: 0;
+}
 </style>
 <script id="offline-nav-fix">
 (function () {
@@ -927,6 +996,22 @@ html.offline-fs-lightbox-open body {
   }
 })();
 </script>
+
+
+<style id="offline-aspect-ratio-fix">
+.sqs-image-shape-container-element.has-aspect-ratio {
+  position: relative;
+}
+.sqs-image-shape-container-element.has-aspect-ratio > img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center center;
+}
+</style>
 
 
 <style id="section-masonry">
@@ -1066,7 +1151,7 @@ html.offline-fs-lightbox-open body {
 
         
 
-                                                                                                                                                                                                                                                                                                        <li class="mobile-folder">
+                                                                                                                                                                                                                                                                                                                                                                                        <li class="mobile-folder">
           <a href="/academic">Academic Architecture</a>
           <ul>
           <li class="page-collection">
@@ -1190,7 +1275,17 @@ html.offline-fs-lightbox-open body {
 
 
 
-                                                                                                                                                                                                                                                                                                <li class="mobile-folder">
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                <li class="mobile-folder">
           <a href="/professional">Professional Architecture</a>
           <ul>
           <li class="page-collection">
@@ -1247,10 +1342,20 @@ html.offline-fs-lightbox-open body {
 
 
 
+
+
+
+
+
+
+
+
+
+
         
 
         <li class="mobile-folder">
-          <a>Code</a>
+          <a href="/code">Code</a>
           <ul>
             <li class="page-collection">
               <a href="/code">All Code Projects</a>
@@ -1285,7 +1390,7 @@ html.offline-fs-lightbox-open body {
           </ul>
         </li>
         <li class="mobile-folder">
-          <a>Speaking</a>
+          <a href="/speaking">Speaking</a>
           <ul>
             <li class="page-collection">
               <a href="/speaking">All Talks</a>
@@ -1372,7 +1477,7 @@ html.offline-fs-lightbox-open body {
 
   
 
-                                                                                                                                                                                                                              <li class="folder-collection folder">
+                                                                                                                                                                                                                                                                                          <li class="folder-collection folder">
 
         
 
@@ -1590,7 +1695,17 @@ html.offline-fs-lightbox-open body {
 
 
 
-                                                                                                                                                                                                                        <li class="folder-collection folder">
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                                                                                    <li class="folder-collection folder">
 
         
 
@@ -1672,15 +1787,19 @@ html.offline-fs-lightbox-open body {
 
 
 
-  
-</ul>
 
-          </nav>
 
-          <nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav">
-            <ul>
+
+
+
+
+
+
+
+
   
-      <li class="folder-collection folder">
+
+<li class="folder-collection folder">
 
         
 
@@ -1819,11 +1938,15 @@ html.offline-fs-lightbox-open body {
         
 
       </li>
+  
+      
 
   
 </ul>
 
           </nav>
+
+          <nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav" aria-hidden="true" hidden></nav>
         </div>
 
         <div class="sqs-layout sqs-grid-1 columns-1 empty" data-layout-label="Header Content" data-type="block-field" data-updated-on="1497217219033" id="headerBlocks"><div class="row sqs-row"><div class="col sqs-col-1 span-1"></div></div></div>
@@ -1841,7 +1964,7 @@ html.offline-fs-lightbox-open body {
       <section id="page">
 
       <div class="main-content" data-content-field="main-content">
-        <div class="sqs-layout sqs-grid-12 columns-12" data-type="page" data-updated-on="1578274121285" id="page-593e0796c534a5c8d10121cb"><!-- code-masonry-grid --><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block html-block sqs-block-html" data-block-type="2"><div class="sqs-block-content"><div class="sqs-html-content" data-sqsp-text-block-content><h1 style="text-align:center;font-size:14px;text-transform:uppercase;letter-spacing:0.14em;margin:0 0 1.25em">Code</h1></div></div></div></div></div><div class="section-masonry-wrap"><div class="section-masonry"><article class="section-pin pin-highlight pin-highlight-left"><a class="section-pin-link" href="/code/enneadtab-ecosystem"><img src="_media/projects/enneadtab-ecosystem/cover.png" alt="EnneadTab Ecosystem" loading="lazy" decoding="async" /><span class="section-pin-overlay"><span class="section-pin-title">EnneadTab Ecosystem</span></span></a><div class="section-pin-meta"><strong>EnneadTab Ecosystem</strong> &mdash; The full EnneadTab tool network, mapped</div></article><article class="section-pin pin-a pin-highlight pin-highlight-right"><a class="section-pin-link" href="/code/bimrunner"><img src="_media/projects/bimrunner/cover.jpg" alt="BimRunner" loading="lazy" decoding="async" /><span class="section-pin-overlay"><span class="section-pin-title">BimRunner</span></span></a><div class="section-pin-meta"><strong>BimRunner</strong> &mdash; Live BIM analytics and project pin-up wall</div></article><article class="section-pin pin-b"><a class="section-pin-link" href="/code/revit-games"><img src="_media/projects/revit-games/cover.png" alt="Revit Games" loading="lazy" decoding="async" /><span class="section-pin-overlay"><span class="section-pin-title">Revit Games</span></span></a><div class="section-pin-meta"><strong>Revit Games</strong> &mdash; Games built inside Revit - Monopoly &amp; Battleship</div></article></div></div></div>
+        <div class="sqs-layout sqs-grid-12 columns-12" data-type="page" data-updated-on="1578274121285" id="page-593e0796c534a5c8d10121cb"><!-- code-masonry-grid --><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block html-block sqs-block-html" data-block-type="2"><div class="sqs-block-content"><div class="sqs-html-content" data-sqsp-text-block-content><h1 style="text-align:center;font-size:14px;text-transform:uppercase;letter-spacing:0.14em;margin:0 0 1.25em">Code</h1></div></div></div></div></div><div class="section-masonry-wrap"><div class="section-masonry"><article class="section-pin "><a class="section-pin-link" href="/code/realm"><img src="_media/projects/realm/cover.jpg" alt="REALM" loading="lazy" decoding="async" /><span class="section-pin-overlay"><span class="section-pin-title">REALM</span></span></a><div class="section-pin-meta"><strong>REALM</strong> &mdash; NYC design exhibition submission portal</div></article><article class="section-pin pin-a pin-highlight pin-highlight-left"><a class="section-pin-link" href="/code/enneadtab-ecosystem"><img src="_media/projects/enneadtab-ecosystem/cover.png" alt="EnneadTab Ecosystem" loading="lazy" decoding="async" /><span class="section-pin-overlay"><span class="section-pin-title">EnneadTab Ecosystem</span></span></a><div class="section-pin-meta"><strong>EnneadTab Ecosystem</strong> &mdash; The full EnneadTab tool network, mapped</div></article><article class="section-pin pin-b"><a class="section-pin-link" href="/code/renderpolisher"><img src="_media/projects/renderpolisher/cover.jpg" alt="RenderPolisher" loading="lazy" decoding="async" /><span class="section-pin-overlay"><span class="section-pin-title">RenderPolisher</span></span></a><div class="section-pin-meta"><strong>RenderPolisher</strong> &mdash; AI render post-processing for architectural delivery</div></article><article class="section-pin pin-c pin-highlight pin-highlight-right"><a class="section-pin-link" href="/code/bimrunner"><img src="_media/projects/bimrunner/cover.jpg" alt="BimRunner" loading="lazy" decoding="async" /><span class="section-pin-overlay"><span class="section-pin-title">BimRunner</span></span></a><div class="section-pin-meta"><strong>BimRunner</strong> &mdash; Live BIM analytics and project pin-up wall</div></article><article class="section-pin "><a class="section-pin-link" href="/code/revit-games"><img src="_media/projects/revit-games/cover.png" alt="Revit Games" loading="lazy" decoding="async" /><span class="section-pin-overlay"><span class="section-pin-title">Revit Games</span></span></a><div class="section-pin-meta"><strong>Revit Games</strong> &mdash; Games built inside Revit - Monopoly &amp; Battleship</div></article></div></div></div>
       </div>
 
       

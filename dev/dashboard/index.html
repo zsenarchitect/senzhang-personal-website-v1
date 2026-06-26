@@ -58,6 +58,8 @@
       <option value="speaking">Speaking</option>
     </select>
     <button type="button" id="reloadBtn">Reload</button>
+    <a href="/import-picker">Import picker</a>
+    &middot;
     <a href="/menu">Back to site</a>
   </div>
   <p class="hint" id="dragHint">Select a category (and clear search) to drag-sort rows.</p>
@@ -73,6 +75,7 @@
         <th class="chk">Visible</th>
         <th class="chk">Highlight</th>
         <th class="chk">Resume</th>
+        <th class="chk" title="Portfolio hub tile on /menu for this category">Section cover</th>
       </tr>
     </thead>
     <tbody id="rows"></tbody>
@@ -228,6 +231,28 @@
       });
     }
 
+    function sectionCoverSlug(cat) {
+      for (const p of projectList()) {
+        if ((p.category || "academic") === cat && p.sectionCover) return p.slug;
+      }
+      return null;
+    }
+
+    function setSectionCover(slug, checked) {
+      if (!registry.projects[slug]) registry.projects[slug] = { slug };
+      const cat = registry.projects[slug].category || "academic";
+      if (checked) {
+        for (const [s, meta] of Object.entries(registry.projects)) {
+          if ((meta.category || "academic") === cat && meta.sectionCover) {
+            meta.sectionCover = false;
+          }
+        }
+        registry.projects[slug].sectionCover = true;
+      } else {
+        registry.projects[slug].sectionCover = false;
+      }
+    }
+
     function render() {
       const q = document.getElementById("filter").value.trim().toLowerCase();
       const cat = document.getElementById("catFilter").value;
@@ -251,6 +276,8 @@
         const tr = document.createElement("tr");
         if (p.visible === false) tr.className = "hidden-row";
         const handleClass = canReorder() ? "drag-handle" : "drag-handle disabled";
+        const isSectionCover = Boolean(p.sectionCover);
+        const coverTitle = isSectionCover ? "Current section cover on /menu" : "Set as section cover on /menu";
         tr.innerHTML = `
           <td class="drag-cell"><span class="${handleClass}" title="Drag to reorder">&#8942;&#8942;</span></td>
           ${thumbCell(p)}
@@ -259,7 +286,8 @@
           <td><select data-slug="${esc(p.slug)}" data-field="category">${catOptions(p.category)}</select></td>
           <td class="chk"><input type="checkbox" data-slug="${esc(p.slug)}" data-field="visible" ${p.visible !== false ? "checked" : ""} /></td>
           <td class="chk"><input type="checkbox" data-slug="${esc(p.slug)}" data-field="highlight" ${p.highlight ? "checked" : ""} /></td>
-          <td class="chk"><input type="checkbox" data-slug="${esc(p.slug)}" data-field="includeInResume" ${p.includeInResume ? "checked" : ""} /></td>`;
+          <td class="chk"><input type="checkbox" data-slug="${esc(p.slug)}" data-field="includeInResume" ${p.includeInResume ? "checked" : ""} /></td>
+          <td class="chk"><input type="checkbox" data-slug="${esc(p.slug)}" data-field="sectionCover" title="${esc(coverTitle)}" ${isSectionCover ? "checked" : ""} /></td>`;
         tbody.appendChild(tr);
         bindDragRow(tr, p);
       }
@@ -284,7 +312,14 @@
       if (field === "category") {
         const oldCat = registry.projects[slug].category || "academic";
         const newCat = el.value;
+        const wasCover = registry.projects[slug].sectionCover;
         registry.projects[slug][field] = newCat;
+        if (wasCover) {
+          registry.projects[slug].sectionCover = false;
+          if (!sectionCoverSlug(newCat)) {
+            registry.projects[slug].sectionCover = true;
+          }
+        }
         ensureSectionOrder();
         registry.sectionOrder[oldCat] = (registry.sectionOrder[oldCat] || []).filter(s => s !== slug);
         syncCategoryOrder(newCat);
@@ -293,6 +328,8 @@
         }
       } else if (field === "visible" || field === "highlight" || field === "includeInResume") {
         registry.projects[slug][field] = el.checked;
+      } else if (field === "sectionCover") {
+        setSectionCover(slug, el.checked);
       } else {
         registry.projects[slug][field] = el.value;
       }

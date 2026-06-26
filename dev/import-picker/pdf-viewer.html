@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PDF preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #525252; color: #eee; font-family: system-ui, sans-serif; }
+    .bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; background: #222; border-bottom: 1px solid #444;
+      position: sticky; top: 0; z-index: 2;
+    }
+    button { font: inherit; padding: 4px 10px; border-radius: 4px; border: 1px solid #666; background: #333; color: #fff; cursor: pointer; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    #pageInfo { flex: 1; text-align: center; font-size: 13px; }
+    #pages { padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    canvas {
+      max-width: 100%;
+      max-height: calc(100dvh - 56px);
+      width: auto;
+      height: auto;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+    }
+    #err { padding: 24px; text-align: center; color: #faa; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <button type="button" id="prev">Prev</button>
+    <span id="pageInfo">Loading…</span>
+    <button type="button" id="next">Next</button>
+    <button type="button" id="fit">Fit width</button>
+  </div>
+  <div id="pages"></div>
+  <div id="err" hidden></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    const params = new URLSearchParams(location.search);
+    const src = params.get("src");
+    const pagesEl = document.getElementById("pages");
+    const errEl = document.getElementById("err");
+    const pageInfo = document.getElementById("pageInfo");
+    let pdfDoc = null;
+    let pageNum = 1;
+    let scale = 1.0;
+
+    async function fitPage() {
+      if (!pdfDoc) return;
+      const page = await pdfDoc.getPage(pageNum);
+      const base = page.getViewport({ scale: 1 });
+      scale = Math.min((window.innerWidth - 32) / base.width, (window.innerHeight - 80) / base.height, 2.5);
+      renderPage(pageNum);
+    }
+    let canvas = null;
+
+    function showErr(msg) {
+      errEl.hidden = false;
+      errEl.textContent = msg;
+      pageInfo.textContent = "Error";
+    }
+
+    async function renderPage(num) {
+      if (!pdfDoc) return;
+      pageNum = Math.max(1, Math.min(num, pdfDoc.numPages));
+      const page = await pdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale });
+      if (!canvas) {
+        canvas = document.createElement("canvas");
+        pagesEl.innerHTML = "";
+        pagesEl.appendChild(canvas);
+      }
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+      pageInfo.textContent = "Page " + pageNum + " / " + pdfDoc.numPages;
+      document.getElementById("prev").disabled = pageNum <= 1;
+      document.getElementById("next").disabled = pageNum >= pdfDoc.numPages;
+    }
+
+    document.getElementById("prev").onclick = () => renderPage(pageNum - 1);
+    document.getElementById("next").onclick = () => renderPage(pageNum + 1);
+    document.getElementById("fit").onclick = () => fitPage();
+
+    if (!src) {
+      showErr("Missing ?src= PDF URL");
+    } else {
+      pdfjsLib.getDocument(src).promise.then(doc => {
+        pdfDoc = doc;
+        fitPage();
+      }).catch(e => showErr("Could not load PDF: " + e.message));
+    }
+  </script>
+</body>
+</html>

@@ -2,6 +2,7 @@
   "newProject": {
     "visible": false,
     "highlight": false,
-    "includeInResume": false
+    "includeInResume": false,
+    "sectionCover": false
   }
 }

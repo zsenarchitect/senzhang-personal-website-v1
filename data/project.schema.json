@@ -36,6 +36,11 @@
         "visible": { "type": "boolean", "default": false },
         "highlight": { "type": "boolean", "default": false },
         "includeInResume": { "type": "boolean", "default": false },
+        "sectionCover": {
+          "type": "boolean",
+          "default": false,
+          "description": "Portfolio hub tile image for this project's category (/menu)"
+        },
         "date": { "type": "string" },
         "role": { "type": "string" },
         "location": { "type": "string" },

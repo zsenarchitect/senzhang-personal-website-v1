@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/env python3
-"""Offline nav: toggle folder dropdowns + root-relative hrefs in nav blocks."""
+"""Offline nav: unified sidebar list, folder dropdowns, root-relative hrefs."""
 from __future__ import annotations
 
 import argparse
@@ -13,6 +13,11 @@ NAV_PATCH = """
 .main-nav.dropdown-click li.folder > a { cursor: pointer; }
 #mobileNav .mobile-folder:not(.active-folder) > ul { display: none; }
 #mobileNav .mobile-folder.active-folder > ul { display: block; }
+#topNav #secondaryNavigation { display: none !important; }
+.sidebar-position-left #topNav #mainNavigation > ul > li {
+  margin: 0 0 0.45em 0;
+  padding: 0;
+}
 </style>
 <script id=\"offline-nav-fix\">
 (function () {
@@ -47,6 +52,11 @@ NAV_PATCH = """
 </script>
 """
 
+RE_NAV_PATCH = re.compile(
+    r'<style id="offline-nav-fix">.*?</style>\s*<script id="offline-nav-fix">.*?</script>',
+    re.DOTALL,
+)
+
 RE_NAV_BLOCK = re.compile(
     r"(<(?:nav|div)[^>]*id=\"(?:mainNavigation|secondaryNavigation|mobileNav)\"[^>]*>.*?</(?:nav|div)>)",
     re.DOTALL | re.IGNORECASE,
@@ -55,6 +65,21 @@ RE_NAV_BLOCK = re.compile(
 RE_HTML_HREF = re.compile(
     r"href=\"(?!https?://|/|#|mailto:)([^\"]+\.html(?:#[^\"]*)?)\"",
     re.IGNORECASE,
+)
+
+RE_MAIN_TAIL = re.compile(
+    r'(<nav id="mainNavigation"[^>]*>\s*<ul>)(.*?)(</ul>\s*</nav>\s*<nav id="secondaryNavigation")',
+    re.DOTALL,
+)
+
+RE_SECONDARY_ITEMS = re.compile(
+    r'<nav id="secondaryNavigation"[^>]*>\s*<ul>\s*(.*?)\s*</ul>\s*</nav>',
+    re.DOTALL,
+)
+
+EMPTY_SECONDARY = (
+    '<nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav" '
+    'aria-hidden="true" hidden></nav>'
 )
 
 
@@ -70,6 +95,64 @@ def root_href(href):
     return "/" + path + frag if path else "/" + frag.lstrip("#")
 
 
+RE_TAIL_BLOCK = re.compile(
+    r'<li class="folder-collection folder">\s*<a href="/code">Code</a>.*?</li>\s*'
+    r'<li class="folder-collection folder">\s*<a href="/speaking">Speaking</a>.*?</li>\s*'
+    r'<li class="page-collection">\s*<a href="/about-me">About</a>.*?</li>',
+    re.DOTALL,
+)
+
+RE_MAIN_NAV = re.compile(r'<nav id="mainNavigation"[^>]*>.*?</nav>', re.DOTALL)
+
+
+def dedupe_main_nav_tail(html: str) -> tuple[str, bool]:
+    main = RE_MAIN_NAV.search(html)
+    if not main:
+        return html, False
+    block = main.group(0)
+    matches = list(RE_TAIL_BLOCK.finditer(block))
+    if len(matches) <= 1:
+        return html, False
+    for m in reversed(matches[1:]):
+        block = block[: m.start()] + block[m.end() :]
+    return html[: main.start()] + block + html[main.end() :], True
+
+
+def merge_desktop_nav(html: str) -> tuple[str, bool]:
+    if "secondaryNavigation" not in html:
+        return html, False
+    sec = RE_SECONDARY_ITEMS.search(html)
+    if not sec:
+        return html, False
+    items = sec.group(1).strip()
+    main = RE_MAIN_TAIL.search(html)
+    if not main:
+        return html, False
+    main_block = main.group(2)
+    changed = False
+    if items and 'href="/code">Code</a>' not in main_block:
+        merged = main.group(1) + main.group(2) + "\n" + items + "\n  \n" + main.group(3)
+        html = RE_MAIN_TAIL.sub(merged, html, count=1)
+        changed = True
+    if items or 'hidden></nav>' not in html:
+        new_html, n = RE_SECONDARY_ITEMS.subn(EMPTY_SECONDARY, html, count=1)
+        if n:
+            html = new_html
+            changed = True
+    return html, changed
+
+
+def fix_mobile_folder_hrefs(html: str) -> tuple[str, bool]:
+    changed = False
+    for label, href in (("Code", "/code"), ("Speaking", "/speaking")):
+        pat = re.compile(
+            r'(<li class="mobile-folder">\s*)<a>' + re.escape(label) + r"</a>",
+        )
+        html, n = pat.subn(r'\1<a href="' + href + '">' + label + "</a>", html, count=1)
+        changed = changed or n > 0
+    return html, changed
+
+
 def normalize_nav_hrefs(html):
     changed = False
 
@@ -80,7 +163,7 @@ def normalize_nav_hrefs(html):
         def repl_href(m):
             nonlocal changed
             changed = True
-            return "href=\"{}\"".format(root_href(m.group(1)))
+            return 'href="{}"'.format(root_href(m.group(1)))
 
         return RE_HTML_HREF.sub(repl_href, block)
 
@@ -91,17 +174,21 @@ def normalize_nav_hrefs(html):
 
 
 def inject_patch(html):
-    if MARKER in html:
-        return html, False
     if "mainNavigation" not in html and "mobileNav" not in html:
         return html, False
+    if MARKER in html:
+        new_html, n = RE_NAV_PATCH.subn(NAV_PATCH.strip(), html, count=1)
+        return (new_html, n > 0) if n else (html, False)
     return html.replace("</head>", NAV_PATCH + "\n</head>", 1), True
 
 
 def patch_html(html):
-    html2, c1 = normalize_nav_hrefs(html)
-    html3, c2 = inject_patch(html2)
-    return html3, c1 or c2
+    html, cd = dedupe_main_nav_tail(html)
+    html, c0 = merge_desktop_nav(html)
+    html, c0b = fix_mobile_folder_hrefs(html)
+    html, c1 = normalize_nav_hrefs(html)
+    html, c2 = inject_patch(html)
+    return html, cd or c0 or c0b or c1 or c2
 
 
 def main():

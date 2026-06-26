@@ -838,6 +838,11 @@ html.offline-fs-lightbox-open body {
 .main-nav.dropdown-click li.folder > a { cursor: pointer; }
 #mobileNav .mobile-folder:not(.active-folder) > ul { display: none; }
 #mobileNav .mobile-folder.active-folder > ul { display: block; }
+#topNav #secondaryNavigation { display: none !important; }
+.sidebar-position-left #topNav #mainNavigation > ul > li {
+  margin: 0 0 0.45em 0;
+  padding: 0;
+}
 </style>
 <script id="offline-nav-fix">
 (function () {
@@ -870,6 +875,22 @@ html.offline-fs-lightbox-open body {
   }
 })();
 </script>
+
+
+<style id="offline-aspect-ratio-fix">
+.sqs-image-shape-container-element.has-aspect-ratio {
+  position: relative;
+}
+.sqs-image-shape-container-element.has-aspect-ratio > img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center center;
+}
+</style>
 
 </head>
 <body class="sidebar-text-alignment-left sidebar-position-left sidebar-fixed mobile-site-title-style-auto blog-sidebar-right gallery-style-fit enable-gallery-thumbnails initial-gallery-view-slideshow homepage-gallery-view-inherit thumbnail-aspect-ratio-auto gallery-controls-simple social-icon-style-normal   show-category-navigation   event-show-past-events event-thumbnails event-thumbnail-size-32-standard event-date-label  event-list-show-cats event-list-date event-list-time event-list-address   event-icalgcal-links  event-excerpts  event-item-back-link    product-list-titles-under product-list-alignment-center product-item-size-23-standard-vertical product-image-auto-crop product-gallery-size-11-square product-gallery-auto-crop show-product-price show-product-item-nav product-social-sharing tweak-v1-related-products-image-aspect-ratio-11-square tweak-v1-related-products-details-alignment-center newsletter-style-dark hide-opentable-icons opentable-style-dark small-button-style-solid small-button-shape-square medium-button-style-solid medium-button-shape-square large-button-style-solid large-button-shape-square image-block-poster-text-alignment-center image-block-card-dynamic-font-sizing image-block-card-content-position-center image-block-card-text-alignment-left image-block-overlap-dynamic-font-sizing image-block-overlap-content-position-center image-block-overlap-text-alignment-left image-block-collage-dynamic-font-sizing image-block-collage-content-position-top image-block-collage-text-alignment-left image-block-stack-dynamic-font-sizing image-block-stack-text-alignment-left button-style-solid button-corner-style-square tweak-product-quick-view-button-style-floating tweak-product-quick-view-button-position-bottom tweak-product-quick-view-lightbox-excerpt-display-truncate tweak-product-quick-view-lightbox-show-arrows tweak-product-quick-view-lightbox-show-close-button tweak-product-quick-view-lightbox-controls-weight-light native-currency-code-usd collection-type-page collection-594c78fbe6f2e1d4a115e0b3 collection-layout-default mobile-style-available" id="collection-594c78fbe6f2e1d4a115e0b3">
@@ -1031,7 +1052,7 @@ html.offline-fs-lightbox-open body {
         
 
         <li class="mobile-folder">
-          <a>Code</a>
+          <a href="/code">Code</a>
           <ul>
             <li class="page-collection">
               <a href="/code">All Code Projects</a>
@@ -1066,7 +1087,7 @@ html.offline-fs-lightbox-open body {
           </ul>
         </li>
         <li class="mobile-folder">
-          <a>Speaking</a>
+          <a href="/speaking">Speaking</a>
           <ul>
             <li class="page-collection">
               <a href="/speaking">All Talks</a>
@@ -1400,14 +1421,8 @@ html.offline-fs-lightbox-open body {
 
 
   
-</ul>
 
-          </nav>
-
-          <nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav">
-            <ul>
-  
-      <li class="folder-collection folder">
+<li class="folder-collection folder">
 
         
 
@@ -1540,11 +1555,12 @@ html.offline-fs-lightbox-open body {
         
 
       </li>
-
   
 </ul>
 
           </nav>
+
+          <nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav" aria-hidden="true" hidden></nav>
         </div>
 
         <div class="sqs-layout sqs-grid-1 columns-1 empty" data-layout-label="Header Content" data-type="block-field" data-updated-on="1497217219033" id="headerBlocks"><div class="row sqs-row"><div class="col sqs-col-1 span-1"></div></div></div>

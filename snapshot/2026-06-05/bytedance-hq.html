@@ -837,6 +837,11 @@ html.offline-fs-lightbox-open body {
 .main-nav.dropdown-click li.folder > a { cursor: pointer; }
 #mobileNav .mobile-folder:not(.active-folder) > ul { display: none; }
 #mobileNav .mobile-folder.active-folder > ul { display: block; }
+#topNav #secondaryNavigation { display: none !important; }
+.sidebar-position-left #topNav #mainNavigation > ul > li {
+  margin: 0 0 0.45em 0;
+  padding: 0;
+}
 </style>
 <script id="offline-nav-fix">
 (function () {
@@ -1030,7 +1035,7 @@ html.offline-fs-lightbox-open body {
         
 
         <li class="mobile-folder">
-          <a>Code</a>
+          <a href="/code">Code</a>
           <ul>
             <li class="page-collection">
               <a href="/code">All Code Projects</a>
@@ -1065,7 +1070,7 @@ html.offline-fs-lightbox-open body {
           </ul>
         </li>
         <li class="mobile-folder">
-          <a>Speaking</a>
+          <a href="/speaking">Speaking</a>
           <ul>
             <li class="page-collection">
               <a href="/speaking">All Talks</a>
@@ -1399,14 +1404,8 @@ html.offline-fs-lightbox-open body {
 
 
   
-</ul>
 
-          </nav>
-
-          <nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav">
-            <ul>
-  
-      <li class="folder-collection folder">
+<li class="folder-collection folder">
 
         
 
@@ -1539,11 +1538,12 @@ html.offline-fs-lightbox-open body {
         
 
       </li>
-
   
 </ul>
 
           </nav>
+
+          <nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav" aria-hidden="true" hidden></nav>
         </div>
 
         <div class="sqs-layout sqs-grid-1 columns-1 empty" data-layout-label="Header Content" data-type="block-field" data-updated-on="1497217219033" id="headerBlocks"><div class="row sqs-row"><div class="col sqs-col-1 span-1"></div></div></div>
@@ -1561,7 +1561,7 @@ html.offline-fs-lightbox-open body {
       <section id="page">
 
       <div class="main-content" data-content-field="main-content">
-        <div class="sqs-layout sqs-grid-12 columns-12" data-type="page" data-updated-on="1498187771166" id="page-5941a138bebafbe1cdeffc5f"><div class="row sqs-row" style="display:none" aria-hidden="true"><div class="col sqs-col-12 span-12"><!-- project-page-v1 slug=bytedance-hq category=professional --></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block html-block sqs-block-html" data-block-type="2"><div class="sqs-block-content"><div class="sqs-html-content" data-sqsp-text-block-content><h1 class="text-align-center">ByteDance HQ</h1><p class="text-align-center">62k sqm High-rise Office Tower | BIM Specialist | Shenzhen | 2021</p></div></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block html-block sqs-block-html" data-block-type="2"><div class="sqs-block-content"><div class="sqs-html-content" data-sqsp-text-block-content><h3>abstract:</h3><p>Rule-based facade patterning parametric study over stepping massing. Rhino interoperability before Rhino.Inside with direct utilization of API in both applications.</p></div></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/cover.jpg" alt="ByteDance HQ" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>ByteDance HQ</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/cover.jpg" alt="ByteDance HQ tower" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>ByteDance HQ tower</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/02.jpg" alt="View 2" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 2</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/03.jpg" alt="View 3" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 3</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/04.jpg" alt="View 4" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 4</p></div></figcaption></figure></div></div></div></div></div>
+        <div class="sqs-layout sqs-grid-12 columns-12" data-type="page" data-updated-on="1498187771166" id="page-5941a138bebafbe1cdeffc5f"><div class="row sqs-row" style="display:none" aria-hidden="true"><div class="col sqs-col-12 span-12"><!-- project-page-v1 slug=bytedance-hq category=professional --></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block html-block sqs-block-html" data-block-type="2"><div class="sqs-block-content"><div class="sqs-html-content" data-sqsp-text-block-content><h1 class="text-align-center">ByteDance HQ</h1><p class="text-align-center">62k sqm High-rise Office Tower | BIM Specialist | Shenzhen | 2021</p></div></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block html-block sqs-block-html" data-block-type="2"><div class="sqs-block-content"><div class="sqs-html-content" data-sqsp-text-block-content><h3>abstract:</h3><p>Rule-based facade patterning parametric study over stepping massing. Rhino interoperability before Rhino.Inside with direct utilization of API in both applications.</p></div></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/cover.jpg" alt="ByteDance HQ" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>ByteDance HQ</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/02.jpg" alt="View 2" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 2</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/03.jpg" alt="View 3" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 3</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/04.jpg" alt="View 4" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 4</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/05.jpg" alt="View 5" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 5</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/06.jpg" alt="View 6" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 6</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/07.jpg" alt="View 7" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 7</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/08.jpg" alt="View 8" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 8</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/09.jpg" alt="View 9" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 9</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/10.jpg" alt="View 10" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 10</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/11.jpg" alt="View 11" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 11</p></div></figcaption></figure></div></div></div></div><div class="row sqs-row"><div class="col sqs-col-12 span-12"><div class="sqs-block image-block sqs-block-image" data-block-type="5"><div class="sqs-block-content"><figure class="sqs-block-image-figure intrinsic"><img src="_media/projects/bytedance-hq/12.jpg" alt="View 12" loading="lazy" style="display:block;width:100%;height:auto"/><figcaption class="image-caption-wrapper"><div class="image-caption"><p>View 12</p></div></figcaption></figure></div></div></div></div></div>
       </div>
 
       

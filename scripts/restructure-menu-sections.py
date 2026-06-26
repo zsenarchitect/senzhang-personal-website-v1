@@ -35,6 +35,71 @@ MARK_PRO = "<!-- menu-section-professional -->"
 MARK_CODE = "<!-- menu-section-code -->"
 MARK_SPEAK = "<!-- menu-section-speaking -->"
 MARK_HUB = "<!-- menu-hub-sections -->"
+MENU_HUB_STYLE_ID = "menu-hub-layout"
+MENU_HUB_STYLE = """
+<style id="menu-hub-layout">
+#page-593e0796c534a5c8d10121cb .menu-hub-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-row > .menu-hub-col {
+  float: none !important;
+  display: flex;
+  flex-direction: column;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-col .sqs-block-image-figure {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-col .sqs-block-image-link {
+  display: block;
+  flex: 1 1 auto;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-aspect {
+  position: relative !important;
+  width: 100% !important;
+  padding-bottom: 56.25% !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-aspect img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+#page-593e0796c534a5c8d10121cb .menu-hub-col .image-caption-wrapper {
+  margin-top: 0.75em;
+  flex-shrink: 0;
+}
+@media (max-width: 767px) {
+  #page-593e0796c534a5c8d10121cb .menu-hub-row {
+    display: block;
+  }
+  #page-593e0796c534a5c8d10121cb .menu-hub-row > .menu-hub-col {
+    display: block;
+    width: 100% !important;
+    margin-bottom: 1.25em;
+  }
+  #page-593e0796c534a5c8d10121cb .menu-hub-aspect {
+    padding-bottom: 56.25% !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  #page-593e0796c534a5c8d10121cb .menu-hub-aspect img {
+    position: absolute !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+</style>
+"""
 OLD_V0 = "<!-- v0-ported-works-grid -->"
 LAYOUT_ID = 'id="page-593e0796c534a5c8d10121cb">'
 VIDEO_ANCHOR = '<div class="sqs-block website-component-block sqs-block-website-component sqs-block-video video-block"'
@@ -96,11 +161,56 @@ SPEAK = [("/speaking", "All Talks")] + [
 ACADEMIC_NAV = [("/academic", "View all")] + ACADEMIC
 PRO_NAV = [("/professional", "View all")] + PRO
 
+HUB_SECTION_META = [
+    ("academic", "/academic", "Academic Architecture"),
+    ("professional", "/professional", "Professional Architecture"),
+    ("code", "/code", "Code"),
+    ("speaking", "/speaking", "Speaking"),
+]
+
+HUB_DEFAULT_COVERS = {
+    "academic": "_cdn/images.squarespace-cdn.com/0b33b659ba91cf911837.jpg",
+    "professional": "_media/projects/bilibili-hq/cover.jpg",
+    "code": "_media/projects/enneadtab-ecosystem/cover.png",
+    "speaking": "_media/speaking/autodesk-university-2024/cover.jpg",
+}
+
+
+def resolve_cover_path(slug, meta, tile_pool):
+    tile = tile_pool.get(slug) or {}
+    src = tile.get("src")
+    if src:
+        return src
+    cover = (meta or {}).get("cover", "")
+    if not cover:
+        return None
+    cover = str(cover).lstrip("/")
+    if cover.startswith("_media/") or cover.startswith("_cdn/"):
+        return cover
+    return "_media/" + cover
+
+
+def build_hub_sections(registry, tile_pool):
+    projects = registry.get("projects", {})
+    out = []
+    for cat, href, title in HUB_SECTION_META:
+        cover = HUB_DEFAULT_COVERS.get(cat)
+        for slug, meta in projects.items():
+            if meta.get("category", "academic") != cat:
+                continue
+            if not meta.get("sectionCover"):
+                continue
+            resolved = resolve_cover_path(slug, meta, tile_pool)
+            if resolved:
+                cover = resolved
+            break
+        out.append((href, title, cover))
+    return out
+
+
 HUB_SECTIONS = [
-    ("/academic", "Academic Architecture", "_cdn/images.squarespace-cdn.com/9f4cda6f3009dc8a28b0.jpeg"),
-    ("/professional", "Professional Architecture", "_media/projects/bilibili-hq/cover.jpg"),
-    ("/code", "Code", "_media/projects/enneadtab-ecosystem/cover.png"),
-    ("/speaking", "Speaking", "_media/speaking/autodesk-university-2024/cover.jpg"),
+    (href, title, HUB_DEFAULT_COVERS[cat])
+    for cat, href, title in HUB_SECTION_META
 ]
 
 SECTION_MARKERS = (MARK_PRO, MARK_CODE, MARK_SPEAK)
@@ -180,19 +290,23 @@ def tile(href, cover, title, caption):
 
 def hub_tile(href, title, cover):
     return (
-        '<div class="col sqs-col-6 span-6"><div class="sqs-block image-block sqs-block-image" '
+        '<div class="col sqs-col-6 span-6 menu-hub-col"><div class="sqs-block image-block sqs-block-image" '
         'data-block-type="5"><div class="sqs-block-content">'
         '<figure class="sqs-block-image-figure intrinsic">'
         '<a class="sqs-block-image-link" href="' + esc(href) + '">'
-        '<div class="image-block-wrapper"><div class="sqs-image-shape-container-element has-aspect-ratio" '
-        'style="position:relative;padding-bottom:56%;overflow:hidden;">'
+        '<div class="image-block-wrapper"><div class="sqs-image-shape-container-element has-aspect-ratio menu-hub-aspect" '
+        'style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">'
         '<img src="' + esc(cover) + '" alt="' + esc(title) + '" loading="lazy" '
-        'style="display:block;object-fit:cover;width:100%;height:100%"/>'
+        'style="position:absolute;inset:0;display:block;object-fit:cover;width:100%;height:100%"/>'
         "</div></div></a>"
         '<figcaption class="image-caption-wrapper"><div class="image-caption">'
         '<p class=""><strong>' + esc(title) + "</strong></p></div></figcaption>"
         "</figure></div></div></div>"
     )
+
+
+def hub_row(tiles):
+    return '<div class="row sqs-row menu-hub-row">' + "".join(tiles) + "</div>"
 
 
 def row(tiles):
@@ -300,14 +414,30 @@ def build_speak_tiles():
     return out
 
 
-def build_menu_hub():
-    tiles = [hub_tile(h, t, c) for h, t, c in HUB_SECTIONS]
+def build_menu_hub(registry=None, tile_pool=None):
+    sections = (
+        build_hub_sections(registry, tile_pool)
+        if registry is not None and tile_pool is not None
+        else HUB_SECTIONS
+    )
+    tiles = [hub_tile(h, t, c) for h, t, c in sections]
     return (
         MARK_HUB
         + section_heading("Portfolio", first=True)
-        + row(tiles[:2])
-        + row(tiles[2:])
+        + hub_row(tiles[:2])
+        + hub_row(tiles[2:])
     )
+
+
+def inject_menu_hub_style(text):
+    if MENU_HUB_STYLE_ID in text:
+        return text
+    anchor = '<style id="offline-menu-mobile-layout">'
+    if anchor not in text:
+        anchor = "</head>"
+        return text.replace(anchor, MENU_HUB_STYLE + "\n" + anchor, 1)
+    end = text.index("</style>", text.index(anchor)) + len("</style>")
+    return text[:end] + "\n" + MENU_HUB_STYLE + text[end:]
 
 
 def nav_item(href, label, indent=10):
@@ -401,18 +531,35 @@ def restructure_nav(text):
 
     secondary = re.compile(r'<nav id="secondaryNavigation"[^>]*>.*?</nav>', re.DOTALL)
 
-    def secondary_nav(_):
-        return (
-            '<nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav">\n'
-            "            <ul>\n  \n"
-            + desktop_folder("Code", CODE, "/code")
-            + desktop_folder("Speaking", SPEAK, "/speaking")
-            + '      <li class="page-collection">\n\n        \n\n          '
-            '<a href="/about-me">About</a>\n          \n\n          \n\n\n        \n\n      </li>\n\n  \n'
-            "</ul>\n\n          </nav>"
+    about_li = (
+        '      <li class="page-collection">\n\n        \n\n          '
+        '<a href="/about-me">About</a>\n          \n\n          \n\n\n        \n\n      </li>\n\n  \n'
+    )
+    tail = desktop_folder("Code", CODE, "/code") + desktop_folder("Speaking", SPEAK, "/speaking") + about_li
+
+    main_close = re.compile(
+        r'(<nav id="mainNavigation"[^>]*>\s*<ul>)(.*?)(</ul>\s*</nav>\s*<nav id="secondaryNavigation")',
+        re.DOTALL,
+    )
+    if main_close.search(text):
+        main_match = main_close.search(text)
+        if main_match and 'href="/code">Code</a>' not in main_match.group(2):
+            text = main_close.sub(lambda m: m.group(1) + m.group(2) + tail + m.group(3), text, count=1)
+
+    text = secondary.sub(
+        '<nav id="secondaryNavigation" class="main-nav dropdown-click desktop-nav" aria-hidden="true" hidden></nav>',
+        text,
+        count=1,
+    )
+
+    for label, href in (("Code", "/code"), ("Speaking", "/speaking")):
+        text = re.sub(
+            r'(<li class="mobile-folder">\s*)<a>' + re.escape(label) + r"</a>",
+            r'\1<a href="' + href + '">' + label + "</a>",
+            text,
+            count=1,
         )
 
-    text = secondary.sub(secondary_nav, text, count=1)
     return text
 
 
@@ -507,14 +654,14 @@ def write_section_page(path, shell, title, canonical, inner_rows):
     print("wrote", path.relative_to(V1))
 
 
-def slim_menu_to_hub(text):
+def slim_menu_to_hub(text, registry=None, tile_pool=None):
     if VIDEO_ANCHOR not in text:
         raise SystemExit("video block not found in menu.html")
     text = remove_ported_sections(text)
     lo = text.index(LAYOUT_ID) + len(LAYOUT_ID)
     vp = text.index(VIDEO_ANCHOR)
-    hub = build_menu_hub()
-    return text[:lo] + hub + text[vp:]
+    hub = build_menu_hub(registry, tile_pool)
+    return inject_menu_hub_style(text[:lo] + hub + text[vp:])
 
 
 def read_section_inner(path):
@@ -613,7 +760,7 @@ def patch_all():
         else None,
     )
 
-    menu_out = slim_menu_to_hub(shell)
+    menu_out = slim_menu_to_hub(shell, registry, tile_pool)
     MENU.write_text(menu_out, encoding="utf-8")
     print("wrote menu.html (hub + video)")
 

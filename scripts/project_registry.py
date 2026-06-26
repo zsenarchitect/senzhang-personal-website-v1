@@ -16,6 +16,7 @@ _FALLBACK_NEW_PROJECT = {
     "visible": False,
     "highlight": False,
     "includeInResume": False,
+    "sectionCover": False,
 }
 
 
@@ -28,6 +29,7 @@ def _load_new_project_defaults() -> dict:
         "visible": bool(base.get("visible", False)),
         "highlight": bool(base.get("highlight", False)),
         "includeInResume": bool(base.get("includeInResume", False)),
+        "sectionCover": bool(base.get("sectionCover", False)),
     }
 
 
@@ -44,6 +46,34 @@ def section_order_from_registry(registry: dict, section_key: str) -> list[str]:
     if custom:
         return list(custom)
     return list(SECTIONS[section_key].order)
+
+
+def enforce_section_covers(registry: dict) -> bool:
+    """At most one sectionCover per category; keep first in section order."""
+    projects = registry.get("projects", {})
+    changed = False
+    for key in SECTIONS:
+        flagged = [
+            slug
+            for slug in section_order_from_registry(registry, key)
+            if projects.get(slug, {}).get("category", key) == key
+            and projects.get(slug, {}).get("sectionCover")
+        ]
+        for slug, meta in projects.items():
+            if meta.get("category", key) != key:
+                continue
+            if meta.get("sectionCover") and slug not in flagged:
+                flagged.append(slug)
+        if len(flagged) <= 1:
+            continue
+        keep = flagged[0]
+        for slug in flagged[1:]:
+            projects[slug]["sectionCover"] = False
+            changed = True
+        if not projects.get(keep, {}).get("sectionCover"):
+            projects[keep]["sectionCover"] = True
+            changed = True
+    return changed
 
 
 def sync_section_order(registry: dict) -> dict[str, list[str]]:
@@ -97,6 +127,7 @@ def load_registry() -> dict:
 
 def save_registry(data: dict) -> None:
     data["sectionOrder"] = sync_section_order(data)
+    enforce_section_covers(data)
     REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
     REGISTRY_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
