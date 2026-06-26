@@ -119,6 +119,6 @@ All architecture/code/speaking slugs above are pre-rendered via `generateStaticP
 
 | Date | Decision | Exceptions |
 |------|----------|------------|
-| â€” | Pending | â€” |
+| **2026-06-26** | **Signed off** (#1683 — "signoff ok") | None |
 
-**Checklist:** side-by-side [legacy archive](https://legacy-personal-website.vercel.app) vs Vercel preview â€” `/`, `/about`, `/architecture` (**full grid**), `/code`, `/speaking`, spot-check all tiers.
+**Checklist:** side-by-side [legacy archive](https://legacy-personal-website.vercel.app) vs v1 prod â€” `/`, `/about`, `/architecture` (**full grid**), `/code`, `/speaking`, spot-check all tiers. **P2 curation** (hide polish-tier, tune highlights) now unblocked via local dashboard.

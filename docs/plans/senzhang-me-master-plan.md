@@ -25,7 +25,7 @@ Do not prod-deploy on every commit.
 - `data/projects.json` registry + local dashboard (visibility, order, highlights, resume flags, thumbnails)
 - Slug fixes: `block-field` (not `zen-house-1`), EnneadTab → single `enneadtab-ecosystem`
 - Austin 2026 talk: `acd-austin-2026` (Advancing Computational Design Conference)
-- Latest commit on `main`: `a9a2791`
+- Latest commit on `main`: `36ab9d5` (masonry stagger; prod still `a9a2791` until P2 milestone)
 
 ## S2.5 prod deploy (2026-06-21)
 
@@ -43,29 +43,40 @@ Do not prod-deploy on every commit.
 | `/speaking/acd-austin-2026`, `/about-me` | 200 |
 | `/dashboard` | 404 (local only) |
 
-## S2.5 sign-off (blocks P2)
+## S2.5 sign-off — **done 2026-06-26** (#1683)
 
 | Tab | URL |
 |-----|-----|
 | A (legacy reference) | https://legacy-personal-website.vercel.app |
 | B/C (v1 prod) | https://senzhang-personal-website-v1.vercel.app |
 
-**Your checklist** (side-by-side vs legacy):
+**Checklist** (side-by-side vs legacy) — all signed off:
 
-- [ ] `/` cover + video
-- [ ] `/menu` hub tiles
-- [ ] `/academic` masonry (order + highlights)
-- [ ] `/professional`, `/code`, `/speaking`
-- [ ] `/block-field`, `/about-me` (resume + featured portfolio)
-- [ ] `/speaking/acd-austin-2026`
-- [ ] `/dashboard` → 404 on prod (local only)
-- [ ] Sign off #1683
+- [x] `/` cover + video
+- [x] `/menu` hub tiles
+- [x] `/academic` masonry (order + highlights)
+- [x] `/professional`, `/code`, `/speaking`
+- [x] `/block-field`, `/about-me` (resume + featured portfolio)
+- [x] `/speaking/acd-austin-2026`
+- [x] `/dashboard` → 404 on prod (local only)
+- [x] Sign off #1683 — **"signoff ok"**
 
-After sign-off: note date in `docs/plans/recruiter-content-floor-matrix.md` → **P2** curation via dashboard.
+Sign-off date also recorded in `docs/plans/recruiter-content-floor-matrix.md`.
 
-## P2 (after S2.5)
+## P2 (unblocked)
 
-- Hide polish-tier projects via dashboard `visible: false`
-- Tune highlights + resume flags
-- Optional: real cover for `acd-austin-2026`, replace placeholder JPG
-- `vercel.final.json` / DNS cutover (#1680) — not yet
+**Status:** S2.5 signed off; curation work can proceed via local dashboard. Prod deploy when ready:
+
+```powershell
+.\scripts\deploy-vercel.ps1 -Prod -Milestone P2
+```
+
+**Bundle for P2 prod milestone** (commits/features on `main` not yet on prod `a9a2791`):
+
+| Item | Detail |
+|------|--------|
+| Masonry stagger | `36ab9d5` — highlighted pins span two grid columns (`pin-highlight-left` / `pin-highlight-right`) |
+| Registry curation | `data/projects.json` — P2 hide candidates hidden; P0/P1 re-shown per recruiter matrix; resume flags tuned |
+| `acd-austin-2026` cover | Typographic cover via `scripts/gen-speaking-cover.py` (was AU 2024 placeholder) |
+| Script fix | `restructure-menu-sections.py` highlight count no longer double-counts stagger classes |
+| **Not in P2** | `vercel.final.json` / DNS cutover (#1680) — separate milestone |
