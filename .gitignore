@@ -9,3 +9,6 @@ __pycache__/
 # snapshot/
 .vercel
 .env*.local
+
+# Local Drive import staging (large binaries; review before snapshot import)
+dev/job-hunt-staging/
