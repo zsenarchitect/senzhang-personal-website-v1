@@ -660,7 +660,7 @@
         "FastAPI"
       ],
       "embed": "/ecosystem/ecosystem-network-diagram.html",
-      "abstract": "EnneadTab grew from a single Revit plugin into a connected ecosystem of in-house tools for Ennead Architects. It spans desktop plugins for Revit and Rhino, web dashboards, an AI rendering pipeline, site-inspection apps, and back-office services for HR and IT. Built and maintained solo, the pieces share data and infrastructure rather than standing alone.",
+      "abstract": "EnneadTab is a fleet of small, modular applications that work together — not a single app trying to impress everyone at once. Each tool does one thing well: desktop plugins for Revit and Rhino, web dashboards, an AI rendering pipeline, site-inspection apps, back-office services for HR and IT. Because the pieces are independent but share data and infrastructure, the office can pitch any subset as a coherent suite to different audiences — designers, project managers, IT — without locking anyone into a monolith. Built and maintained solo, the architecture keeps data portable and access flexible across every team that needs it.",
       "mediaSlots": [
         {
           "role": "gallery",
